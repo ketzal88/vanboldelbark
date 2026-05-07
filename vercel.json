@@ -1,0 +1,6 @@
+{
+  "routes": [
+    { "src": "/", "dest": "/vender-standalone.html" },
+    { "src": "/ghl", "dest": "/vender-ghl.html" }
+  ]
+}
