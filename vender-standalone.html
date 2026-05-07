@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vendé tu propiedad | REMAX</title>
+  <meta name="description" content="Completá el formulario y una oficina adherida a la red REMAX se pondrá en contacto con vos para continuar con el proceso." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&family=Arimo:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --red:      #DC1B38;
+      --blue:     #0043ff;
+      --dark:     #353535;
+      --text:     #595959;
+      --muted:    #9e9e9e;
+      --border:   #e7e7e7;
+      --bg:       #ffffff;
+      --hover:    #f5f5f5;
+      --error-bg: #fdedf0;
+      --error-br: #f48b97;
+      --radius:   4px;
+      --font:     'Montserrat', sans-serif;
+      --font-b:   'Arimo', sans-serif;
+      --header-h: 56px;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── HEADER ─── */
+    .hdr {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      height: var(--header-h);
+      background: #fff;
+      border-top: 3px solid var(--red);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px;
+      position: sticky;
+    }
+
+    /* Nav — centered */
+    .hdr-nav {
+      display: flex;
+      height: var(--header-h);
+      list-style: none;
+    }
+
+    .hdr-nav li { height: 100%; }
+
+    .hdr-nav a {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding: 0 14px;
+      font-size: .8125rem;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: color .15s, border-color .15s;
+      white-space: nowrap;
+    }
+
+    .hdr-nav a:hover { color: var(--dark); border-bottom-color: var(--border); }
+    .hdr-nav a.hdr-active { color: var(--blue); border-bottom-color: var(--blue); font-weight: 700; }
+
+    /* Button pinned to right via absolute */
+    .hdr-right { position: absolute; right: 20px; }
+
+    .btn-login {
+      height: 36px;
+      padding: 0 18px;
+      border: 1.5px solid var(--blue);
+      border-radius: var(--radius);
+      background: transparent;
+      color: var(--blue);
+      font-family: var(--font);
+      font-size: .8125rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s;
+      white-space: nowrap;
+    }
+
+    .btn-login:hover { background: rgba(0,67,255,.05); }
+
+    /* ─── MAIN: two columns ─── */
+    .layout {
+      display: flex;
+      height: calc(100vh - var(--header-h));
+    }
+
+    /* ── Left: form column ── */
+    .form-col {
+      width: 380px;
+      flex-shrink: 0;
+      overflow-y: auto;
+      padding: 28px 24px 48px;
+      border-right: 1px solid var(--border);
+    }
+
+    .pg-title {
+      font-family: var(--font);
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: var(--dark);
+      line-height: 1.25;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .pg-desc {
+      font-family: var(--font-b);
+      font-size: .8125rem;
+      color: var(--text);
+      line-height: 1.65;
+      margin-bottom: 22px;
+      text-align: center;
+    }
+
+    /* Form */
+    .rm-form { display: flex; flex-direction: column; gap: 13px; }
+
+    .field { display: flex; flex-direction: column; gap: 4px; }
+
+    .field label {
+      font-size: .6875rem;
+      font-weight: 700;
+      color: var(--dark);
+      letter-spacing: .2px;
+    }
+
+    .input-wrap { position: relative; }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      height: 42px;
+      padding: 0 38px 0 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: var(--font-b);
+      font-size: .875rem;
+      color: var(--dark);
+      background: #fff;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .field input { padding-right: 36px; }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: #aaa;
+      box-shadow: 0 0 0 2px rgba(0,0,0,.04);
+    }
+
+    /* error state — visible on first field (nombre) to match the original screenshot */
+    .field input.is-error {
+      border-color: var(--error-br);
+      background: var(--error-bg);
+    }
+
+    .field-hint {
+      font-family: var(--font-b);
+      font-size: .6875rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .field-hint.is-error { color: var(--red); }
+
+    /* clear × button inside input */
+    .btn-clear {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1;
+      padding: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-clear:hover { color: var(--dark); }
+
+    /* select custom arrow */
+    .select-wrap { position: relative; }
+
+    .select-wrap::after {
+      content: '';
+      position: absolute;
+      right: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 5px solid transparent;
+      border-top-color: var(--muted);
+      pointer-events: none;
+      margin-top: 3px;
+    }
+
+    .select-wrap select { padding-right: 36px; cursor: pointer; }
+
+    .select-wrap select option[value=""] { color: var(--muted); }
+
+    /* textarea */
+    .field textarea {
+      height: 96px;
+      padding: 10px 12px;
+      resize: none;
+      line-height: 1.55;
+    }
+
+    .char-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 1px;
+    }
+
+    .char-count {
+      font-family: var(--font-b);
+      font-size: .6875rem;
+      color: var(--muted);
+    }
+
+    /* Submit */
+    .btn-submit {
+      height: 42px;
+      width: 100%;
+      background: #e0e0e0;
+      color: var(--dark);
+      border: none;
+      border-radius: 8px;
+      font-family: var(--font);
+      font-size: .875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s;
+      margin-top: 2px;
+    }
+
+    .btn-submit:hover { background: #d5d5d5; }
+
+    /* Legal */
+    .legal {
+      font-family: var(--font-b);
+      font-size: .6875rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-top: 2px;
+    }
+
+    .legal a { color: var(--blue); text-decoration: none; }
+    .legal a:hover { text-decoration: underline; }
+
+    /* Success */
+    .success-msg {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 48px 0;
+      gap: 14px;
+    }
+
+    .success-check {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: #e8f5e9;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      color: #388e3c;
+    }
+
+    .success-msg h2 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .success-msg p {
+      font-family: var(--font-b);
+      font-size: .875rem;
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    /* ── Right: photo column ── */
+    .photo-col {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      min-width: 0;
+    }
+
+    .photo-col img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      background: #fff;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-main {
+      display: grid;
+      grid-template-columns: 190px 1fr 1fr 1fr;
+      gap: 24px;
+      padding: 40px 24px 28px;
+    }
+
+    /* Footer sidebar */
+    .footer-sidebar .f-logo { margin-bottom: 20px; display: block; }
+
+    .footer-nav { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+
+    .footer-nav a {
+      font-family: var(--font-b);
+      font-size: .8125rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: color .12s;
+    }
+
+    .footer-nav a:hover { color: var(--blue); }
+
+    /* Footer content columns */
+    .footer-col-title {
+      font-family: var(--font);
+      font-size: .8125rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 14px;
+    }
+
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+
+    .footer-links a {
+      font-family: var(--font-b);
+      font-size: .75rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: color .12s;
+    }
+
+    .footer-links a:hover { color: var(--blue); }
+
+    .footer-more {
+      display: inline-block;
+      font-family: var(--font-b);
+      font-size: .75rem;
+      color: var(--blue);
+      text-decoration: none;
+      margin-top: 8px;
+      font-weight: 600;
+    }
+
+    /* Footer bottom bar */
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .footer-consumer {
+      font-family: var(--font-b);
+      font-size: .75rem;
+      color: var(--text);
+    }
+
+    .footer-social { display: flex; gap: 10px; align-items: center; }
+
+    .footer-social a {
+      width: 32px; height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      transition: background .15s;
+    }
+
+    .footer-social a:hover { background: var(--hover); }
+
+    .footer-social img {
+      width: 16px; height: 16px;
+      filter: invert(53%) sepia(0%) saturate(1%) hue-rotate(112deg) brightness(92%) contrast(90%);
+    }
+
+    .footer-powered {
+      font-family: var(--font-b);
+      font-size: .75rem;
+      color: var(--muted);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .layout { flex-direction: column; height: auto; }
+      .form-col { width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
+      .photo-col { height: 52vw; min-height: 260px; }
+      .hdr-nav { display: none; }
+      .footer-main { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 520px) {
+      .footer-main { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header class="hdr">
+
+  <nav>
+    <ul class="hdr-nav">
+      <li><a href="#">Comprar</a></li>
+      <li><a href="#">Alquilar</a></li>
+      <li><a href="#" class="hdr-active">Vender</a></li>
+      <li><a href="#">Más</a></li>
+    </ul>
+  </nav>
+
+  <div class="hdr-right">
+    <button class="btn-login">Iniciar sesión</button>
+  </div>
+</header>
+
+<!-- ─── MAIN: form izq + foto der ─── -->
+<main class="layout">
+
+  <!-- Columna izquierda: formulario -->
+  <div class="form-col">
+
+    <div id="form-section">
+      <h1 class="pg-title">Vendé tu propiedad</h1>
+      <p class="pg-desc">
+        Completá el formulario y una oficina adherida a la red REMAX se pondrá
+        en contacto con vos para continuar con el proceso.
+      </p>
+
+      <form class="rm-form" id="sell-form" novalidate>
+
+        <div class="field">
+          <label for="nombre">Nombre y apellido *</label>
+          <div class="input-wrap">
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              class="is-error"
+              autocomplete="name"
+              required
+            />
+            <button type="button" class="btn-clear" title="Limpiar campo">✕</button>
+          </div>
+          <span class="field-hint is-error">Ingresá un nombre y apellido</span>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <div class="input-wrap">
+            <input
+              type="email"
+              id="email"
+              name="email"
+              autocomplete="email"
+            />
+            <button type="button" class="btn-clear" title="Limpiar campo">✕</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="telefono">Teléfono</label>
+          <div class="input-wrap">
+            <input
+              type="tel"
+              id="telefono"
+              name="telefono"
+              autocomplete="tel"
+            />
+            <button type="button" class="btn-clear" title="Limpiar campo">✕</button>
+          </div>
+          <span class="field-hint">
+            Si vivís en área 02/54/9960384/9512447 poné esto
+          </span>
+        </div>
+
+        <div class="field">
+          <label for="localidad">Localidad/provincia</label>
+          <div class="input-wrap">
+            <input
+              type="text"
+              id="localidad"
+              name="localidad"
+            />
+            <button type="button" class="btn-clear" title="Limpiar campo">✕</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="tipo">Tipo de propiedad</label>
+          <div class="select-wrap">
+            <select id="tipo" name="tipo">
+              <option value="" disabled selected>Tipo de propiedad</option>
+              <option value="casa">Casa</option>
+              <option value="departamento">Departamento</option>
+              <option value="ph">PH</option>
+              <option value="local">Local comercial</option>
+              <option value="oficina">Oficina</option>
+              <option value="terreno">Terreno / Lote</option>
+              <option value="campo">Campo / Chacra</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="comentarios">Comentarios</label>
+          <textarea
+            id="comentarios"
+            name="comentarios"
+            maxlength="250"
+          ></textarea>
+          <div class="char-row">
+            <span class="char-count" id="char-count">0/250</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit">Enviar</button>
+
+        <p class="legal">
+          Al enviar aceptás los
+          <a href="#">Términos y condiciones de uso</a>
+          y la <a href="#">Política de Privacidad</a>
+        </p>
+
+      </form>
+    </div>
+
+    <!-- Mensaje de éxito (oculto) -->
+    <div class="success-msg" id="success-msg">
+      <div class="success-check">✓</div>
+      <h2>¡Consulta enviada!</h2>
+      <p>Un agente REMAX de tu zona se comunicará con vos a la brevedad.</p>
+    </div>
+
+  </div>
+
+  <!-- Columna derecha: foto de propiedad -->
+  <div class="photo-col">
+    <img
+      src="fondormax.png"
+      alt="Vendé tu propiedad con REMAX"
+      loading="eager"
+    />
+  </div>
+
+</main>
+
+<!-- ─── FOOTER ─── -->
+<footer class="footer">
+  <div class="footer-main">
+
+    <!-- Sidebar: logo + nav links -->
+    <div class="footer-sidebar">
+      <a href="/" class="f-logo">
+        <svg width="48" height="58" viewBox="0 0 60 72" fill="none">
+          <ellipse cx="30" cy="30" rx="28" ry="28" fill="#DC1B38"/>
+          <path d="M3 38 Q4 58 30 58 Q56 58 57 38 Z" fill="#003087"/>
+          <rect x="3" y="26" width="54" height="14" fill="white"/>
+          <text x="30" y="37" text-anchor="middle" font-family="Montserrat,sans-serif" font-weight="900" font-size="9.5" fill="#DC1B38" letter-spacing="0.5">RE/MAX</text>
+          <line x1="22" y1="58" x2="19" y2="67" stroke="#9e9e9e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="38" y1="58" x2="41" y2="67" stroke="#9e9e9e" stroke-width="1.5" stroke-linecap="round"/>
+          <rect x="19" y="67" width="22" height="5" rx="1.5" fill="#bdbdbd"/>
+        </svg>
+      </a>
+      <ul class="footer-nav">
+        <li><a href="#">Propiedades</a></li>
+        <li><a href="#">Comprar</a></li>
+        <li><a href="#">Alquilar</a></li>
+        <li><a href="#">Vender</a></li>
+        <li><a href="#">Franquicias</a></li>
+        <li><a href="#">Oficinas</a></li>
+        <li><a href="#">Index REMAX</a></li>
+        <li><a href="#">Contacto</a></li>
+        <li><a href="#">Términos y Condiciones</a></li>
+        <li><a href="#">Política de Privacidad</a></li>
+      </ul>
+    </div>
+
+    <!-- Encontrá más propiedades -->
+    <div>
+      <div class="footer-col-title">Encontrá más propiedades</div>
+      <ul class="footer-links">
+        <li><a href="#">Propiedades en La Plata</a></li>
+        <li><a href="#">Propiedades en Santa Fé</a></li>
+        <li><a href="#">Propiedades en Mendoza</a></li>
+        <li><a href="#">Propiedades en Bariloche</a></li>
+        <li><a href="#">Propiedades en PH</a></li>
+        <li><a href="#">Propiedades en Palermo</a></li>
+        <li><a href="#">Propiedades en Rosario</a></li>
+        <li><a href="#">Propiedades en Nordelta</a></li>
+        <li><a href="#">Propiedades en Cañuelas</a></li>
+        <li><a href="#">Propiedades en Balcarce</a></li>
+        <li><a href="#">Propiedades en San Pedro</a></li>
+        <li><a href="#">Propiedades en San Juan</a></li>
+        <li><a href="#">Propiedades en Tigre</a></li>
+        <li><a href="#">Propiedades en CABA</a></li>
+      </ul>
+      <a href="#" class="footer-more">Ver más ↓</a>
+    </div>
+
+    <!-- Alquilar -->
+    <div>
+      <div class="footer-col-title">Alquilar</div>
+      <ul class="footer-links">
+        <li><a href="#">Departamentos en alquiler en Tandil</a></li>
+        <li><a href="#">Departamentos en alquiler en Posadas</a></li>
+        <li><a href="#">Departamentos en alquiler en Jujuy</a></li>
+        <li><a href="#">Departamentos en alquiler en San Juan</a></li>
+        <li><a href="#">Departamentos en alquiler en Córdoba</a></li>
+        <li><a href="#">Departamentos en alquiler en Bariloche</a></li>
+        <li><a href="#">Departamentos en alquiler en CABA</a></li>
+        <li><a href="#">Casas en alquiler en Tandil</a></li>
+        <li><a href="#">Casas en alquiler en Posadas</a></li>
+        <li><a href="#">Casas en alquiler en Jujuy</a></li>
+        <li><a href="#">Casas en alquiler en Bariloche</a></li>
+        <li><a href="#">Casas en alquiler en San Juan</a></li>
+        <li><a href="#">Casas en alquiler en Córdoba</a></li>
+        <li><a href="#">Casas en alquiler en Rosario</a></li>
+      </ul>
+      <a href="#" class="footer-more">Ver más ↓</a>
+    </div>
+
+    <!-- Comprar -->
+    <div>
+      <div class="footer-col-title">Comprar</div>
+      <ul class="footer-links">
+        <li><a href="#">Departamentos en venta en Tandil</a></li>
+        <li><a href="#">Departamentos en venta en Posadas</a></li>
+        <li><a href="#">Departamentos en venta en Jujuy</a></li>
+        <li><a href="#">Departamentos en venta en San Juan</a></li>
+        <li><a href="#">Departamentos en venta en Córdoba</a></li>
+        <li><a href="#">Departamentos en venta en Santa Fé</a></li>
+        <li><a href="#">Departamentos en venta en Bariloche</a></li>
+        <li><a href="#">Departamentos en venta en Mar del Plata</a></li>
+        <li><a href="#">Departamentos en venta en Palermo</a></li>
+        <li><a href="#">Departamentos en venta en Belgrano</a></li>
+        <li><a href="#">Departamentos en venta en CABA</a></li>
+        <li><a href="#">Casas en alquiler en Córdoba</a></li>
+        <li><a href="#">Casas en alquiler en Rosario</a></li>
+        <li><a href="#">Casas en alquiler en CABA</a></li>
+      </ul>
+      <a href="#" class="footer-more">Ver más ↓</a>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <span class="footer-consumer">Información al consumidor</span>
+    <div class="footer-social">
+      <a href="#" title="Facebook" aria-label="Facebook">
+        <img src="https://d1acdg20u0pmxj.cloudfront.net/assets/icons/facebook.svg" alt="Facebook" />
+      </a>
+      <a href="#" title="Instagram" aria-label="Instagram">
+        <img src="https://d1acdg20u0pmxj.cloudfront.net/assets/icons/instagram.svg" alt="Instagram" />
+      </a>
+      <a href="#" title="Twitter / X" aria-label="Twitter">
+        <img src="https://d1acdg20u0pmxj.cloudfront.net/assets/icons/twitter-x.svg" alt="X" />
+      </a>
+    </div>
+    <span class="footer-powered">Powered by QR Solutions</span>
+  </div>
+</footer>
+
+<script>
+  // Character counter for textarea
+  const textarea  = document.getElementById('comentarios');
+  const charCount = document.getElementById('char-count');
+  textarea.addEventListener('input', () => {
+    charCount.textContent = textarea.value.length + '/250';
+  });
+
+  // Clear × button
+  document.querySelectorAll('.btn-clear').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const wrap  = btn.closest('.input-wrap');
+      const input = wrap ? wrap.querySelector('input, textarea') : null;
+      if (input) { input.value = ''; input.focus(); }
+    });
+  });
+
+  // Remove error state on typing
+  const nombreInput = document.getElementById('nombre');
+  const nombreHint  = nombreInput.closest('.field').querySelector('.field-hint');
+  nombreInput.addEventListener('input', () => {
+    nombreInput.classList.remove('is-error');
+    if (nombreHint) nombreHint.style.display = 'none';
+  });
+
+  // Form submit
+  document.getElementById('sell-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    document.getElementById('form-section').style.display = 'none';
+    const msg = document.getElementById('success-msg');
+    msg.style.display = 'flex';
+  });
+</script>
+
+</body>
+</html>

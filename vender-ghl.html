@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vendé tu propiedad | REMAX</title>
+  <meta name="description" content="Completá el formulario y una oficina adherida a la red REMAX se pondrá en contacto con vos para continuar con el proceso." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&family=Arimo:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /*
+      NOTA GHL: Todas las clases tienen prefijo rmx- para evitar
+      conflictos con los estilos de Bootstrap/Tailwind que GHL inyecta.
+      Reemplazá TU_FORM_ID_AQUI con el ID real de tu formulario GHL.
+    */
+
+    :root {
+      --rmx-red:      #DC1B38;
+      --rmx-blue:     #0043ff;
+      --rmx-dark:     #353535;
+      --rmx-text:     #595959;
+      --rmx-muted:    #9e9e9e;
+      --rmx-border:   #e7e7e7;
+      --rmx-bg:       #ffffff;
+      --rmx-hover:    #f5f5f5;
+      --rmx-radius:   4px;
+      --rmx-font:     'Montserrat', sans-serif;
+      --rmx-font-b:   'Arimo', sans-serif;
+      --rmx-header-h: 56px;
+    }
+
+    .rmx-page *, .rmx-page *::before, .rmx-page *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body { margin: 0; padding: 0; height: 100%; }
+
+    body {
+      font-family: var(--rmx-font);
+      background: var(--rmx-bg);
+      color: var(--rmx-text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .rmx-page {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ─── HEADER ─── */
+    .rmx-hdr {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      height: var(--rmx-header-h);
+      background: #fff;
+      border-top: 3px solid var(--rmx-red);
+      border-bottom: 1px solid var(--rmx-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px;
+    }
+
+    .rmx-hdr-nav {
+      display: flex;
+      height: var(--rmx-header-h);
+      list-style: none;
+    }
+
+    .rmx-hdr-nav li { height: 100%; }
+
+    .rmx-hdr-nav a {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding: 0 14px;
+      font-size: .8125rem;
+      font-weight: 500;
+      color: var(--rmx-text);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: color .15s, border-color .15s;
+      white-space: nowrap;
+    }
+
+    .rmx-hdr-nav a:hover { color: var(--rmx-dark); border-bottom-color: var(--rmx-border); }
+    .rmx-hdr-nav a.rmx-hdr-active { color: var(--rmx-blue); border-bottom-color: var(--rmx-blue); font-weight: 700; }
+
+    .rmx-hdr-right { position: absolute; right: 20px; }
+
+    .rmx-btn-login {
+      height: 36px;
+      padding: 0 18px;
+      border: 1.5px solid var(--rmx-blue);
+      border-radius: var(--rmx-radius);
+      background: transparent;
+      color: var(--rmx-blue);
+      font-family: var(--rmx-font);
+      font-size: .8125rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s;
+      white-space: nowrap;
+    }
+
+    .rmx-btn-login:hover { background: rgba(0,67,255,.05); }
+
+    /* ─── MAIN: two columns ─── */
+    .rmx-layout {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - var(--rmx-header-h));
+    }
+
+    /* ── Left: form column ── */
+    .rmx-form-col {
+      width: 380px;
+      flex-shrink: 0;
+      overflow-y: auto;
+      padding: 28px 24px 48px;
+      border-right: 1px solid var(--rmx-border);
+    }
+
+    .rmx-pg-title {
+      font-family: var(--rmx-font);
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: var(--rmx-dark);
+      line-height: 1.25;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .rmx-pg-desc {
+      font-family: var(--rmx-font-b);
+      font-size: .8125rem;
+      color: var(--rmx-text);
+      line-height: 1.65;
+      margin-bottom: 22px;
+      text-align: center;
+    }
+
+    /* GHL iframe embed */
+    .rmx-ghl-form-wrap {
+      width: 100%;
+    }
+
+    .rmx-ghl-form-wrap iframe {
+      width: 100%;
+      border: none;
+      min-height: 520px;
+    }
+
+    /* ── Right: photo column ── */
+    .rmx-photo-col {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      min-width: 0;
+    }
+
+    .rmx-photo-col img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    /* ─── FOOTER ─── */
+    .rmx-footer {
+      background: #fff;
+      border-top: 1px solid var(--rmx-border);
+    }
+
+    .rmx-footer-main {
+      display: grid;
+      grid-template-columns: 190px 1fr 1fr 1fr;
+      gap: 24px;
+      padding: 40px 24px 28px;
+    }
+
+    .rmx-footer-sidebar .rmx-f-logo { margin-bottom: 20px; display: block; }
+
+    .rmx-footer-nav { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+
+    .rmx-footer-nav a {
+      font-family: var(--rmx-font-b);
+      font-size: .8125rem;
+      color: var(--rmx-text);
+      text-decoration: none;
+      transition: color .12s;
+    }
+
+    .rmx-footer-nav a:hover { color: var(--rmx-blue); }
+
+    .rmx-footer-col-title {
+      font-family: var(--rmx-font);
+      font-size: .8125rem;
+      font-weight: 700;
+      color: var(--rmx-dark);
+      margin-bottom: 14px;
+    }
+
+    .rmx-footer-links { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+
+    .rmx-footer-links a {
+      font-family: var(--rmx-font-b);
+      font-size: .75rem;
+      color: var(--rmx-text);
+      text-decoration: none;
+      transition: color .12s;
+    }
+
+    .rmx-footer-links a:hover { color: var(--rmx-blue); }
+
+    .rmx-footer-more {
+      display: inline-block;
+      font-family: var(--rmx-font-b);
+      font-size: .75rem;
+      color: var(--rmx-blue);
+      text-decoration: none;
+      margin-top: 8px;
+      font-weight: 600;
+    }
+
+    .rmx-footer-bottom {
+      border-top: 1px solid var(--rmx-border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .rmx-footer-consumer {
+      font-family: var(--rmx-font-b);
+      font-size: .75rem;
+      color: var(--rmx-text);
+    }
+
+    .rmx-footer-social { display: flex; gap: 10px; align-items: center; }
+
+    .rmx-footer-social a {
+      width: 32px; height: 32px;
+      border: 1px solid var(--rmx-border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      transition: background .15s;
+    }
+
+    .rmx-footer-social a:hover { background: var(--rmx-hover); }
+
+    .rmx-footer-social img {
+      width: 16px; height: 16px;
+      filter: invert(53%) sepia(0%) saturate(1%) hue-rotate(112deg) brightness(92%) contrast(90%);
+    }
+
+    .rmx-footer-powered {
+      font-family: var(--rmx-font-b);
+      font-size: .75rem;
+      color: var(--rmx-muted);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .rmx-layout { flex-direction: column; height: auto; }
+      .rmx-form-col { width: 100%; border-right: none; border-bottom: 1px solid var(--rmx-border); }
+      .rmx-photo-col { height: 52vw; min-height: 260px; }
+      .rmx-hdr-nav { display: none; }
+      .rmx-footer-main { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 520px) {
+      .rmx-footer-main { grid-template-columns: 1fr; }
+      .rmx-footer-bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+<div class="rmx-page">
+
+<!-- ─── HEADER ─── -->
+<header class="rmx-hdr">
+
+  <nav>
+    <ul class="rmx-hdr-nav">
+      <li><a href="#">Comprar</a></li>
+      <li><a href="#">Alquilar</a></li>
+      <li><a href="#" class="rmx-hdr-active">Vender</a></li>
+      <li><a href="#">Más</a></li>
+    </ul>
+  </nav>
+
+  <div class="rmx-hdr-right">
+    <button class="rmx-btn-login">Iniciar sesión</button>
+  </div>
+</header>
+
+<!-- ─── MAIN: form izq + foto der ─── -->
+<main class="rmx-layout">
+
+  <!-- Columna izquierda: formulario nativo GHL -->
+  <div class="rmx-form-col">
+    <h1 class="rmx-pg-title">Vendé tu propiedad</h1>
+    <p class="rmx-pg-desc">
+      Completá el formulario y una oficina adherida a la red REMAX se pondrá
+      en contacto con vos para continuar con el proceso.
+    </p>
+
+    <!--
+      ════════════════════════════════════════════════════
+      FORMULARIO GHL — Reemplazá TU_FORM_ID_AQUI con el
+      ID del formulario de tu cuenta de Go High Level.
+      Lo encontrás en: Sites → Forms → Tu formulario → Integrate
+      ════════════════════════════════════════════════════
+    -->
+    <div class="rmx-ghl-form-wrap">
+      <iframe
+        src="https://api.leadconnectorhq.com/widget/form/TU_FORM_ID_AQUI"
+        style="width:100%;border:none;overflow:hidden;"
+        scrolling="no"
+        id="rmx-ghl-iframe"
+        title="Formulario de contacto REMAX"
+      ></iframe>
+    </div>
+    <script src="https://link.msgsndr.com/js/form_embed.js"></script>
+  </div>
+
+  <!-- Columna derecha: foto de propiedad -->
+  <div class="rmx-photo-col">
+    <img
+      src="fondormax.png"
+      alt="Vendé tu propiedad con REMAX"
+      loading="eager"
+    />
+  </div>
+
+</main>
+
+<!-- ─── FOOTER ─── -->
+<footer class="rmx-footer">
+  <div class="rmx-footer-main">
+
+    <!-- Sidebar: logo + nav links -->
+    <div class="rmx-footer-sidebar">
+      <a href="/" class="rmx-f-logo">
+        <svg width="48" height="58" viewBox="0 0 60 72" fill="none">
+          <ellipse cx="30" cy="30" rx="28" ry="28" fill="#DC1B38"/>
+          <path d="M3 38 Q4 58 30 58 Q56 58 57 38 Z" fill="#003087"/>
+          <rect x="3" y="26" width="54" height="14" fill="white"/>
+          <text x="30" y="37" text-anchor="middle" font-family="Montserrat,sans-serif" font-weight="900" font-size="9.5" fill="#DC1B38" letter-spacing="0.5">RE/MAX</text>
+          <line x1="22" y1="58" x2="19" y2="67" stroke="#9e9e9e" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="38" y1="58" x2="41" y2="67" stroke="#9e9e9e" stroke-width="1.5" stroke-linecap="round"/>
+          <rect x="19" y="67" width="22" height="5" rx="1.5" fill="#bdbdbd"/>
+        </svg>
+      </a>
+      <ul class="rmx-footer-nav">
+        <li><a href="#">Propiedades</a></li>
+        <li><a href="#">Comprar</a></li>
+        <li><a href="#">Alquilar</a></li>
+        <li><a href="#">Vender</a></li>
+        <li><a href="#">Franquicias</a></li>
+        <li><a href="#">Oficinas</a></li>
+        <li><a href="#">Index REMAX</a></li>
+        <li><a href="#">Contacto</a></li>
+        <li><a href="#">Términos y Condiciones</a></li>
+        <li><a href="#">Política de Privacidad</a></li>
+      </ul>
+    </div>
+
+    <!-- Encontrá más propiedades -->
+    <div>
+      <div class="rmx-footer-col-title">Encontrá más propiedades</div>
+      <ul class="rmx-footer-links">
+        <li><a href="#">Propiedades en La Plata</a></li>
+        <li><a href="#">Propiedades en Santa Fé</a></li>
+        <li><a href="#">Propiedades en Mendoza</a></li>
+        <li><a href="#">Propiedades en Bariloche</a></li>
+        <li><a href="#">Propiedades en PH</a></li>
+        <li><a href="#">Propiedades en Palermo</a></li>
+        <li><a href="#">Propiedades en Rosario</a></li>
+        <li><a href="#">Propiedades en Nordelta</a></li>
+        <li><a href="#">Propiedades en Cañuelas</a></li>
+        <li><a href="#">Propiedades en Balcarce</a></li>
+        <li><a href="#">Propiedades en San Pedro</a></li>
+        <li><a href="#">Propiedades en San Juan</a></li>
+        <li><a href="#">Propiedades en Tigre</a></li>
+        <li><a href="#">Propiedades en CABA</a></li>
+      </ul>
+      <a href="#" class="rmx-footer-more">Ver más ↓</a>
+    </div>
+
+    <!-- Alquilar -->
+    <div>
+      <div class="rmx-footer-col-title">Alquilar</div>
+      <ul class="rmx-footer-links">
+        <li><a href="#">Departamentos en alquiler en Tandil</a></li>
+        <li><a href="#">Departamentos en alquiler en Posadas</a></li>
+        <li><a href="#">Departamentos en alquiler en Jujuy</a></li>
+        <li><a href="#">Departamentos en alquiler en San Juan</a></li>
+        <li><a href="#">Departamentos en alquiler en Córdoba</a></li>
+        <li><a href="#">Departamentos en alquiler en Bariloche</a></li>
+        <li><a href="#">Departamentos en alquiler en CABA</a></li>
+        <li><a href="#">Casas en alquiler en Tandil</a></li>
+        <li><a href="#">Casas en alquiler en Posadas</a></li>
+        <li><a href="#">Casas en alquiler en Jujuy</a></li>
+        <li><a href="#">Casas en alquiler en Bariloche</a></li>
+        <li><a href="#">Casas en alquiler en San Juan</a></li>
+        <li><a href="#">Casas en alquiler en Córdoba</a></li>
+        <li><a href="#">Casas en alquiler en Rosario</a></li>
+      </ul>
+      <a href="#" class="rmx-footer-more">Ver más ↓</a>
+    </div>
+
+    <!-- Comprar -->
+    <div>
+      <div class="rmx-footer-col-title">Comprar</div>
+      <ul class="rmx-footer-links">
+        <li><a href="#">Departamentos en venta en Tandil</a></li>
+        <li><a href="#">Departamentos en venta en Posadas</a></li>
+        <li><a href="#">Departamentos en venta en Jujuy</a></li>
+        <li><a href="#">Departamentos en venta en San Juan</a></li>
+        <li><a href="#">Departamentos en venta en Córdoba</a></li>
+        <li><a href="#">Departamentos en venta en Santa Fé</a></li>
+        <li><a href="#">Departamentos en venta en Bariloche</a></li>
+        <li><a href="#">Departamentos en venta en Mar del Plata</a></li>
+        <li><a href="#">Departamentos en venta en Palermo</a></li>
+        <li><a href="#">Departamentos en venta en Belgrano</a></li>
+        <li><a href="#">Departamentos en venta en CABA</a></li>
+        <li><a href="#">Casas en alquiler en Córdoba</a></li>
+        <li><a href="#">Casas en alquiler en Rosario</a></li>
+        <li><a href="#">Casas en alquiler en CABA</a></li>
+      </ul>
+      <a href="#" class="rmx-footer-more">Ver más ↓</a>
+    </div>
+
+  </div>
+
+  <div class="rmx-footer-bottom">
+    <span class="rmx-footer-consumer">Información al consumidor</span>
+    <div class="rmx-footer-social">
+      <a href="#" title="Facebook" aria-label="Facebook">
+        <img src="https://d1acdg20u0pmxj.cloudfront.net/assets/icons/facebook.svg" alt="Facebook" />
+      </a>
+      <a href="#" title="Instagram" aria-label="Instagram">
+        <img src="https://d1acdg20u0pmxj.cloudfront.net/assets/icons/instagram.svg" alt="Instagram" />
+      </a>
+      <a href="#" title="Twitter / X" aria-label="Twitter">
+        <img src="https://d1acdg20u0pmxj.cloudfront.net/assets/icons/twitter-x.svg" alt="X" />
+      </a>
+    </div>
+    <span class="rmx-footer-powered">Powered by QR Solutions</span>
+  </div>
+</footer>
+
+</div><!-- .rmx-page -->
+</body>
+</html>
