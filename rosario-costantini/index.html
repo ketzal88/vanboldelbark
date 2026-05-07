@@ -18,7 +18,7 @@
   /* Hero */
   .hero {
     background: linear-gradient(to top, rgba(0,0,0,.5) 0%, rgba(0,0,0,.5) 100%),
-                url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1600&q=80') center/cover no-repeat;
+                url('../home-cover2-constantini.jpg') center/cover no-repeat;
     color: #fff; text-align: center; padding: 90px 24px;
   }
   .hero h1 { font-family: 'Raleway', sans-serif; font-size: 2.2rem; font-weight: 700; margin-bottom: 12px; }
@@ -66,11 +66,16 @@
   .btn-primary:hover { background: #4fa0d0; }
 
   /* Footer */
-  .footer { background: #1a1a2e; color: #aaa; padding: 36px 24px; }
-  .footer-inner { max-width: 1060px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
-  .footer-inner p { font-size: .82rem; color: #aaa; line-height: 1.7; }
-  .footer-inner a { color: #65b5e3; text-decoration: none; }
-  .footer-copy { text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid #2a2a4a; font-size: .75rem; color: #555; max-width: 1060px; margin-left: auto; margin-right: auto; }
+  .footer { background: #f7f7f7; border-top: 1px solid #e8e8e8; padding: 48px 24px 0; }
+  .footer-inner { max-width: 1060px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; padding-bottom: 40px; }
+  .footer-inner p { font-size: .82rem; color: #555; line-height: 1.8; }
+  .footer-inner a { color: #333; text-decoration: none; display: block; font-size: .82rem; margin-bottom: 6px; }
+  .footer-inner a:hover { color: #65b5e3; }
+  .foot-icon { margin-right: 6px; color: #65b5e3; }
+  .social-row { display: flex; gap: 12px; margin-top: 14px; }
+  .social-row a { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; border: 1px solid #ccc; color: #555; font-size: .8rem; text-decoration: none; }
+  .social-row a:hover { border-color: #65b5e3; color: #65b5e3; }
+  .footer-copy { background: #fff; border-top: 1px solid #e8e8e8; text-align: center; padding: 14px 24px; font-size: .75rem; color: #888; }
 
   @media (max-width: 768px) {
     .row { grid-template-columns: 1fr; }
@@ -165,16 +170,21 @@
 <div class="footer">
   <div class="footer-inner">
     <div>
-      <p>Terrazas de la Bahía 1, Of 202<br/>Bahía Grande, Nordelta<br/>Buenos Aires, Argentina</p>
+      <p>Terrazas de la Bahía 1, Of 202<br/>Bahía Grande,<br/>Nordelta Buenos Aires, Argentina</p>
+      <div class="social-row">
+        <a href="#" title="Facebook">f</a>
+        <a href="#" title="Instagram">ig</a>
+      </div>
     </div>
+    <div></div>
     <div>
-      <p><a href="#">info@inmobiliaria.com.ar</a></p>
-      <p>☎ 4871 8166 / 4871 8158</p>
-      <p>WhatsApp: +54 9 11 3126 1985</p>
+      <a href="#"><span class="foot-icon">✉</span>info@rosariocostantini.com.ar</a>
+      <a href="tel:+541148718166"><span class="foot-icon">☎</span>+54 11 4871 8166</a>
+      <a href="tel:+541148718158"><span class="foot-icon">☎</span>+54 11 4871 8158</a>
     </div>
   </div>
-  <p class="footer-copy">© 2024 · Negocios Inmobiliarios</p>
 </div>
+<div class="footer-copy">© 2024 · Rosario Costantini Negocios Inmobiliarios</div>
 
 </body>
 </html>
