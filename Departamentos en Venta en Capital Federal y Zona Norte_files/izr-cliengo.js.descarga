@@ -1,0 +1,185 @@
+window.Cliengo = {}; //all Cliengo configs, functions and params goes into this object
+
+window.Cliengo.chatConfig = {
+	"companyId": "57d039a2e4b0d6e94165647f",
+	"websiteId": "57d039b5e4b02ab68bddfda0",
+	"whiteLabelId": "55df4ed3e4b0337744bcd65a",
+	"googleAdWordsConversionId": "",
+	"googleAnalyticsId": "",
+	"chatbotName": "Izrastzoff",
+	"phone": "5246 1010",
+	"title": "Izrastzoff",
+	"businessHoursConfiguration": {
+		"enabled_channels": {
+			"WHATSAPP": false,
+			"CHATBOT": true
+		},
+		"business_hours": [{
+			"start": 32400,
+			"end": 68400
+		}, {
+			"start": 118800,
+			"end": 154800
+		}, {
+			"start": 205200,
+			"end": 241200
+		}, {
+			"start": 291600,
+			"end": 327600
+		}, {
+			"start": 378000,
+			"end": 414000
+		}],
+		"initial_message": "Hola, en este momento nuestros agentes no se encuentran conectados pero si nos dejás tus datos te contactarán a la mayor brevedad.",
+		"promise_future_contact": "Muchas gracias. Un agente se comunicará a la brevedad con la información que nos pasaste.",
+		"final_salutation": "Bien, me contacto con un agente y le doy toda esta información. Muchas gracias nuevamente por comunicarte!"
+	},
+	"conversionPixels": "",
+	"chatWindowColor": "#353bf1",
+	"chatWindowTitle": "Chat 24hs",
+	"chatWindowInputPlaceholder": "Escribe un mensaje...",
+	"chatInitialMessage": "Hola! Soy el asistente automático de Izrastzoff. Dejame tu consulta y un broker te contactará a la brevedad. Gracias!",
+	"chatIsWritingMessage": " está escribiendo...",
+	"chatSaluteTimeInSeconds": 30,
+	"avatarImgUrl": "https://res.cloudinary.com/hbrrdozyj/image/upload/v1525724186/cliengo_chatbot_avatar/xpyuccntxqrgresvxhnv.jpg",
+	"labs": {
+		"emojis": true,
+		"online_now": true
+	},
+	"companyLabs": "leads_enrichment,crmsource,cvanalysis,e19_v2,dashboardv2,powered_by_no_popup,socketeer,widget_new_icon",
+	"planType": "CLIENGO_BASIC",
+	"vertical": "REAL_ESTATE",
+	"formHooksEnabled": false,
+	"automaticRemarketingEnabled": true,
+	"chatEnabled": true,
+	"poweredBy": {
+		"text": "Un producto ",
+		"link": "https://www.cliengo.com/?utm_source=powered_by_cliengo&utm_medium=chat",
+		"img": "https://d35pk2t3v0rl2w.cloudfront.net/hbrrdozyj/image/upload/v1/cliengo150x35_ldf6j7.svg"
+	},
+	"customPoweredByUtms": "",
+	"softDisable": false,
+	"hasConvertedLead": false,
+	"CDN_URL_DOMAIN": "//d47r8x2gwo1do.cloudfront.net",
+	"WS_CHATBOT_URL": "wss://3.chatbot.cliengo.com",
+	"sessionPath": "/s/57d039a2e4b0d6e94165647f/57d039b5e4b02ab68bddfda0",
+	"cacheVersion": "1438-07062042",
+	"debug": false,
+	"whatsAppActive": true,
+	"lang": "es_AR",
+	"widgetVersion": "2.0"
+};
+
+var host = 'https://w.cliengo.com';
+
+var mainClgoScriptId = 'mainclgo';
+var mainWspScriptId = 'mainWsp';
+var mainclgoScriptExists = document.querySelector('script[id="' + mainClgoScriptId + '"]');
+
+var commonsClgoScriptId = 'clgo-commons';
+var commonsScriptExists = document.querySelector('script[id="' + commonsClgoScriptId + '"]');
+if (typeof clgoJsonp === 'undefined' && !commonsScriptExists) {
+	console.log("no script cg",commonsScriptExists);
+	var c = document.createElement('script');
+	c.type = 'text/javascript';
+	c.id = commonsClgoScriptId;
+	c.onload = onCommonsLoad;
+	c.async = true;
+	document.currentScript.parentNode.insertBefore(c, document.currentScript);
+	c.src = host + '/commons.js';
+} else {
+	loadMain();
+}
+
+function loadMain() {
+	if (mainclgoScriptExists) {
+		console.warn('Cuidado! ya existe un script con id "' + mainClgoScriptId + '", ' +
+			'probablemente el script del chat este duplicado en ese sitio!');
+	}
+
+	var s = document.createElement('script');
+	s.type = 'text/javascript';
+	s.id = mainClgoScriptId;
+	s.src = host + '/mainclgo.bundle.js';
+	s.setAttribute('data-company-id', '57d039a2e4b0d6e94165647f');
+	s.setAttribute('data-source-id', '57d039b5e4b02ab68bddfda0');
+	s.setAttribute('data-host', host);
+	s.async = true;
+	//document.body.appendChild(s);
+	console.debug('clgo loaded');
+
+	loadWhatsAppWidget();
+}
+
+function onCommonsLoad() {
+	console.log(commonsClgoScriptId + ' script loaded successfuly.');
+	loadMain();
+}
+
+// WhatsApp functions
+function setwhatsappConfig() {
+	window.ldkWSP = {};
+	ldkWSP.widget_color = "#25D366";
+	ldkWSP.widget_message = "Chateá con nosotros";
+	ldkWSP.conversionPixelHtml = "";
+	ldkWSP.position = "";
+	ldkWSP.phone = "+541111111111";
+	ldkWSP.desktop_version = "BUBBLE";
+	ldkWSP.lang = "es_AR";
+	ldkWSP.businessHoursConfiguration = {
+			"enabled_channels": {
+				"WHATSAPP": false,
+				"CHATBOT": true
+			},
+			"business_hours": [{
+				"start": 32400,
+				"end": 68400
+			}, {
+				"start": 118800,
+				"end": 154800
+			}, {
+				"start": 205200,
+				"end": 241200
+			}, {
+				"start": 291600,
+				"end": 327600
+			}, {
+				"start": 378000,
+				"end": 414000
+			}],
+			"initial_message": "Hola, en este momento nuestros agentes no se encuentran conectados pero si nos dejás tus datos te contactarán a la mayor brevedad.",
+			"promise_future_contact": "Muchas gracias. Un agente se comunicará a la brevedad con la información que nos pasaste.",
+			"final_salutation": "Bien, me contacto con un agente y le doy toda esta información. Muchas gracias nuevamente por comunicarte!"
+		},
+		ldkWSP.company_id = "57d039a2e4b0d6e94165647f";
+	ldkWSP.website_id = "57d039b5e4b02ab68bddfda0";
+	ldkWSP.disable_powered_by = "" === "true";
+	ldkWSP.custom_powered_by_utms = "";
+	ldkWSP.googleAnalyticsId = "";
+	ldkWSP.plan_type = "CLIENGO_BASIC";
+	ldkWSP.website_id = "57d039b5e4b02ab68bddfda0";
+	ldkWSP.show_desktop = true;
+	ldkWSP.show_mobile = true;
+	ldkWSP.labs = {
+		"emojis": true,
+		"online_now": true
+	};
+	ldkWSP.notice = null;
+	ldkWSP.name_request_message = null;
+	ldkWSP.whats_app_request_message = null;
+	ldkWSP.message_request_message = null;
+}
+
+function loadWhatsAppWidget() {
+	setwhatsappConfig();
+	var wspHost = 'https://wb.cliengo.com';
+	var s = document.createElement('script');
+	s.type = 'text/javascript';
+	s.id = mainWspScriptId;
+	s.src = wspHost + '/dist/js/mainWsp.js';
+	s.setAttribute('data-company-id', '57d039a2e4b0d6e94165647f');
+	s.setAttribute('data-source-id', '57d039b5e4b02ab68bddfda0');
+	s.setAttribute('data-host', wspHost);
+	s.async = true;
+	document.body.appendChild(s);
+}

@@ -1,0 +1,1969 @@
+
+// Swiper Promociones
+
+// Subir CV
+if ($(".dropzone").length > 0) {
+  Dropzone.options.myAwesomeDropzone = {
+    dictDefaultMessage: "Subir CV",
+    maxFiles: 1,
+    // acceptedFiles: '.jpg,.png,.gif',
+    acceptedFiles: ".pdf,.doc,.docx",
+    init: function () {
+      this.on("success", function (a, b) {
+        $("#imagen").val(b);
+        $(".adjunto-icon").fadeOut("fast", function () {
+          $(".dz-details").show();
+        });
+      });
+      this.on("processing", function () {
+        $(".dz-default.dz-message").fadeOut("fast", function () {
+          $(".adjunto-icon").css("opacity", "1");
+        });
+      });
+    },
+  };
+}
+
+$(document).ready(function () {
+    $("#news_go").click(function (e) {
+        e.stopPropagation();
+        var email = $("#newsletter #email_news");
+        var btn = $("#news_go");
+
+        if (email.val() == "") {
+            email.focus();
+            showNotice("Es obligatorio ingresar un email", "", "yellow");
+            return false;
+        }
+
+        if (echeck(email.val()) == false) {
+            email.focus();
+            showNotice("El email ingresado no es válido", "", "yellow");
+            return false;
+        }
+
+        $(".toast").fadeOut("slow");
+        addLoader(btn);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('input[name="_token"]').val()
+            }
+        });
+        setTimeout(function () {
+        $.ajax({
+            type: "POST",
+            url:  "/formulario/newsletter",
+            data: "email=" + email.val() + "&_token=" + $('input[name="_token"]').val(),
+            success: function (html) {
+                if (html == "ok") {
+                    $("#newsletter").addClass("sending");
+                    $("#newsletter .input-search-wrapper").fadeOut();
+                    $("#newsletter .container strong").html(
+                    "¡Gracias!<br> Muy pronto comenzarás a recibir todas nuestras novedades."
+                    );
+                }
+
+                if (html == "ya-existe") {
+                    showNotice("Su email ya se encuentra registrado", "", "yellow");
+                    $("#newsletter").removeClass("sending");
+                    btn
+                    .removeClass("sending")
+                    .html('<span>SUSCRIBIR</span><i class="fa fa-angle-right"></i>');
+                }
+            },
+        });
+        }, 500);
+  });
+
+  //open sub menu mobile
+  $(".sub-menu > a").click(function () {
+    $(this).parent(".sub-menu").children(".menu-content").slideToggle("200");
+    $(this).find("i.fa").toggleClass("fa-angle-up fa-angle-down");
+  });
+
+  //swiper
+
+  if ($("#resultados_propiedades")) {
+    var swiper = new Swiper("#resultados_propiedades .swiper-container", {
+      navigation: {
+        nextEl: "#resultados_propiedades .swiper-button-next",
+        prevEl: "#resultados_propiedades .swiper-button-prev",
+      },
+    });
+  }
+
+  $("#search_float").click(function () {
+    if ($(this).hasClass("open")) {
+      $("#searchbox,#search_float")
+        .removeClass("active")
+        .addClass("close")
+        .removeClass("open");
+      $("#search_float i").removeClass("fa-close").addClass("fa-search");
+    } else {
+      $("#searchbox,#search_float")
+        .addClass("active")
+        .addClass("open")
+        .removeClass("close");
+      $("#search_float i").removeClass("fa-search").addClass("fa-close");
+    }
+  });
+
+  // (function() {
+  //     var v = document.getElementsByClassName("youtube-player");
+  //     for (var n = 0; n < v.length; n++) {
+  //         var p = document.createElement("div");
+  //         p.innerHTML = labnolThumb(v[n].dataset.id);
+  //         p.onclick = labnolIframe;
+  //         v[n].appendChild(p);
+  //     }
+  // })();
+
+  // function labnolThumb(id) {
+  //     return '<img class="youtube-thumb" src="//i.ytimg.com/vi/' + id + '/hqdefault.jpg"><div class="play fa fa-play"></div>';
+  // }
+
+  // function labnolIframe() {
+  //     var iframe = document.createElement("iframe");
+  //     iframe.setAttribute("src", "//www.youtube.com/embed/" + this.parentNode.dataset.id + "?autoplay=1&autohide=2&border=0&wmode=opaque&enablejsapi=1&controls=0&showinfo=0");
+  //     iframe.setAttribute("frameborder", "0");
+  //     iframe.setAttribute("id", "youtube-iframe");
+  //     $('.youtube-player').addClass('active');
+  //     this.parentNode.replaceChild(iframe, this);
+  // }
+
+  // $('.youtube-container .play').click(function(){
+  //     labnolIframe();
+  // });
+
+ $("#enviar_form_detalle_promo").click(function () {
+    var pattern = $("#enviar_form_detalle_promo").closest(".form");
+    var nombre = $("#frm_name").val() || "";
+    var email = $("#frm_email").val();
+    var telefono = $("#frm_telefono").val() || "";
+    var tipo_form = $("#frm_tipo").val();
+    var comentario = $("#frm_comentario").val() || "";
+    var apellido = $("#frm_apellido").val() || "";
+    var id_promocion = $("#frm_promocion").val() || 0;
+    var id_contacto = $("#frm_contacto").val() || 0;
+    var mail_contacto = $("#frm_mail_contacto").val() || "";
+    var contactar_por = $("#frm_contactar_por").val() || "";
+
+    var url_gracias = $("#frm_url_gracias").val() || "";
+    var btn = pattern.find(".btn");
+
+    if (id_promocion == 0) {
+      showNotice("La promoción no es válida", "", "yellow");
+      return false;
+    }
+    if (email == "") {
+      showNotice("El campo Email es obligatorio", "", "yellow");
+      return false;
+    }
+    if (echeck(email) == false) {
+      showNotice("Ingrese un email válido", "", "yellow");
+      return false;
+    }
+    if (id_promocion != 1158) {
+      if (nombre == "") {
+        showNotice("El campo Nombre es obligatorio", "", "yellow");
+        return false;
+      }
+      if (apellido == "") {
+        showNotice("El campo Apellido es obligatorio", "", "yellow");
+        return false;
+      }
+
+      if (telefono == "") {
+        showNotice("El campo Teléfono es obligatorio", "", "yellow");
+        return false;
+      }
+
+      if (contactar_por == "") {
+        showNotice("El campo Contactar por es obligatorio", "", "yellow");
+        return false;
+      } else if (contactar_por == "contacto_por") {
+        contactar_por = "";
+      }
+
+      if (comentario == "") {
+        showNotice("El campo Comentario es obligatorio", "", "yellow");
+        return false;
+      }
+
+    }
+
+     dataLayer.push({
+            "event": "form_submit",
+            "email": email,
+            "phone_number": telefono,
+            "_tag_mode": "MANUAL"
+
+        });
+
+    $(".toast").fadeOut("slow");
+
+    addLoader(btn);
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('input[name="_token"]').val()
+        }
+    });
+    $.ajax({
+      type: "POST",
+      url: "/formulario/promocion",
+
+      data:
+      "_token=" + $('input[name="_token"]').val() +
+        "&nombre=" +
+        nombre +
+        "&apellido=" +
+        apellido +
+        "&email=" +
+        email +
+        "&telefono=" +
+        telefono +
+        "&consulta=" +
+        comentario +
+        "&promocion_id=" +
+        id_promocion +
+        "&id_contacto=" +
+        id_contacto +
+        "&mail_contacto=" +
+        mail_contacto +
+        "&contactar_por=" +
+        contactar_por,
+      success: function (html) {
+        if (html == "OK") {
+          if (url_gracias != "") {
+            $("#frm_name").val("");
+            $("#frm_email").val("");
+            $("#frm_telefono").val("");
+            $("#frm_comentario").val("");
+            window.location = url_gracias;
+          } else {
+            showNotice(
+              "Mensaje enviado",
+              "Su mensaje ha sido enviado correctamente",
+              "green"
+            );
+            btn.removeClass("sending").html("Enviar");
+            $("#frm_name").val("");
+            $("#frm_email").val("");
+            $("#frm_telefono").val("");
+            $("#frm_comentario").val("");
+          }
+        }
+      },
+    });
+    return false;
+  });
+
+$("#enviar_form_detalle_ta_mob").click(function () {
+    EnviarDatosForm("_mob");
+
+});
+
+function EnviarDatosForm(from = '') {
+        var pattern = $("#enviar_form_detalle_ta" + from).closest(".form");
+        var nombre = pattern.find("#frm_name"  + from).val();
+        console.log(nombre);
+        var apellido =  pattern.find('#frm_apellido'  + from).val()??'';
+        var email = pattern.find("#frm_email" + from).val();
+        var telefono = pattern.find("#frm_telefono" + from).val();
+        var tipo_form = $("#frm_tipo").val()??'';
+        var comentario = pattern.find("#frm_comentario"  + from).val() || "";
+        var email_sucursal = $("#frm_email_sucursal").val();
+        var propiedad_id = $("#frm_propiedad_id_email").val() || 0;
+        var contenedora_id = $("#frm_contenedora_id_email").val() || 0;
+        var tipo_propiedad = $("#frm_tipo_propiedad").val() || "";
+        var tipo_operacion = $("#frm_operacion").val() || "";
+        var barrio = $("#frm_barrio").val() || "";
+        var source = $("#frm_source").val() || "";
+        var url_gracias = $("#frm_url_gracias").val() || "";
+        var id_sucursal = $("#frm_id_sucursal").val() || "";
+        var btn = pattern.find(".btn");
+
+        if (nombre == "") {
+            showNotice("El campo Nombre y Apellido es obligatorio", "", "yellow");
+            return false;
+        }
+
+        if (email == "") {
+            showNotice("El campo Email es obligatorio", "", "yellow");
+            return false;
+        }
+        if (echeck(email) == false) {
+            showNotice("Ingrese un email válido", "", "yellow");
+            return false;
+        }
+
+        if (telefono == "") {
+            showNotice("El campo Teléfono es obligatorio", "", "yellow");
+            return false;
+        }
+
+        if (tipo_form == "tasaciones_residenciales") {
+            if (barrio == "") {
+                showNotice("El campo Barrio es obligatorio", "", "yellow");
+                return false;
+            }
+            if (tipo_propiedad == "") {
+                showNotice("El campo Tipo de Propiedad es obligatorio", "", "yellow");
+                return false;
+            }
+            comentario = "Barrio: " + barrio + " - Tipo de Propiedad: " + tipo_propiedad + "<br><br>" + comentario;
+        }
+        if (tipo_form == "busquedas_residenciales") {
+            if (tipo_operacion == "") {
+                showNotice("El Tipo de Operación es obligatorio", "", "yellow");
+                return false;
+            }
+            comentario = "Tipo de Operación: " + tipo_operacion + "<br><br>" + comentario;
+        }
+
+        dataLayer.push({
+            "event": "form_submit",
+            "email": email,
+            "phone_number": telefono,
+            "_tag_mode": "MANUAL"
+
+        });
+        //ga('send', 'event', 'submit', email, telefono);
+
+
+        $(".toast").fadeOut("slow");
+
+        addLoader(btn);
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('input[name="_token"]').val()
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/formulario/detalle",
+
+            data:
+                "_token=" + $('input[name="_token"]').val() +
+                "&nombre=" + nombre +
+                "&tipo_form=" + tipo_form +
+                "&email=" + email +
+                "&telefono=" + telefono +
+                "&consulta=" + comentario +
+                "&email_sucursal=" + email_sucursal +
+                "&propiedad_id=" + propiedad_id +
+                "&contenedora_id=" + contenedora_id +
+                "&id_sucursal=" + id_sucursal +
+                "&apellido=" + apellido +
+                "&source=" + source,
+            success: function (html) {
+                if (html == "OK") {
+                if (url_gracias != "") {
+                    $("#frm_name").val("");
+                    $("#frm_email").val("");
+                    $("#frm_telefono").val("");
+                    $("#frm_comentario").val("");
+                    window.location =  url_gracias;
+                } else {
+                    showNotice("Mensaje enviado", "Su mensaje ha sido enviado correctamente", "green");
+                    btn.removeClass("sending").html("Enviar");
+                    $("#frm_name").val("");
+                    $("#frm_email").val("");
+                    $("#frm_telefono").val("");
+                    $("#frm_comentario").val("");
+                }
+                }
+            },
+        });
+}
+
+$("#enviar_form_detalle_ta").click(function () {
+      EnviarDatosForm("");
+      return false;
+});
+jQuery(".toast__close").click(function (e) {
+    e.preventDefault();
+    var parent = $(this).parent(".toast");
+    parent.fadeOut("slow");
+  });
+
+
+if ($(".page-template-template-detalle_propiedades").length > 0) {
+    // get tallest tab__content element
+    var height = -1;
+
+    $(".tab__content").each(function () {
+      height = height > $(this).outerHeight() ? height : $(this).outerHeight();
+      $(this).css("position", "absolute");
+    });
+
+    // set height of tabs + top offset
+    $("[data-tabs]").css("min-height", height + "px");
+    $(".tabs").addClass("ready");
+    if ($("#hasMap").val() == 1) {
+      initMapTabs();
+    }
+
+    $(document).on("click", 'a[href^="#"]', function (event) {
+      event.preventDefault();
+      var nav = $($.attr(this, "href"));
+      if (nav.length) {
+        $("html, body").animate(
+          {
+            scrollTop: $($.attr(this, "href")).offset().top,
+          },
+          500
+        );
+      }
+    });
+
+    var screen = $(window).height();
+    var screenBottom = $(window).scrollTop() + screen;
+    var barTop = 0;// $("#galeria .bar-top").offset().top;
+    var offsetBarTop = $("#content_").offset().top + 64;
+
+    if (screen <= barTop && screenBottom <= offsetBarTop) {
+      $("#galeria").addClass("scroll");
+    }
+
+    $(window).on("scroll", function () {
+      !window.requestAnimationFrame
+        ? fixSearch()
+        : window.requestAnimationFrame(fixSearch);
+    });
+
+    function fixSearch() {
+      var offsetContact = $("#sticky-sidebar").offset().top + 400;
+      var screenBottom = $(window).scrollTop() + screen;
+      var offsetBarTop = $("#content_").offset().top - 40;
+      var offsetTop = $("#galeria").offset().top,
+        scrollTop = $(window).scrollTop();
+      scrollTop >= offsetTop
+        ? $("#searchbox").addClass("scroll_gallery")
+        : $("#searchbox").removeClass("scroll_gallery");
+      scrollTop >= offsetTop
+        ? $("#search_float").addClass("right-bar")
+        : $("#search_float").removeClass("right-bar");
+      scrollTop >= offsetTop && scrollTop <= offsetContact
+        ? $("#contact-float").addClass("active")
+        : $("#contact-float").removeClass("active");
+
+      screenBottom <= offsetBarTop
+        ? $("#galeria").addClass("scroll")
+        : $("#galeria").removeClass("scroll");
+    }
+  }
+
+
+
+
+
+  $("#enviar_form_acreditaciones").click(function () {
+    var pattern = $("#enviar_form_detalle_ta").closest(".form");
+    var nombre = $("#frm_name").val();
+    var email = $("#frm_email").val();
+    var telefono = $("#frm_telefono").val();
+    var tipo_form = $("#frm_tipo").val();
+    var dni = $("#frm_dni").val() ?? "";
+    var apellido = $("#frm_apellido").val() || "";
+    var id_promocion = $("#frm_promocion").val() || 0;
+    var asistire_con = $("#asistire_con").val() || "";
+    var tipo_contacto_id = $("#tipo_contacto_id").val() || 0;
+    var tipocontacto_otro = $("#tipocontacto_otro").val() || "";
+    var mail_contacto = $("#frm_mail_contacto").val() || "";
+    var url_gracias = $("#frm_url_gracias").val() || "";
+    var tipo_promocion_id = $("#frm_tipo_promocion").val() || "0";
+    var btn = pattern.find(".btn");
+
+    if (id_promocion == 0) {
+      showNotice("La promoción no es válida", "", "yellow");
+      return false;
+    }
+    if (tipo_promocion_id != 2 && tipo_promocion_id != 4) {
+      showNotice("La promoción no es válida", "", "yellow");
+      return false;
+    }
+    if (tipo_form != "acreditaciones") {
+      showNotice("El formulario no es válido", "", "yellow");
+      return false;
+    }
+    if (nombre == "") {
+      showNotice("El campo Nombre es obligatorio", "", "yellow");
+      return false;
+    }
+    if (apellido == "") {
+      showNotice("El campo Apellido es obligatorio", "", "yellow");
+      return false;
+    }
+    if (email == "") {
+      showNotice("El campo Email es obligatorio", "", "yellow");
+      return false;
+    }
+    if (echeck(email) == false) {
+      showNotice("Ingrese un email válido", "", "yellow");
+      return false;
+    }
+    if (telefono == "") {
+      showNotice("El campo Teléfono es obligatorio", "", "yellow");
+      return false;
+    }
+
+    if (tipo_promocion_id == 2) {
+      /*if(dni == ''){
+                showNotice('El campo DNI es obligatorio', '', 'yellow');
+                return false;
+            }
+            if(asistire_con == ''){
+                showNotice('El campo Asistiré con es obligatorio', '','yellow');
+                return false;
+            }*/
+
+      /*  if(tipo_contacto_id == '' || tipo_contacto_id == "0"){
+                showNotice('El campo "Comó se enteró del proyecto?" con es obligatorio', '','yellow');
+                return false;
+            }*/
+      if (tipo_contacto_id == "8" && tipocontacto_otro == "") {
+        showNotice(
+          "Si seleccionó Otro en la forma que senteró del proyeto, debe ingresar cual",
+          "",
+          "yellow"
+        );
+        return false;
+      }
+    }
+
+    $(".toast").fadeOut("slow");
+
+    addLoader(btn);
+
+    $.ajax({
+      type: "POST",
+      url:  "/formulario/",
+
+      data:
+        "tipo=form_acreditacion&nombre=" +
+        nombre +
+        "&apellido=" +
+        apellido +
+        "&email=" +
+        email +
+        "&telefono=" +
+        telefono +
+        "&dni=" +
+        dni +
+        "&promocion_id=" +
+        id_promocion +
+        "&asistire_con=" +
+        asistire_con +
+        "&tipo_contacto_id=" +
+        tipo_contacto_id +
+        "&tipocontacto_otro=" +
+        tipocontacto_otro,
+      success: function (html) {
+        if (html == "OK") {
+          if (url_gracias != "") {
+            $("#frm_name").val("");
+            $("#frm_email").val("");
+            $("#frm_telefono").val("");
+            $("#frm_dni").val("");
+            $("#asistire_con").val("");
+            $("#frm_apellido").val("");
+            $("#tipo_contacto_id").val("");
+            $("#tipocontacto_otro").val("");
+            window.location =  url_gracias;
+          } else {
+            showNotice(
+              "Mensaje enviado",
+              "Su mensaje ha sido enviado correctamente",
+              "green"
+            );
+            btn.removeClass("sending").html("Enviar");
+            $("#frm_name").val("");
+            $("#frm_email").val("");
+            $("#frm_telefono").val("");
+            $("#frm_dni").val("");
+            $("#asistire_con").val("");
+            $("#frm_apellido").val("");
+            $("#tipo_contacto_id").val("");
+            $("#tipocontacto_otro").val("");
+          }
+        }
+      },
+    });
+    return false;
+  });
+
+
+
+  //form contacto
+  $("#enviar_form_contacto").click(function () {
+    var pattern = $("#enviar_form_contacto").closest(".form");
+    var nombre = pattern.find("input[name=name]");
+    var email = pattern.find("input[name=email]");
+    var telefono = pattern.find("input[name=telefono]");
+    var comentario = pattern.find("#comentario");
+    var term = pattern.find("#term");
+    var btn = pattern.find(".btn");
+
+    //console.log(term);
+    //console.log(term.val())
+
+    if (nombre.val() == "") {
+      showNotice("El campo Nombre y Apellido es obligatorio", "", "yellow");
+      return false;
+    }
+
+    if (email.val() == "") {
+      showNotice("El campo Email es obligatorio", "", "yellow");
+      return false;
+    }
+
+    if (echeck(email.val()) == false) {
+      showNotice("Ingrese un email válido", "", "yellow");
+      return false;
+    }
+
+    if (telefono.val() == "") {
+      showNotice("El campo Teléfono es obligatorio", "", "yellow");
+      return false;
+    }
+
+    $(".toast").fadeOut("slow");
+
+    addLoader(btn);
+
+    setTimeout(function () {
+      $.ajax({
+        type: "POST",
+        url:  "/formulario",
+
+        data:
+          "tipo=form_1&nombre=" +
+          nombre.val() +
+          "&email=" +
+          email.val() +
+          "&telefono=" +
+          telefono.val() +
+          "&consulta=" +
+          comentario.val() +
+          "&term=" +
+          term.val(),
+        success: function (html) {
+          if (html == "ok") {
+            showNotice("Mensaje enviado con éxito", "", "green");
+            addLoaderEnd(btn);
+            nombre.val("");
+            email.val("");
+            telefono.val("");
+            comentario.val("");
+          } else {
+            showNotice(
+              "Error inesperado",
+              "Por favor intente en otro momento",
+              "red"
+            );
+          }
+        },
+      });
+    }, 1000);
+
+    return false;
+  });
+
+  //Trabaja con Nosotros
+  $("#trabaja_con_nosotros").click(function () {
+    var pattern = $("#trabaja_con_nosotros").closest(".form");
+    var nombre = pattern.find("input[name=name]");
+    var email = pattern.find("input[name=email]");
+    var telefono = pattern.find("input[name=telefono]");
+    var comentario = pattern.find("#comentario");
+    var term = pattern.find("#term");
+    var btn = pattern.find(".btn");
+
+    //    console.log(term);
+    //  console.log(term.val())
+
+    if (nombre.val() == "") {
+      showNotice("El campo Nombre y Apellido es obligatorio", "", "yellow");
+      return false;
+    }
+
+    if (email.val() == "") {
+      showNotice("El campo Email es obligatorio", "", "yellow");
+      return false;
+    }
+
+    if (echeck(email.val()) == false) {
+      showNotice("Ingrese un email válido", "", "yellow");
+      return false;
+    }
+
+    if (telefono.val() == "") {
+      showNotice("El campo Teléfono es obligatorio", "", "yellow");
+      return false;
+    }
+
+    $(".toast").fadeOut("slow");
+
+    addLoader(btn);
+
+    setTimeout(function () {
+      $.ajax({
+        type: "POST",
+        url:  "/formulario",
+
+        data:
+          "tipo=trabaja_con_nosotros&nombre=" +
+          nombre.val() +
+          "&email=" +
+          email.val() +
+          "&telefono=" +
+          telefono.val() +
+          "&consulta=" +
+          comentario.val() +
+          "&term=" +
+          term.val() +
+          "&post_id=" +
+          $("#imagen").val(),
+        success: function (html) {
+          if (html == "ok") {
+            showNotice("Mensaje enviado con éxito", "", "green");
+            addLoaderEnd(btn);
+            nombre.val("");
+            email.val("");
+            telefono.val("");
+            comentario.val("");
+            $(
+              ".page-template-template-trabaja_con_nosotros .dz-default.dz-message"
+            ).show();
+            $(
+              ".page-template-template-trabaja_con_nosotros .dz-complete"
+            ).hide();
+          } else {
+            showNotice(
+              "Error inesperado",
+              "Por favor intente en otro momento",
+              "red"
+            );
+          }
+        },
+      });
+    }, 1000);
+
+    return false;
+  });
+
+  //sticky sidebar
+
+  /*if ($("#sticky-sidebar").length > 0) {
+    var sidebar = new StickySidebar("#sticky-sidebar", {
+      containerSelector: false,
+      innerWrapperSelector: "#sticky-sidebar > div",
+      topSpacing: 14,
+      bottomSpacing: 0,
+    });
+  }*/
+
+  $(".open-exit-modal").click(function (e) {
+    var plat = $(this).data("plat");
+    var url = $(this).data("url");
+    $("#modal-exit #plat").html(plat);
+    $("#modal-exit #url-exit").attr("href", url);
+    $("#modal-exit").removeClass("closed");
+    $("#modal-overlay").removeClass("closed");
+  });
+  $("#modal-overlay").click(function (e) {
+    $(".modal").addClass("closed");
+    $("#modal-overlay").addClass("closed");
+  });
+  $("#cancel-popup-whatsapp").click(function (e) {
+    $(".modal").addClass("closed");
+
+    $("#modal-overlay").addClass("closed");
+  });
+  $(".close-button").click(function (e) {
+    $(".modal").addClass("closed");
+
+    $("#modal-overlay").addClass("closed");
+  });
+
+  //deshabilitar y habilitar el boton de aplicar
+  $(".cd-filter-block input[type=checkbox]").change(function () {
+    var pattern = $(this).closest(".cd-filter-block");
+    var otras = [];
+
+    pattern.find("input[type=checkbox]:checked").each(function () {
+      otras.push($(this).val());
+    });
+
+    if (otras.length > 0) {
+      pattern.find(".btn-aplicar").removeClass("disabled");
+    } else {
+      pattern.find(".btn-aplicar").addClass("disabled");
+    }
+  });
+
+  //Aplicar Multiambiente
+
+  $("#aplicar_multiambientes").click(function (event) {
+    event.preventDefault();
+    var pattern = $(this).closest(".cd-filter-block");
+    var multiambientes = [];
+    var flag = true;
+    var btn = $(this);
+    var multiambientes_string;
+    pattern.find("input[name=multiambientes]:checked").each(function () {
+      multiambientes.push($(this).val());
+    });
+
+    if (multiambientes.length == 0) {
+      return false;
+    }
+
+    multiambientes.forEach(function (q, index) {
+      multiambientes_string += q + "-";
+    });
+
+    multiambientes_string = multiambientes_string.slice(0, -1);
+    multiambientes_string = multiambientes_string.toString();
+    multiambientes_string = multiambientes_string.replace("undefined", "");
+
+    var urlstring = window.location.href;
+    urlstring = urlstring.replace(/\/multiambientes_(\d|-)*/, "");
+    /*var url_querystring = $('#url_querystring').val()
+        var url = QuerystringToJSON(url_querystring);
+
+        if(url.multiambientes){
+            url.multiambientes = multiambientes_string;
+            flag = false;
+        }
+
+        url = JSONtoQuerystring(url);
+        url = parseUrlAPI(url);
+
+        if(flag){
+            url = url + '&multiambientes=' + multiambientes_string
+        }
+*/
+    addLoader(btn);
+
+    if (!urlstring.endsWith("/")) {
+      urlstring += "/";
+    }
+    utmvalue = $("#utmvalues").val() ?? "";
+    window.location.replace(
+      urlstring + "multiambientes_" + multiambientes_string + "/" + utmvalue
+    );
+    return false;
+  });
+
+  //Aplicar Multiadicionales
+
+  $("#aplicar_multiadicionales").click(function (event) {
+    event.preventDefault();
+    var pattern = $(this).closest(".cd-filter-block");
+    var multiadicionales = [];
+    var flag = true;
+    var btn = $(this);
+    var multiadicionales_string;
+    var apto_profesional = false;
+    var dormitorio_suite = false;
+    var apto_credito = false;
+    var cochera = false;
+    var has_multi = false;
+    pattern.find("input[name=multiadicionales]:checked").each(function () {
+      flag = false;
+
+      var valor = $(this).val();
+
+      if ($(this).data("tipo")) {
+        if (valor == "cochera") {
+          cochera = true;
+        }
+        if (valor == "apto_profesional") {
+          apto_profesional = true;
+        }
+        if (valor == "dormitorio_suite") {
+          dormitorio_suite = true;
+        }
+        if (valor == "apto_credito") {
+          apto_credito = true;
+        }
+      } else {
+        multiadicionales.push($(this).val());
+        has_multi = true;
+      }
+    });
+
+    if (flag) {
+      console.log("ass");
+      return false;
+    }
+
+    if (has_multi) {
+      multiadicionales.forEach(function (q, index) {
+        multiadicionales_string += q + "-";
+      });
+
+      multiadicionales_string = multiadicionales_string.slice(0, -1);
+      multiadicionales_string = multiadicionales_string.toString();
+      multiadicionales_string = multiadicionales_string.replace(
+        "undefined",
+        ""
+      );
+    }
+
+    /*var url_querystring = $('#url_querystring').val()
+        var url = QuerystringToJSON(url_querystring);
+
+        if(url.multiadicionales){
+            url.multiadicionales = multiadicionales_string;
+        }
+
+        url = JSONtoQuerystring(url);
+        url = parseUrlAPI(url);
+
+        if(has_multi){
+            url = url + '&multiadicionales=' + multiadicionales_string
+        }
+        if(cochera){
+            url = url + '&cochera=true';
+        }
+        if(apto_profesional){
+            url = url + '&apto_profesional=true';
+        }
+        if(dormitorio_suite){
+            url = url + '&dormitorio_suite=true';
+        }
+        if(apto_credito){
+            url = url + '&apto_credito=true';
+        }
+*/
+    utmvalue = $("#utmvalues").val() ?? "";
+    var urlstring = window.location.href;
+    urlstring = urlstring.replace(/\/multiadicionales_(\d|-)*/, "");
+    addLoader(btn);
+    if (!urlstring.endsWith("/")) {
+      urlstring += "/";
+    }
+    window.location.replace(
+      urlstring + "multiadicionales_" + multiadicionales_string + "/" + utmvalue
+    );
+    return false;
+  });
+
+  //Aplicar Ubicación
+
+  $("#aplicar_ubicacion").click(function (event) {
+    event.preventDefault();
+    var pattern = $(this).closest(".cd-filter-block");
+    var ubicaciones = [];
+    var flag = true;
+    var btn = $(this);
+    var ubicaciones_string;
+    pattern.find("input[name=otras]:checked").each(function () {
+      ubicaciones.push($(this).val());
+    });
+
+    if (ubicaciones.length == 0) {
+      return false;
+    }
+    var urlstring = window.location.href;
+
+    ubicaciones.forEach(function (q, index) {
+      ubicaciones_string += q + "_o_";
+    });
+
+    ubicaciones_string = ubicaciones_string.slice(0, -3);
+    ubicaciones_string = ubicaciones_string.toString();
+    ubicaciones_string = ubicaciones_string.replace("undefined", "");
+
+    //  var url_querystring = $('#url_querystring').val()
+    //  var url = QuerystringToJSON(url_querystring);*/
+
+    /*  if(url.multiubicacion){
+            url.multiubicacion = ubicaciones_string;
+            flag = false;
+        }
+
+      if(ubicaciones.length == 1){
+            if(url.ubicacion){
+                url.ubicacion =  ubicaciones[0];
+                flag = false;
+            }
+
+            if(url.multiubicacion){
+                url.multiubicacion = '';
+                flag = false;
+            }
+        }*/
+
+    /*    url = JSONtoQuerystring(url);
+        url = parseUrlAPI(url);
+        var ubicacion_tipo = $('#ubicacion_tipo').val();*/
+
+    //if(flag){
+
+    //  if(ubicaciones.length > 1){
+    //        url = url + '&' +  ubicacion_tipo + '=' + ubicaciones_string
+    //  }
+
+    //}
+    utmvalue = $("#utmvalues").val() ?? "";
+    parametros_url_fijos[4] = ubicaciones_string;
+    arr = parametros_url_fijos.filter(function (e) {
+      return e;
+    });
+    addLoader(btn);
+
+    window.location = "/listado/" + arr.join("/") + "/" + utmvalue;
+    return false;
+  });
+
+  $("#hasta_precio").on("keydown", function (event) {
+    if (event.which == 13) $("#aplicar_precio").click();
+  });
+
+  //Aplicar precio
+  $("#aplicar_precio").click(function (event) {
+    event.preventDefault();
+    var pattern = $(this).closest(".filter-precio");
+    var desde = pattern.find("#desde_precio").val();
+    var hasta = pattern.find("#hasta_precio").val();
+    var moneda = pattern.find("input[name=radioButton]:checked").val();
+
+
+    var btn = $(this);
+
+    if (desde == "") {
+      pattern.find("#desde_precio").addClass("error_1");
+      setTimeout(function () {
+        pattern.find("#desde_precio").removeClass("error_1");
+      }, 2000);
+      return false;
+    }
+
+    if (hasta == "") {
+      pattern.find("#hasta_precio").addClass("error_1");
+      setTimeout(function () {
+        pattern.find("#hasta_precio").removeClass("error_1");
+      }, 2000);
+      return false;
+    }
+
+    if (parseInt(hasta) < parseInt(desde)) {
+      pattern.find("#hasta_precio").addClass("error_1");
+      setTimeout(function () {
+        pattern.find("#hasta_precio").removeClass("error_1");
+      }, 2000);
+      return false;
+    }
+
+    var string_precio = desde + "-" + hasta + "-" + moneda + "-" ;
+    var urlstring = window.location.href;
+    urlstring = urlstring.replace("#0", "");
+    urlstring = urlstring.replace(/\/precio_(\d|-|[A-Z])*/, "");
+    //  console.log(string_precio)
+    //  var url_querystring = $('#url_querystring').val()
+
+    /*  var url = QuerystringToJSON(url_querystring);
+        var flag = true;
+
+        if(url.precio){
+            url.precio = string_precio;
+            flag = false;
+        }
+        url = JSONtoQuerystring(url);
+        url = parseUrlAPI(url);
+
+        if(flag){
+            url = url + '&precio=' + string_precio
+        }*/
+    addLoader(btn);
+    utmvalue = $("#utmvalues").val() ?? "";
+    if (!urlstring.endsWith("/")) {
+      urlstring += "/";
+    }
+    window.location.replace(
+      urlstring + "precio_" + string_precio + "/" + utmvalue
+    );
+
+    return false;
+  });
+
+  $("#hasta_superficie").on("keydown", function (event) {
+    if (event.which == 13) $("#aplicar_superficie").click();
+  });
+
+  //Aplicar Superficie
+  $("#aplicar_superficie").click(function (event) {
+    event.preventDefault();
+    var pattern = $(this).closest(".filter-precio");
+    var desde = pattern.find("#desde_superficie").val();
+    var hasta = pattern.find("#hasta_superficie").val();
+    var btn = $(this);
+
+    if (desde == "") {
+      pattern.find("#desde_superficie").addClass("error_1");
+      setTimeout(function () {
+        pattern.find("#desde_superficie").removeClass("error_1");
+      }, 2000);
+      return false;
+    }
+
+    if (hasta == "") {
+      pattern.find("#hasta_superficie").addClass("error_1");
+      setTimeout(function () {
+        pattern.find("#hasta_superficie").removeClass("error_1");
+      }, 2000);
+      return false;
+    }
+
+    if (parseInt(hasta) < parseInt(desde)) {
+      pattern.find("#hasta_superficie").addClass("error_1");
+      setTimeout(function () {
+        pattern.find("#hasta_superficie").removeClass("error_1");
+      }, 2000);
+      return false;
+    }
+
+    var string_superficie = desde + "-" + hasta;
+    /*  var url_querystring = $('#url_querystring').val()
+        var url = QuerystringToJSON(url_querystring);
+        var flag = true;
+
+        if(url.precio){
+            url.superficie = string_superficie;
+            flag = false;
+        }
+        url = JSONtoQuerystring(url);
+        url = parseUrlAPI(url);
+
+        if(flag){
+            url = url + '&superficie=' + string_superficie
+        }*/
+    var urlstring = window.location.href;
+    //  alert(urlstring);
+    urlstring = urlstring.replace("#0", "");
+    urlstring = urlstring.replace(/\/superficie_(\d|-)*/, "");
+    addLoader(btn);
+
+    if (!urlstring.endsWith("/")) {
+      urlstring += "/";
+    }
+    utmvalue = $("#utmvalues").val() ?? "";
+    window.location.replace(
+      urlstring + "superficie_" + string_superficie + "/" + utmvalue
+    );
+
+    return false;
+  });
+
+    $('#aplicar_avance').click(function(event){
+                event.preventDefault();
+                var pattern = $(this).closest('.cd-filter-block');
+                var avances = [];
+                var flag = true;
+                var btn =  $(this);
+                var avances_string;
+                pattern.find("input[name=avances]:checked").each(function() {
+                    avances.push($(this).val());
+                });
+
+
+                if(avances.length == 0){
+                    return false;
+                }
+
+                var urlstring = window.location.href;
+
+                utmvalue = $("#utmvalues").val()??'';
+                avances.forEach(function(q, index) {
+                    avances_string += q + '_o_';
+                });
+
+                avances_string =  avances_string.slice(0,-3)
+                avances_string = avances_string.toString();
+                avances_string = avances_string.replace('undefined','');
+
+
+                url = JSONtoQuerystring(urlstring);
+                url = parseUrlAPI(url);
+                console.log(avances_string);
+                parametros_url_fijos[7] = avances_string;
+                arr = parametros_url_fijos.filter(function(e){ return e});
+                addLoader(btn)
+            //    window.location.replace( urlstring +  "/" + ubicaciones_string);
+
+
+
+                  window.location.replace(  "/listado/" + arr.join("/")+ "/"  + utmvalue);
+                return false;
+
+            });
+
+
+  //validation  number
+  $("input[type=number]").keypress(function (e) {
+    var keycode = e.charCode ? e.charCode : e.which ? e.which : e.keyCode;
+    var fieldLength = this.value.length;
+    if (!(keycode >= 48 && keycode <= 57)) {
+      if (keycode == 8) {
+      } else {
+        return false;
+      }
+    }
+  });
+
+  // openSumaprop();
+
+  //acción buscador
+  $(".search_propiedades").click(function () {
+    searchPropiedades(this);
+  });
+
+  //accion buscador v2
+  $(".search_propiedades_v2").click(function () {
+    searchPropiedadesV2(this);
+  });
+
+  //enter en el input para buscar home
+  $(".search-content.v1 .quicksearch").keypress(function (e) {
+    if (event.which == 13) {
+      searchPropiedades(this);
+    }
+  });
+
+  //enter en el input para buscar
+  $(".search-content.v2 .quicksearch").keypress(function (e) {
+    if (event.which == 13) {
+      searchPropiedadesV2(this);
+    }
+  });
+
+  //close filter dropdown inside lateral .cd-filter
+  $(".cd-filter-block h4").on("click", function () {
+    $(this)
+      .toggleClass("closed")
+      .siblings(".cd-filter-content")
+      .slideToggle(300);
+  });
+
+  //open/close lateral filter
+  $(".cd-filter-trigger").on("click", function () {
+    $("body").css("overflow", "hidden");
+    triggerFilter(true);
+  });
+  $(".cd-close").on("click", function () {
+    $("body").css("overflow", "initial");
+    triggerFilter(false);
+  });
+
+  function triggerFilter($bool) {
+    var elementsToTrigger = $([
+      $(".cd-filter-trigger"),
+      $(".cd-filter"),
+      $(".cd-tab-filter"),
+      $(".cd-gallery"),
+      $("#filters"),
+    ]);
+    elementsToTrigger.each(function () {
+      $(this).toggleClass("filter-is-visible", $bool);
+    });
+  }
+
+  if ($("#resultados_propiedades").length > 0) {
+    //fix lateral filter and gallery on scrolling
+    $(window).on("scroll", function () {
+      !window.requestAnimationFrame
+        ? fixGallery()
+        : window.requestAnimationFrame(fixGallery);
+    });
+
+    function fixGallery() {
+      var offsetTop = $("#resultados_propiedades").offset().top,
+        scrollTop = $(window).scrollTop();
+      scrollTop >= offsetTop
+        ? $("#content-main").addClass("is-fixed")
+        : $("#content-main").removeClass("is-fixed");
+    }
+  }
+
+  //SELECTS + LÓGICA
+  $(".sel").each(function () {
+    var $current = $(this);
+
+    $(this)
+      .find("option")
+      .each(function (i) {
+        if (i == 0) {
+          $current.prepend(
+            $("<div>", {
+              class: $current.attr("class").replace(/sel/g, "sel__box"),
+            })
+          );
+
+          // var placeholder = $(this).text();
+          // $current.prepend($('<span>', {
+          //   class: $current.attr('class').replace(/sel/g, 'sel__placeholder'),
+          //   text: placeholder,
+          //   'data-placeholder': placeholder
+          // }));
+
+          return;
+        }
+        if ($current.hasClass("redirect-drowpdown")) {
+          $current.children("div").append(
+            $("<span >", {
+              class: $current
+                .attr("class")
+                .replace(/sel/g, "sel__box__options"),
+              id: $(this).val(),
+              text: $(this).text(),
+            })
+          );
+        } else {
+          $current.children("div").append(
+            $("<span>", {
+              class: $current
+                .attr("class")
+                .replace(/sel/g, "sel__box__options"),
+              text: $(this).text(),
+            })
+          );
+        }
+      });
+  });
+
+  $(".sel").click(function () {
+    $(this).toggleClass("active");
+  });
+
+  // Toggling the `.selected` state on the options.
+  $(".sel__box__options").click(function () {
+    var txt = $(this).text();
+    var index = $(this).index();
+
+    $(this).siblings(".sel__box__options").removeClass("selected");
+    $(this).addClass("selected");
+
+    var $currentSel = $(this).closest(".sel");
+    $currentSel.children(".sel__placeholder").text(txt);
+    $currentSel.children("select").prop("selectedIndex", index + 1);
+    $currentSel.find(".sel__placeholder").attr("data-placeholder", txt);
+    $currentSel.find("#propiedad_val").attr("value", txt);
+
+    if ($currentSel.hasClass("redirect-drowpdown")) {
+      window.location.href = $(this).attr("id");
+    }
+    url = '';
+    if ($currentSel.hasClass("filter-drowpdown")) {
+      var txt = txt.toString().toLowerCase().trim();
+
+
+      switch (txt) {
+        case "más reciente":
+          url = $("#mas-reciente").val();
+          break;
+
+        case "más antiguos":
+
+          url = $("#mas-antiguos").val();
+          break;
+
+        case "menor precio":
+          url = $("#menor-precio").val();
+          break;
+
+        case "mayor precio":
+          url = $("#mayor-precio").val();
+          break;
+
+        case "más pequeños":
+          url = $("#menor-superficie").val();
+          break;
+
+        case "más amplios":
+          url = $("#mayor-superficie").val();
+          break;
+
+        default:
+          break;
+      }
+      addLoader($currentSel);
+
+      $("#resultados_propiedades .content-order > div > span").hide();
+      if (!url.endsWith("/")) {
+        url = url + "/";
+      }
+      window.location.href = "/listado/" + url;
+    }
+  });
+
+  // Scroll animation
+  $(window).scroll(function () {
+    if ($(window).scrollTop() >= 60) {
+      $("header, #nav-mobile").addClass("scroll", 250);
+      $("header.header_v2 .logo").attr(
+        "src",
+         "/img/logo.png"
+      );
+    } else {
+      $("header, #nav-mobile ").removeClass("scroll", 250);
+      $("header.header_v2 .logo").attr(
+        "src",
+         "/img/logo_black.png"
+      );
+    }
+  });
+
+  //target-burger-click
+  $("a.target-burger").click(function (e) {
+    var nav_mobile = $(
+      "#container-main, nav.main-nav, a.target-burger, #nav-mobile"
+    );
+
+    nav_mobile.toggleClass("toggled");
+
+    if (nav_mobile.hasClass("toggled")) {
+      $("body").addClass("no-scroll");
+    } else {
+      $("body").removeClass("no-scroll");
+    }
+
+    e.preventDefault();
+  });
+
+  $("a.search-input").click(function (e) {
+    var nav_mobile = $(
+      "#container-main, nav.search-nav, a.search-burger, #nav-search-mobile"
+    );
+
+    nav_mobile.toggleClass("toggled");
+
+    if (nav_mobile.hasClass("toggled")) {
+      $("body").addClass("no-scroll");
+    } else {
+      $("body").removeClass("no-scroll");
+    }
+
+    e.preventDefault();
+  });
+
+  $("a.search-close").click(function (e) {
+    console.log("click");
+    var nav_mobile = $(
+      "#container-main, nav.search-nav, a.search-burger, #nav-search-mobile"
+    );
+    nav_mobile.removeClass("toggled");
+    if (nav_mobile.hasClass("toggled")) {
+      $("body").addClass("no-scroll");
+    } else {
+      $("body").removeClass("no-scroll");
+    }
+  });
+
+  //banner fadein fadeout
+
+  $("#banner input[name=propiedad]").change(function () {
+    var current = $("#banner .img-bg.active");
+    var id = $(this).attr("id");
+
+    $("#banner img[data-propiedad=" + id + "]").addClass("active");
+    current.removeClass("active");
+  });
+
+  //media query
+
+  if (window.matchMedia("(max-width: 940px)").matches) {
+    //scroll mobile
+    $("#filters .data-main").mCustomScrollbar({
+      axis: "y",
+      theme: "dark",
+    });
+  }
+});
+
+function getNamePropiedadById(data) {
+  var data_ = data.toString().toLowerCase();
+  switch (data_) {
+    case "casas":
+      $tipo_propiedad = "1";
+      break;
+
+    case "departamentos":
+      $tipo_propiedad = "4";
+      break;
+    case "ph":
+      $tipo_propiedad = "40";
+      break;
+
+    case "oficinas":
+      $tipo_propiedad = "24";
+      break;
+
+    case "edificios en block":
+      $tipo_propiedad = "21";
+      break;
+    case "hoteles":
+      $tipo_propiedad = "41";
+      break;
+
+    case "emprendimientos":
+      $tipo_propiedad = "e";
+      break;
+
+    case "locales":
+      $tipo_propiedad = "10";
+      break;
+
+    case "terrenos":
+      $tipo_propiedad = "29";
+      break;
+
+    case "lotes":
+      $tipo_propiedad = "8";
+      break;
+
+    case "depósitos":
+      $tipo_propiedad = "18";
+      break;
+
+    default:
+      $tipo_propiedad = "0";
+      break;
+  }
+
+  return $tipo_propiedad;
+}
+
+function searchPropiedades(data) {
+  var pattern = $(data).closest(".form-search");
+  var ar_params = new Array();
+
+/*
+  var tipo_propiedad = pattern.find("input[name=propiedad]:checked").val();
+  */
+  var tipo_propiedad =pattern.find( 'select[name=select-tipopropiedad]' ).val();
+  //var tipo_propiedad = pattern.find( 'input[name=propiedad]:checked' ).val();
+
+  if (tipo_propiedad != "") {
+    ar_params.push(tipo_propiedad);
+  }
+
+  var comprar_alquilar = pattern
+    .find("input[name=comprar_alquilar]:checked")
+    .val();
+
+
+  var estado = true;
+  var autocomplete = $("#autocomplete-val").val();
+
+  var btn = pattern.find(".search_propiedades");
+  var quicksearch = '';
+  if (window.matchMedia("(max-width: 767px)").matches) {
+   // quicksearch = pattern.find(".mobile_767 .quicksearch").val()??'';
+    quicksearch = pattern.find(".quicksearch_mobile").val()??'';
+    comprar_alquilar = $("#comprar_alquilar_mobile").val();
+    var btn = pattern.find(".mobile_767 .search_propiedades");
+  } else {
+    quicksearch = pattern.find(".desktop_767 .quicksearch").val()??'';
+    var btn = pattern.find(".desktop_767 .search_propiedades");
+  }
+  if (comprar_alquilar != "" && tipo_propiedad != "emprendimientos") {
+    ar_params.push(comprar_alquilar);
+  }
+  /*    if(tipo_propiedad == 'e'){
+        estado = 'estado_publicacion=1'
+    }else{
+        estado = 'estados_publicacion=1'
+    }*/
+  utmvalue = $("#utmvalues").val() ?? "";
+  addLoader(btn);
+
+  if (autocomplete == "" || autocomplete.indexOf('C') == 0) {
+    if (quicksearch != "") {
+      quicksearch = quicksearch.replace('Emprendimiento, ', "");
+      ar_params.push("quicksearch_" + quicksearch.replace(/\s/g, "_"));
+    } else {
+      if (tipo_propiedad == "departamentos" && comprar_alquilar == "venta") {
+        ar_params.push("capital-federal");
+      }
+      if (tipo_propiedad == "ph" && comprar_alquilar == "venta") {
+        ar_params.push("capital-federal");
+      }
+      if (tipo_propiedad == "locales") {
+        ar_params.push("capital-federal");
+      }
+      if (tipo_propiedad == "terrenos" && comprar_alquilar == "venta") {
+        ar_params.push("capital-federal");
+      }
+    }
+
+    //ar_params.push("view_list");
+    window.location = "/listado/" + ar_params.join("/") + "/" + utmvalue;
+  } else {
+    var id = autocomplete.split("|");
+    tipo_busqueda = "ubicacion";
+    if (id[0] == "P") {
+      tipo_busqueda = "pais";
+    } else if (id[0] == "R") {
+      tipo_busqueda = "provincia";
+    } else if (id[0] == "L") {
+      tipo_busqueda = "localidad";
+    } else if (id[0] == "B") {
+      tipo_busqueda = "barrio";
+    } else if (id[0] == "Z") {
+      tipo_busqueda = "barrio";
+    }
+    if (id[2] != "") {
+      ar_params.push(id[2]);
+    }
+
+    //ar_params.push("view_list");
+    window.location = "/listado/" + ar_params.join("/") + "/" + utmvalue;
+  }
+}
+
+function searchPropiedadesV2(data) {
+  var pattern = $(data).closest(".search-content");
+  var comprar_alquilar = pattern
+    .find("input[name=comprar_alquilar]:checked")
+    .val();
+  var tipo_propiedad = $("#select-prop").val();
+  var autocomplete = $("#autocomplete-val").val();
+
+  var ar_params = new Array();
+
+  if (tipo_propiedad != "") {
+    ar_params.push(tipo_propiedad);
+  }
+  if (comprar_alquilar != "" && tipo_propiedad != "emprendimientos") {
+    ar_params.push(comprar_alquilar);
+  }
+
+  if (window.matchMedia("(max-width: 767px)").matches) {
+    var quicksearch = pattern.find(".mobile_767 .quicksearch").val();
+    var btn = pattern.find(".mobile_767 .search_propiedades_v2");
+  } else {
+    var quicksearch = pattern.find(".desktop_767 .quicksearch").val();
+    var btn = pattern.find(".desktop_767 .search_propiedades_v2");
+  }
+
+  /*if( $('#url_querystring').length > 0){
+        var url_querystring = $('#url_querystring').val()
+    }else{
+        var url_querystring = '?view=list&tipo_operacion=2&producto=4&quicksearch=&estados_publicacion=1';
+    }
+
+    var url = QuerystringToJSON(url_querystring);*/
+  var url_querystring = $("#url_querystring").val();
+  var ar_url = new Array();
+  if (url_querystring != undefined) {
+    ar_url = url_querystring.split("/");
+  }
+
+  /* Si es una busqueda por autocomplete */
+  if (autocomplete != "") {
+    var id = autocomplete.split("|");
+
+    if (id[2] != "") {
+      ar_params.push(id[2]);
+    }
+  } else {
+    if (quicksearch != ""  || autocomplete.indexOf('C') == 0) {
+      quicksearch = quicksearch.replace('Emprendimiento, ', "");
+      ar_params.push("quicksearch_" + quicksearch.replace(/\s/g, "_"));
+    } else {
+      if (tipo_propiedad == "departamentos" && comprar_alquilar == "venta") {
+        ar_params.push("capital-federal");
+      }
+      if (tipo_propiedad == "ph" && comprar_alquilar == "venta") {
+        ar_params.push("capital-federal");
+      }
+      if (tipo_propiedad == "locales") {
+        ar_params.push("capital-federal");
+      }
+      if (tipo_propiedad == "terrenos" && comprar_alquilar == "venta") {
+        ar_params.push("capital-federal");
+      }
+    }
+  }
+
+  if (ar_url["view_list"] !== undefined) {
+    //   ar_params.push("view_list");
+  } else if (ar_url["view_grid"] !== undefined) {
+    ar_params.push("view_grid");
+  } else if (ar_url["view_map"] !== undefined) {
+    ar_params.push("view_map");
+  }
+
+  addLoader(btn);
+
+  utmvalue = $("#utmvalues").val() ?? "";
+  //  ar_params.push("view_list");
+  //  console.log(ar_params);
+  window.location = "/listado/" + ar_params.join("/") + "/" + utmvalue;
+}
+
+function PlaceholderPropiedad(tipo_propiedad_id) {
+    if (tipo_propiedad_id == 1 || tipo_propiedad_id == 4) {
+        return "/img/propiedades/casas_deptos_nofoto.jpg";
+    }
+    else if (tipo_propiedad_id == 29  || tipo_propiedad_id == 30) {
+        return "/img/propiedades/casas_deptos_nofoto.jpg";
+    }
+    else if (tipo_propiedad_id == 24) {
+        return "/img/propiedades/oficina_nofoto.jpg";
+    }
+    else if (tipo_propiedad_id == 10) {
+        return "/img/propiedades/locales_nofoto.jpg";
+    }
+    else {
+        return "/img/propiedades/generica_nofoto.jpg";
+    }
+}
+
+
+function QuerystringToJSON(queryString) {
+  var j, q;
+  q = queryString.toString().replace(/\?/, "").split("&");
+  j = {};
+  $.each(q, function (i, arr) {
+    arr = arr.split("=");
+    return (j[arr[0]] = arr[1]);
+  });
+  return j;
+}
+
+function JSONtoQuerystring(queryString) {
+  queryStringurl = Object.keys(queryString)
+    .map(function (k) {
+      if (!k.match(/[0-9]+$/)) {
+        return encodeURIComponent(k) + "=" + encodeURIComponent(queryString[k]);
+      }
+    })
+    .join("&");
+
+  return queryStringurl;
+}
+
+function parseUrlAPI(url) {
+  url = url.replace("&pg=", "&page=");
+  url = url.replace("&tipo_operacion=6", "&tipo_operacion=6a");
+  url = url.replace("&max_per_page=20", "&max_per_page=21");
+  return url;
+}
+
+function addLoader(btn) {
+  btn.css({
+    width: btn.outerWidth(),
+    height: btn.outerHeight(),
+  });
+  btn.addClass("sending");
+  btn.html('<div class="lds-dual-ring"></div>');
+}
+
+function addLoaderEnd(btn) {
+  btn.removeClass("sending");
+  btn.html("Enviar");
+}
+
+function echeck(str) {
+  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(str)) {
+    return true;
+  }
+  return false;
+  /* var at="@"
+    var dot="."
+    var lat=str.indexOf(at)
+    var lstr=str.length
+    var ldot=str.indexOf(dot)
+    if (str.indexOf(at)==-1){
+    return false
+    }
+
+    if (str.indexOf(at)==-1 || str.indexOf(at)==0 || str.indexOf(at)==lstr){
+    return false
+    }
+
+    if (str.indexOf(dot)==-1 || str.indexOf(dot)==0 || str.indexOf(dot)==lstr){
+    return false
+    }
+
+    if (str.indexOf(at,(lat+1))!=-1){
+    return false
+    }
+
+    if (str.substring(lat-1,lat)==dot || str.substring(lat+1,lat+2)==dot){
+    return false
+    }
+
+    if (str.indexOf(dot,(lat+2))==-1){
+    return false
+    }
+
+    if (str.indexOf(" ")!=-1){
+    return false
+    }
+
+    return true*/
+}
+function showNotice(title, content, color) {
+  $(".toast").removeClass("toast--green");
+  $(".toast").removeClass("toast--yellow");
+  $(".toast .toast__type").html(title);
+  $(".toast .toast__message").html(content);
+  $(".toast")
+    .addClass("toast--" + color)
+    .fadeIn();
+}
+
+// Slide HERO
+$(document).ready(function () {
+  var $slider = $(".slider"),
+    $slideBGs = $(".slide__bg"),
+    diff = 0,
+    curSlide = 0,
+    numOfSlides = $(".slide").length - 1,
+    animating = false,
+    animTime = 500,
+    autoSlideTimeout,
+    autoSlideDelay = 4000,
+    $pagination = $(".slider-pagi");
+
+ /* function createBullets() {
+    for (var i = 0; i < numOfSlides + 1; i++) {
+      var $li = $("<li class='slider-pagi__elem'></li>");
+      $li.addClass("slider-pagi__elem-" + i).data("page", i);
+      if (!i) $li.addClass("active");
+      $pagination.append($li);
+    }
+  }
+
+  createBullets();
+  */
+
+  function manageControls() {
+    $(".slider-control").removeClass("inactive");
+    // if (!curSlide) $(".slider-control.left").addClass("inactive");
+    // if (curSlide === numOfSlides)
+    //   $(".slider-control.right").addClass("inactive");
+  }
+
+  function autoSlide() {
+    autoSlideTimeout = setTimeout(function () {
+      curSlide++;
+      if (curSlide > numOfSlides) curSlide = 0;
+      changeSlides();
+    }, autoSlideDelay);
+  }
+
+  autoSlide();
+
+  function changeSlides(instant) {
+    if (!instant) {
+      animating = true;
+      manageControls();
+      $slider.addClass("animating");
+      $slider.css("top");
+      $(".slide").removeClass("active");
+      $(".slide-" + curSlide).addClass("active");
+      setTimeout(function () {
+        $slider.removeClass("animating");
+        animating = false;
+      }, animTime);
+    }
+    window.clearTimeout(autoSlideTimeout);
+    $(".slider-pagi__elem").removeClass("active");
+    $(".slider-pagi__elem-" + curSlide).addClass("active");
+    $slider.css("transform", "translate3d(" + -curSlide * 100 + "%,0,0)");
+    $slideBGs.css("transform", "translate3d(" + curSlide * 50 + "%,0,0)");
+    diff = 0;
+    autoSlide();
+  }
+
+  function navigateLeft() {
+    if (animating) return;
+    if (curSlide === 0) {
+      curSlide = numOfSlides;
+    } else {
+      curSlide--;
+    }
+    changeSlides();
+  }
+
+  function navigateRight() {
+    if (animating) return;
+    if (curSlide === numOfSlides) {
+      curSlide = 0;
+    } else {
+      curSlide++;
+    }
+    changeSlides();
+  }
+  $(document).on("mousedown touchstart", ".slider", function (e) {
+    if (animating) return;
+    window.clearTimeout(autoSlideTimeout);
+    var startX = e.pageX || e.originalEvent.touches[0].pageX,
+      winW = $(window).width();
+    diff = 0;
+
+    $(document).on("mousemove touchmove", function (e) {
+      var x = e.pageX || e.originalEvent.touches[0].pageX;
+      diff = ((startX - x) / winW) * 70;
+      if ((!curSlide && diff < 0) || (curSlide === numOfSlides && diff > 0))
+        diff /= 2;
+      $slider.css(
+        "transform",
+        "translate3d(" + (-curSlide * 100 - diff) + "%,0,0)"
+      );
+      $slideBGs.css(
+        "transform",
+        "translate3d(" + (curSlide * 50 + diff / 2) + "%,0,0)"
+      );
+    });
+  });
+
+  $(document).on("mouseup touchend", function (e) {
+    $(document).off("mousemove touchmove");
+    if (animating) return;
+    if (!diff) {
+      changeSlides(true);
+      return;
+    }
+    if (diff > -8 && diff < 8) {
+      changeSlides();
+      return;
+    }
+    if (diff <= -8) {
+      navigateLeft();
+    }
+    if (diff >= 8) {
+      navigateRight();
+    }
+  });
+
+$(document).on("click", "#scroll_in", function (e) {
+    e.preventDefault;
+    var targetOffset = $('#destacado').offset().top - 91;
+    $('html, body').animate({
+      scrollTop: targetOffset
+    }, 550);
+  });
+
+  $(document).on("click", ".slider-control", function () {
+    if ($(this).hasClass("left")) {
+      navigateLeft();
+    } else {
+      navigateRight();
+    }
+  });
+
+  $(document).on("click", ".slider-pagi__elem", function () {
+    curSlide = $(this).data("page");
+    changeSlides();
+  });
+});

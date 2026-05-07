@@ -1,0 +1,660 @@
+/*
+ * WhatsApp Widget Configuration
+ * 
+ * Multiple ways to set the phone number:
+ * 
+ * 1. URL Parameters (highest priority):
+ *    - ?phone=123456789
+ *    - ?whatsapp=123456789 
+ *    - ?number=123456789
+ *    Example: page.html?phone=5491234567890
+ * 
+ * 2. Data attributes on script tag:
+ *    <script src="whatsapp-widget.js" data-whatsapp-phone="5491234567890" data-whatsapp-position="left"><\/script>
+ * 
+ * 3. Global configuration object:
+ *    <script>
+ *      window.WhatsAppWidgetConfig = {
+ *        phoneNumber: '5491234567890',
+ *        theme: 'green',
+ *        position: 'left'
+ *      };
+ *    <\/script>
+ * 
+ * 4. Default fallback number (if none of the above are set)
+ * 
+ * Other parameters:
+ * - theme: 'green', 'blue', 'dark'
+ * - position: 'right', 'left' (default: 'right')
+ */
+(function() {
+    'use strict';
+
+    // Import Google Fonts
+    const fontLink = document.createElement('link');
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap';
+    fontLink.rel = 'stylesheet';
+    document.head.appendChild(fontLink);
+
+    // Inject CSS styles
+    const css = `
+        .arturito-widget-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999999;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        .arturito-float-button {
+            background: var(--arturito-theme-color, #25D366);
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 16px var(--arturito-theme-shadow, rgba(37, 211, 102, 0.4));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+            animation: arturito-pulse 2s infinite;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            letter-spacing: -0.025em;
+        }
+
+        .arturito-float-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px var(--arturito-theme-shadow-hover, rgba(37, 211, 102, 0.6));
+        }
+
+        .arturito-icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        @keyframes arturito-pulse {
+            0% {
+                box-shadow: 0 4px 16px var(--arturito-theme-shadow, rgba(37, 211, 102, 0.4));
+            }
+            50% {
+                box-shadow: 0 4px 16px var(--arturito-theme-shadow, rgba(37, 211, 102, 0.4)), 0 0 0 10px var(--arturito-theme-pulse, rgba(37, 211, 102, 0.1));
+            }
+            100% {
+                box-shadow: 0 4px 16px var(--arturito-theme-shadow, rgba(37, 211, 102, 0.4));
+            }
+        }
+
+        .arturito-form-container {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: white;
+            border-radius: 16px;
+            width: 350px;
+            max-height: 500px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 8px 30px rgba(0, 0, 0, 0.1);
+            transform: scale(0) translate(50%, 50%);
+            transform-origin: bottom right;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .arturito-form-container.arturito-show {
+            transform: scale(1) translate(0, -80px);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Hide button when form is open */
+        .arturito-widget-container.arturito-form-open .arturito-float-button {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .arturito-modal-header {
+            background: var(--arturito-theme-color, #25D366);
+            color: white;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .arturito-modal-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.025em;
+            color: white;
+        }
+
+        .arturito-header-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .arturito-modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+            font-weight: 300;
+        }
+
+        .arturito-modal-close:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .arturito-form {
+            padding: 24px;
+        }
+
+        .arturito-form-group {
+            margin-bottom: 20px;
+        }
+
+        .arturito-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #374151;
+            font-size: 14px;
+            letter-spacing: -0.025em;
+        }
+
+        .arturito-form-group input,
+        .arturito-form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            transition: all 0.2s ease;
+            background-color: #fafafa;
+            color: #374151;
+            letter-spacing: -0.025em;
+        }
+
+        .arturito-form-group input:focus,
+        .arturito-form-group textarea:focus {
+            outline: none;
+            border-color: var(--arturito-theme-color, #25D366);
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
+        }
+
+        .arturito-form-group input::placeholder,
+        .arturito-form-group textarea::placeholder {
+            color: #9ca3af;
+        }
+
+        .arturito-form-group textarea {
+            resize: vertical;
+            min-height: 90px;
+            line-height: 1.5;
+        }
+
+        .arturito-submit-btn {
+            width: 100%;
+            background: var(--arturito-theme-color, #25D366);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            letter-spacing: -0.025em;
+            box-shadow: 0 2px 4px rgba(37, 211, 102, 0.2);
+        }
+
+        .arturito-submit-btn:hover {
+            background: var(--arturito-theme-color-hover, #128C7E);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        }
+
+        .arturito-submit-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(37, 211, 102, 0.2);
+        }
+
+        /* Footer Styles */
+        .arturito-footer {
+            padding: 16px 24px;
+            background-color: #f9fafb;
+            border-top: 1px solid #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #6b7280;
+            text-decoration: none;
+            transition: color 0.2s;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            letter-spacing: -0.025em;
+        }
+
+        .arturito-footer:hover {
+            color: #374151;
+        }
+
+        .arturito-logo {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+
+        /* Theme variants */
+        .arturito-theme-green {
+            --arturito-theme-color: #25D366;
+            --arturito-theme-color-hover: #128C7E;
+            --arturito-theme-shadow: rgba(37, 211, 102, 0.4);
+            --arturito-theme-shadow-hover: rgba(37, 211, 102, 0.6);
+            --arturito-theme-pulse: rgba(37, 211, 102, 0.1);
+        }
+
+        .arturito-theme-blue {
+            --arturito-theme-color: #007ACC;
+            --arturito-theme-color-hover: #005A99;
+            --arturito-theme-shadow: rgba(0, 122, 204, 0.4);
+            --arturito-theme-shadow-hover: rgba(0, 122, 204, 0.6);
+            --arturito-theme-pulse: rgba(0, 122, 204, 0.1);
+        }
+
+        .arturito-theme-dark {
+            --arturito-theme-color: #2D3748;
+            --arturito-theme-color-hover: #1A202C;
+            --arturito-theme-shadow: rgba(45, 55, 72, 0.4);
+            --arturito-theme-shadow-hover: rgba(45, 55, 72, 0.6);
+            --arturito-theme-pulse: rgba(45, 55, 72, 0.1);
+        }
+
+        /* Position variants */
+        .arturito-position-left {
+            left: 20px;
+            right: auto;
+        }
+
+        .arturito-position-right {
+            right: 20px;
+            left: auto;
+        }
+
+        /* Position-specific form positioning */
+        .arturito-position-left .arturito-form-container {
+            right: auto;
+            left: 0;
+            transform-origin: bottom left;
+        }
+
+        .arturito-position-left .arturito-form-container.arturito-show {
+            transform: scale(1) translate(0, -80px);
+        }
+
+        .arturito-position-right .arturito-form-container {
+            right: 0;
+            left: auto;
+            transform-origin: bottom right;
+        }
+
+        .arturito-position-right .arturito-form-container.arturito-show {
+            transform: scale(1) translate(0, -80px);
+        }
+
+        @media (max-width: 480px) {
+            .arturito-widget-container {
+                bottom: 15px;
+            }
+
+            .arturito-widget-container.arturito-position-left {
+                left: 15px;
+                right: auto;
+            }
+
+            .arturito-widget-container.arturito-position-right {
+                right: 15px;
+                left: auto;
+            }
+
+            .arturito-float-button {
+                padding: 10px 14px;
+                font-size: 13px;
+            }
+            
+            .arturito-icon {
+                width: 20px;
+                height: 20px;
+            }
+
+            .arturito-form-container {
+                width: 320px;
+            }
+
+            .arturito-modal-header {
+                padding: 16px 20px;
+            }
+
+            .arturito-modal-header h3 {
+                font-size: 16px;
+                color: white;
+            }
+
+            .arturito-header-icon {
+                width: 18px;
+                height: 18px;
+            }
+
+            .arturito-form {
+                padding: 20px;
+            }
+
+            .arturito-footer {
+                padding: 12px 20px;
+                font-size: 11px;
+            }
+
+            .arturito-logo {
+                width: 14px;
+                height: 14px;
+            }
+        }
+    `;
+
+    // Inject CSS into the page
+    const style = document.createElement('style');
+    style.textContent = css;
+    document.head.appendChild(style);
+
+    // Configuration object
+    window.WhatsAppWidgetConfig = window.WhatsAppWidgetConfig || {};
+    
+    // Default configuration
+    const defaultConfig = {
+        phoneNumber: '1234567890', // Default fallback number
+        position: 'right', // 'right' or 'left'
+        theme: 'green'
+    };
+
+    // Merge user config with defaults
+    const config = Object.assign({}, defaultConfig, window.WhatsAppWidgetConfig);
+
+    // Enhanced parameter configuration
+    function getPhoneNumber() {
+        // Priority order: URL parameter > data attribute > global config > default
+        const urlParams = new URLSearchParams(window.location.search);
+        const scriptTag = document.querySelector('script[data-whatsapp-phone], script[data-whatsapp-position]');
+        
+        return urlParams.get('phone') || 
+               urlParams.get('whatsapp') || 
+               urlParams.get('number') ||
+               (scriptTag && scriptTag.getAttribute('data-whatsapp-phone')) ||
+               config.phoneNumber;
+    }
+
+    function getPosition() {
+        // Priority order: URL parameter > data attribute > global config > default
+        const urlParams = new URLSearchParams(window.location.search);
+        const scriptTag = document.querySelector('script[data-whatsapp-phone], script[data-whatsapp-position]');
+        
+        const urlPosition = urlParams.get('position');
+        const dataPosition = scriptTag && scriptTag.getAttribute('data-whatsapp-position');
+        
+        // Validate position values
+        const validPosition = (pos) => pos === 'left' || pos === 'right';
+        
+        if (urlPosition && validPosition(urlPosition)) return urlPosition;
+        if (dataPosition && validPosition(dataPosition)) return dataPosition;
+        
+        return config.position;
+    }
+
+    // Set phone number and position from various sources
+    config.phoneNumber = getPhoneNumber();
+    config.position = getPosition();
+
+    // Create HTML structure
+    const widgetHTML = `
+        <div id="arturito-widget-container" class="arturito-widget-container arturito-theme-${config.theme} arturito-position-${config.position}">
+            <!-- Floating WhatsApp Button -->
+            <button id="arturito-float-button" class="arturito-float-button" aria-label="Abrir chat de WhatsApp">
+                <svg class="arturito-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.488" fill="currentColor"/>
+                </svg>
+                <span>¡Chateemos!</span>
+            </button>
+
+            <!-- Chat Form Container -->
+            <div id="arturito-form-container" class="arturito-form-container">
+                <div class="arturito-modal-header">
+                    <h3>
+                        <svg class="arturito-header-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.488" fill="currentColor"/>
+                        </svg>
+                        Completa tus datos
+                    </h3>
+                    <button id="arturito-modal-close" class="arturito-modal-close" aria-label="Cerrar">
+                        ×
+                    </button>
+                </div>
+                
+                <form id="arturito-form" class="arturito-form">
+                    <div class="arturito-form-group">
+                        <label for="arturito-name">Nombre *</label>
+                        <input type="text" id="arturito-name" name="name" placeholder="Tu nombre completo" required>
+                    </div>
+
+                    <div class="arturito-form-group">
+                        <label for="arturito-message">Mensaje *</label>
+                        <textarea id="arturito-message" name="message" placeholder="Escribe tu mensaje aquí..." rows="4" required></textarea>
+                    </div>
+
+                    <button type="submit" class="arturito-submit-btn">
+                        Iniciar Chat
+                    </button>
+                </form>
+                
+                <!-- Footer -->
+                <a href="https://arturito.ai" target="_blank" class="arturito-footer">
+                    <span>Con tecnología de Arturito.ai</span>
+                    <svg class="arturito-logo" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M29.14 18.0562V30.7178C29.14 31.5859 28.7306 31.9994 27.8584 31.9994H23.6557C22.7835 31.9994 22.3742 31.5856 22.3742 30.7178V25.4392L11.0969 26.5645C8.62602 26.8001 7.74072 27.4345 7.62729 29.1641L7.61229 29.1575V30.7178C7.61229 31.5859 7.20292 31.9994 6.33075 31.9994H2.07646C1.20429 31.9994 0.794922 31.5856 0.794922 30.7178V30.255C0.794922 29.8713 0.805547 29.5028 0.831484 29.1469C0.87867 28.3947 0.977106 27.7066 1.1271 27.081C1.44428 25.7523 1.98646 24.7086 2.74301 23.952C3.75017 22.9833 5.37483 22.3061 7.61229 21.8774C8.33446 21.7402 9.12101 21.6268 9.96974 21.5408L20.7348 20.4671C21.8108 20.3127 22.3742 19.6955 22.3742 18.6196C22.3742 16.5687 21.4526 15.9066 18.7864 15.9066H6.74261C5.87044 15.9066 5.46108 15.4928 5.46108 14.625V10.881C5.46108 10.0089 5.87044 9.59949 6.74261 9.59949H18.9386C20.2158 9.59949 21.3583 9.67668 22.3742 9.83324C27.1835 10.581 29.14 13.1488 29.14 18.0565V18.0562Z" fill="url(#arturito-paint0-linear)"/>
+                        <path d="M23.361 6.47299C23.2732 6.458 22.9801 6.418 22.7498 6.193C22.427 5.87769 22.4326 5.62582 22.4357 5.32427V1.11685C22.4357 0.49999 22.9357 0 23.5526 0H27.9234C28.7962 0 29.2056 0.409367 29.2056 1.28216C29.1978 3.57618 29.19 5.46395 29.1822 7.75828C29.1806 8.21952 28.6681 8.44702 28.3044 8.16327C28.0322 7.95109 27.7066 7.75078 27.4866 7.6336C26.92 7.33204 26.5788 7.20954 26.3107 7.11048C25.5304 6.83486 24.9438 6.71986 24.3119 6.60424C23.922 6.53299 23.5876 6.50174 23.361 6.47299Z" fill="url(#arturito-paint1-linear)"/>
+                        <defs>
+                            <linearGradient id="arturito-paint0-linear" x1="33.9661" y1="-3.39056" x2="-8.95488" y2="40.0461" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#F1A85B"/>
+                                <stop offset="1" stop-color="#9A6EFF"/>
+                            </linearGradient>
+                            <linearGradient id="arturito-paint1-linear" x1="33.9661" y1="-3.39056" x2="-8.95488" y2="40.0461" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#F1A85B"/>
+                                <stop offset="1" stop-color="#9A6EFF"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    `;
+
+    // Wait for DOM to be ready
+    function init() {
+        // Insert widget into page
+        document.body.insertAdjacentHTML('beforeend', widgetHTML);
+
+        // Get DOM elements
+        const container = document.getElementById('arturito-widget-container');
+        const floatButton = document.getElementById('arturito-float-button');
+        const formContainer = document.getElementById('arturito-form-container');
+        const modalClose = document.getElementById('arturito-modal-close');
+        const form = document.getElementById('arturito-form');
+
+        // Apply configuration
+        function applyConfig() {
+            // Apply theme
+            container.className = container.className.replace(/arturito-theme-\w+/, '') + ' arturito-theme-' + config.theme;
+            
+            // Apply position
+            container.className = container.className.replace(/arturito-position-\w+/, '') + ' arturito-position-' + config.position;
+        }
+
+        // Open form
+        function openForm() {
+            container.classList.add('arturito-form-open');
+            formContainer.classList.add('arturito-show');
+            // Focus on first input after animation
+            setTimeout(() => {
+                form.querySelector('input').focus();
+            }, 300);
+        }
+
+        // Close form
+        function closeForm() {
+            container.classList.remove('arturito-form-open');
+            formContainer.classList.remove('arturito-show');
+            form.reset();
+        }
+
+        // Check if current URL matches a property page pattern
+        function isPropertyPage() {
+            const patterns = [
+                { regex: /\/propiedad\/(\d+)_/, name: 'propiedad con underscore' },
+                { regex: /\/propiedad\/(\d+)/, name: 'propiedad' },
+                { regex: /\/property\/(\d+)_/, name: 'property con underscore' },
+                { regex: /\/property\/(\d+)/, name: 'property' },
+                { regex: /\/p\/(\d+)/, name: 'p (short)' },
+                { regex: /\/inmueble\/(\d+)_/, name: 'inmueble con underscore' },
+                { regex: /\/inmueble\/(\d+)/, name: 'inmueble' },
+                { regex: /\/propiedades-[^\/]+-(\d+)$/, name: 'propiedades-...-id' },
+                { regex: /-(\d{5,})$/, name: 'termina en -ID (5+ dígitos)' },
+            ];
+            
+            const currentUrl = window.location.href;
+            console.log('[WhatsApp Widget] Checking URL:', currentUrl);
+            
+            for (const pattern of patterns) {
+                const match = pattern.regex.test(currentUrl);
+                if (match) {
+                    console.log('[WhatsApp Widget] ✅ Match found:', pattern.name);
+                    console.log('[WhatsApp Widget] Pattern:', pattern.regex.toString());
+                    return true;
+                }
+            }
+            
+            console.log('[WhatsApp Widget] ❌ No property pattern matched');
+            return false;
+        }
+
+        // Handle form submission
+        function handleSubmit(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(form);
+            const name = formData.get('name').trim();
+            const message = formData.get('message').trim();
+
+            // Validate form
+            if (!name || !message) {
+                alert('Por favor, completa todos los campos');
+                return;
+            }
+
+            // Build message with optional property URL
+            let fullMessage = `Hola, mi nombre es ${name}. ${message}`;
+            
+            // If on a property page, append the URL
+            const isProperty = isPropertyPage();
+            console.log('[WhatsApp Widget] Is property page:', isProperty);
+            
+            if (isProperty) {
+                fullMessage += `\n\n${window.location.href}`;
+                console.log('[WhatsApp Widget] Appending URL to message');
+            }
+
+            // Format message for WhatsApp
+            const encodedMessage = encodeURIComponent(fullMessage);
+            console.log('[WhatsApp Widget] Final message:', fullMessage);
+
+            // Open WhatsApp with the formatted message
+            const whatsappUrl = `https://wa.me/${config.phoneNumber}?text=${encodedMessage}`;
+            console.log('[WhatsApp Widget] WhatsApp URL:', whatsappUrl);
+            window.open(whatsappUrl, '_blank');
+
+            // Close form
+            closeForm();
+        }
+
+        // Event listeners
+        floatButton.addEventListener('click', openForm);
+        modalClose.addEventListener('click', closeForm);
+        form.addEventListener('submit', handleSubmit);
+
+        // Escape key to close form
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && formContainer.classList.contains('arturito-show')) {
+                closeForm();
+            }
+        });
+
+        // Close form when clicking outside
+        document.addEventListener('click', function(e) {
+            if (formContainer.classList.contains('arturito-show') && 
+                !formContainer.contains(e.target) && 
+                !floatButton.contains(e.target)) {
+                closeForm();
+            }
+        });
+
+        // Public API
+        window.WhatsAppWidget = {
+            open: openForm,
+            close: closeForm,
+            updateConfig: function(newConfig) {
+                Object.assign(config, newConfig);
+                applyConfig();
+            }
+        };
+
+        // Initialize
+        applyConfig();
+
+        // Auto-configuration from URL parameters and data attributes
+        const urlParams = new URLSearchParams(window.location.search);
+        
+                    // Other URL parameters
+            if (urlParams.get('theme')) {
+                config.theme = urlParams.get('theme');
+                applyConfig();
+            }
+    }
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
