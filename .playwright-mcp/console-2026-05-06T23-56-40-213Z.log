@@ -1,0 +1,4 @@
+[     407ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ chrome-error://chromewebdata/:0
+[     410ms] [ERROR] Refused to display 'https://api.leadconnectorhq.com/' in a frame because it set 'X-Frame-Options' to 'deny'. @ chrome-error://chromewebdata/:0
+[ 1136242ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ chrome-error://chromewebdata/:0
+[ 1136244ms] [ERROR] Refused to display 'https://api.leadconnectorhq.com/' in a frame because it set 'X-Frame-Options' to 'deny'. @ chrome-error://chromewebdata/:0

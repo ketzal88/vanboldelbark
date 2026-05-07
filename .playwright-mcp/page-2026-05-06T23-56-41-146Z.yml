@@ -1,0 +1,152 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - link "REMAX" [ref=e3] [cursor=pointer]:
+      - /url: /
+      - img [ref=e4]:
+        - generic [ref=e8]: RE/MAX
+      - generic [ref=e12]: REMAX
+    - navigation [ref=e13]:
+      - list [ref=e14]:
+        - listitem [ref=e15]:
+          - link "Comprar" [ref=e16] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=e17]:
+          - link "Vender" [ref=e18] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=e19]:
+          - link "Alquilar" [ref=e20] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=e21]:
+          - link "Desarrollos" [ref=e22] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=e23]:
+          - link "Franquicias" [ref=e24] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=e25]:
+          - link "Blog" [ref=e26] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=e27]:
+          - link "Contacto" [ref=e28] [cursor=pointer]:
+            - /url: "#"
+    - generic [ref=e29]:
+      - button "☺" [ref=e30] [cursor=pointer]
+      - button "☰" [ref=e31] [cursor=pointer]
+  - generic [ref=e32]:
+    - generic [ref=e34]:
+      - navigation [ref=e35]:
+        - link "Inicio" [ref=e36] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e37]: ›
+        - generic [ref=e38]: Vender
+      - generic [ref=e39]: Propietarios
+      - heading "Vendé tu propiedad" [level=1] [ref=e40]:
+        - text: Vendé tu
+        - text: propiedad
+      - paragraph [ref=e41]: Completá el formulario y una oficina adherida a la red REMAX se pondrá en contacto con vos para continuar con el proceso.
+      - generic [ref=e42]:
+        - generic [ref=e43]: +30 años en Argentina
+        - generic [ref=e45]: +200 oficinas
+        - generic [ref=e47]: "Red #1 mundial"
+    - generic [ref=e49]:
+      - generic [ref=e50]:
+        - heading "Contactate con un agente REMAX" [level=2] [ref=e51]:
+          - text: Contactate con
+          - text: un agente REMAX
+        - paragraph [ref=e52]: Completá tus datos y nos ponemos en contacto a la brevedad.
+      - paragraph [ref=e55]:
+        - text: Al enviar, aceptás los
+        - link "Términos de Uso" [ref=e56] [cursor=pointer]:
+          - /url: "#"
+        - text: y la
+        - link "Política de Privacidad" [ref=e57] [cursor=pointer]:
+          - /url: "#"
+        - text: de REMAX.
+  - contentinfo [ref=e58]:
+    - generic [ref=e59]:
+      - generic [ref=e60]:
+        - heading "Propiedades" [level=4] [ref=e61]
+        - list [ref=e62]:
+          - listitem [ref=e63]:
+            - link "Comprar" [ref=e64] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e65]:
+            - link "Alquilar" [ref=e66] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e67]:
+            - link "Vender" [ref=e68] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e69]:
+            - link "Desarrollos" [ref=e70] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e71]:
+            - link "Tasaciones" [ref=e72] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=e73]:
+        - heading "Alquilar en" [level=4] [ref=e74]
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "Buenos Aires" [ref=e77] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e78]:
+            - link "Córdoba" [ref=e79] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e80]:
+            - link "Rosario" [ref=e81] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e82]:
+            - link "Mendoza" [ref=e83] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e84]:
+            - link "La Plata" [ref=e85] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=e86]:
+        - heading "Comprar en" [level=4] [ref=e87]
+        - list [ref=e88]:
+          - listitem [ref=e89]:
+            - link "Buenos Aires" [ref=e90] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e91]:
+            - link "Santa Fe" [ref=e92] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e93]:
+            - link "Bariloche" [ref=e94] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e95]:
+            - link "Mendoza" [ref=e96] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e97]:
+            - link "Mar del Plata" [ref=e98] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=e99]:
+        - heading "REMAX" [level=4] [ref=e100]
+        - list [ref=e101]:
+          - listitem [ref=e102]:
+            - link "Franquicias" [ref=e103] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e104]:
+            - link "Blog" [ref=e105] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e106]:
+            - link "Contacto" [ref=e107] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e108]:
+            - link "Términos de Uso" [ref=e109] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e110]:
+            - link "Privacidad" [ref=e111] [cursor=pointer]:
+              - /url: "#"
+    - generic [ref=e112]:
+      - generic [ref=e113]: © 2025 REMAX Argentina. Todos los derechos reservados. Powered by QR Solutions.
+      - generic [ref=e114]:
+        - link "Facebook" [ref=e115] [cursor=pointer]:
+          - /url: "#"
+          - img "Facebook" [ref=e116]
+        - link "Instagram" [ref=e117] [cursor=pointer]:
+          - /url: "#"
+          - img "Instagram" [ref=e118]
+        - link "YouTube" [ref=e119] [cursor=pointer]:
+          - /url: "#"
+          - img "YouTube" [ref=e120]
+        - link "Twitter" [ref=e121] [cursor=pointer]:
+          - /url: "#"
+          - img "Twitter" [ref=e122]

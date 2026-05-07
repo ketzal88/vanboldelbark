@@ -1,0 +1,261 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - list [ref=e4]:
+        - listitem [ref=e5]:
+          - link "Comprar" [ref=e6] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=e7]:
+          - link "Alquilar" [ref=e8] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=e9]:
+          - link "Vender" [ref=e10] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=e11]:
+          - link "Más" [ref=e12] [cursor=pointer]:
+            - /url: "#"
+    - button "Iniciar sesión" [ref=e14] [cursor=pointer]
+  - main [ref=e15]:
+    - generic [ref=e17]:
+      - heading "Vendé tu propiedad" [level=1] [ref=e18]
+      - paragraph [ref=e19]: Completá el formulario y una oficina adherida a la red REMAX se pondrá en contacto con vos para continuar con el proceso.
+      - generic [ref=e20]:
+        - generic [ref=e21]:
+          - generic [ref=e22]: Nombre y apellido *
+          - generic [ref=e23]:
+            - textbox "Nombre y apellido *" [ref=e24]
+            - button "✕" [ref=e25] [cursor=pointer]
+          - generic [ref=e26]: Ingresá un nombre y apellido
+        - generic [ref=e27]:
+          - generic [ref=e28]: Email
+          - generic [ref=e29]:
+            - textbox "Email" [ref=e30]
+            - button "✕" [ref=e31] [cursor=pointer]
+        - generic [ref=e32]:
+          - generic [ref=e33]: Teléfono
+          - generic [ref=e34]:
+            - textbox "Teléfono" [ref=e35]
+            - button "✕" [ref=e36] [cursor=pointer]
+          - generic [ref=e37]: Si vivís en área 02/54/9960384/9512447 poné esto
+        - generic [ref=e38]:
+          - generic [ref=e39]: Localidad/provincia
+          - generic [ref=e40]:
+            - textbox "Localidad/provincia" [ref=e41]
+            - button "✕" [ref=e42] [cursor=pointer]
+        - generic [ref=e43]:
+          - generic [ref=e44]: Tipo de propiedad
+          - combobox "Tipo de propiedad" [ref=e46] [cursor=pointer]:
+            - option "Tipo de propiedad" [disabled] [selected]
+            - option "Casa"
+            - option "Departamento"
+            - option "PH"
+            - option "Local comercial"
+            - option "Oficina"
+            - option "Terreno / Lote"
+            - option "Campo / Chacra"
+            - option "Otro"
+        - generic [ref=e47]:
+          - generic [ref=e48]: Comentarios
+          - textbox "Comentarios" [ref=e49]
+          - generic [ref=e51]: 0/250
+        - button "Enviar" [ref=e52] [cursor=pointer]
+        - paragraph [ref=e53]:
+          - text: Al enviar aceptás los
+          - link "Términos y condiciones de uso" [ref=e54] [cursor=pointer]:
+            - /url: "#"
+          - text: y la
+          - link "Política de Privacidad" [ref=e55] [cursor=pointer]:
+            - /url: "#"
+    - img "Vendé tu propiedad con REMAX" [ref=e57]
+  - contentinfo [ref=e58]:
+    - generic [ref=e59]:
+      - generic [ref=e60]:
+        - link [ref=e61] [cursor=pointer]:
+          - /url: /
+          - img [ref=e62]:
+            - generic [ref=e66]: RE/MAX
+        - list [ref=e70]:
+          - listitem [ref=e71]:
+            - link "Propiedades" [ref=e72] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e73]:
+            - link "Comprar" [ref=e74] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e75]:
+            - link "Alquilar" [ref=e76] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e77]:
+            - link "Vender" [ref=e78] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e79]:
+            - link "Franquicias" [ref=e80] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e81]:
+            - link "Oficinas" [ref=e82] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e83]:
+            - link "Index REMAX" [ref=e84] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e85]:
+            - link "Contacto" [ref=e86] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e87]:
+            - link "Términos y Condiciones" [ref=e88] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e89]:
+            - link "Política de Privacidad" [ref=e90] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=e91]:
+        - generic [ref=e92]: Encontrá más propiedades
+        - list [ref=e93]:
+          - listitem [ref=e94]:
+            - link "Propiedades en La Plata" [ref=e95] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e96]:
+            - link "Propiedades en Santa Fé" [ref=e97] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e98]:
+            - link "Propiedades en Mendoza" [ref=e99] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e100]:
+            - link "Propiedades en Bariloche" [ref=e101] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e102]:
+            - link "Propiedades en PH" [ref=e103] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e104]:
+            - link "Propiedades en Palermo" [ref=e105] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e106]:
+            - link "Propiedades en Rosario" [ref=e107] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e108]:
+            - link "Propiedades en Nordelta" [ref=e109] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e110]:
+            - link "Propiedades en Cañuelas" [ref=e111] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e112]:
+            - link "Propiedades en Balcarce" [ref=e113] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e114]:
+            - link "Propiedades en San Pedro" [ref=e115] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e116]:
+            - link "Propiedades en San Juan" [ref=e117] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e118]:
+            - link "Propiedades en Tigre" [ref=e119] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e120]:
+            - link "Propiedades en CABA" [ref=e121] [cursor=pointer]:
+              - /url: "#"
+        - link "Ver más ↓" [ref=e122] [cursor=pointer]:
+          - /url: "#"
+      - generic [ref=e123]:
+        - generic [ref=e124]: Alquilar
+        - list [ref=e125]:
+          - listitem [ref=e126]:
+            - link "Departamentos en alquiler en Tandil" [ref=e127] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e128]:
+            - link "Departamentos en alquiler en Posadas" [ref=e129] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e130]:
+            - link "Departamentos en alquiler en Jujuy" [ref=e131] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e132]:
+            - link "Departamentos en alquiler en San Juan" [ref=e133] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e134]:
+            - link "Departamentos en alquiler en Córdoba" [ref=e135] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e136]:
+            - link "Departamentos en alquiler en Bariloche" [ref=e137] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e138]:
+            - link "Departamentos en alquiler en CABA" [ref=e139] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e140]:
+            - link "Casas en alquiler en Tandil" [ref=e141] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e142]:
+            - link "Casas en alquiler en Posadas" [ref=e143] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e144]:
+            - link "Casas en alquiler en Jujuy" [ref=e145] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e146]:
+            - link "Casas en alquiler en Bariloche" [ref=e147] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e148]:
+            - link "Casas en alquiler en San Juan" [ref=e149] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e150]:
+            - link "Casas en alquiler en Córdoba" [ref=e151] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e152]:
+            - link "Casas en alquiler en Rosario" [ref=e153] [cursor=pointer]:
+              - /url: "#"
+        - link "Ver más ↓" [ref=e154] [cursor=pointer]:
+          - /url: "#"
+      - generic [ref=e155]:
+        - generic [ref=e156]: Comprar
+        - list [ref=e157]:
+          - listitem [ref=e158]:
+            - link "Departamentos en venta en Tandil" [ref=e159] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e160]:
+            - link "Departamentos en venta en Posadas" [ref=e161] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e162]:
+            - link "Departamentos en venta en Jujuy" [ref=e163] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e164]:
+            - link "Departamentos en venta en San Juan" [ref=e165] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e166]:
+            - link "Departamentos en venta en Córdoba" [ref=e167] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e168]:
+            - link "Departamentos en venta en Santa Fé" [ref=e169] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e170]:
+            - link "Departamentos en venta en Bariloche" [ref=e171] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e172]:
+            - link "Departamentos en venta en Mar del Plata" [ref=e173] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e174]:
+            - link "Departamentos en venta en Palermo" [ref=e175] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e176]:
+            - link "Departamentos en venta en Belgrano" [ref=e177] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e178]:
+            - link "Departamentos en venta en CABA" [ref=e179] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e180]:
+            - link "Casas en alquiler en Córdoba" [ref=e181] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e182]:
+            - link "Casas en alquiler en Rosario" [ref=e183] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e184]:
+            - link "Casas en alquiler en CABA" [ref=e185] [cursor=pointer]:
+              - /url: "#"
+        - link "Ver más ↓" [ref=e186] [cursor=pointer]:
+          - /url: "#"
+    - generic [ref=e187]:
+      - generic [ref=e188]: Información al consumidor
+      - generic [ref=e189]:
+        - link "Facebook" [ref=e190] [cursor=pointer]:
+          - /url: "#"
+          - img "Facebook" [ref=e191]
+        - link "Instagram" [ref=e192] [cursor=pointer]:
+          - /url: "#"
+          - img "Instagram" [ref=e193]
+        - link "Twitter" [ref=e194] [cursor=pointer]:
+          - /url: "#"
+          - img "X" [ref=e195]
+      - generic [ref=e196]: Powered by QR Solutions
