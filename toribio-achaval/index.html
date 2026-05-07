@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Tasaciones</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Open Sans', sans-serif; background: #fff; color: #333; }
+
+  /* Header */
+  .hdr { background: #fff; border-bottom: 2px solid #e5e5e5; height: 72px; display: flex; align-items: center; padding: 0 32px; justify-content: flex-end; }
+  .hdr nav a { margin-left: 24px; color: #444; font-size: .85rem; font-family: 'Raleway', sans-serif; font-weight: 600; text-decoration: none; }
+  .hdr nav a:hover, .hdr nav a.active { color: #e57e2c; }
+
+  /* Banner */
+  .banner {
+    background: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80') center/cover no-repeat;
+    height: 320px; display: flex; align-items: center; justify-content: center; position: relative;
+  }
+  .banner::after { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,.4); }
+
+  /* Content section */
+  .section { padding: 64px 32px; }
+  .container { max-width: 1040px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+
+  .desc h1 { font-family: 'Raleway', sans-serif; font-size: 2rem; font-weight: 900; margin-bottom: 16px; }
+  .desc p { font-size: .9rem; color: #555; line-height: 1.75; margin-bottom: 12px; }
+
+  .info-box { margin-top: 28px; padding: 20px; border: 1px solid #eee; border-radius: 3px; }
+  .info-box h2 { font-family: 'Raleway', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 12px; }
+  .info-box p { font-size: .875rem; color: #555; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .info-box a { color: #333; text-decoration: none; }
+  .info-box a:hover { color: #e57e2c; }
+
+  .btn-outline { display: inline-block; margin-top: 14px; border: 2px solid #e57e2c; color: #e57e2c; padding: 9px 22px; border-radius: 3px; font-family: 'Raleway', sans-serif; font-weight: 700; font-size: .85rem; text-decoration: none; transition: .15s; }
+  .btn-outline:hover { background: #e57e2c; color: #fff; }
+
+  /* Form */
+  .form-col { display: flex; flex-direction: column; gap: 14px; }
+
+  .form-col input, .form-col textarea {
+    width: 100%; padding: 12px 14px;
+    border: 1px solid #ddd; border-radius: 3px;
+    font-family: inherit; font-size: .875rem; color: #333;
+    outline: none; transition: border-color .15s;
+  }
+  .form-col input:focus, .form-col textarea:focus { border-color: #e57e2c; }
+  .form-col textarea { height: 130px; resize: vertical; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .btn-orange {
+    background: #e57e2c; color: #fff; border: none; padding: 13px 32px;
+    font-family: 'Raleway', sans-serif; font-weight: 700; font-size: .9rem;
+    cursor: pointer; border-radius: 3px; transition: background .15s; align-self: flex-start;
+  }
+  .btn-orange:hover { background: #c96a1a; }
+
+  /* Footer */
+  footer { background: #222; color: #ccc; padding: 28px 32px; }
+  .footer-inner { max-width: 1040px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .footer-links a { color: #aaa; font-size: .8rem; margin-right: 18px; text-decoration: none; }
+  .footer-links a:hover { color: #e57e2c; }
+  footer p { font-size: .75rem; color: #888; }
+
+  @media (max-width: 768px) {
+    .container { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .hdr nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <nav>
+    <a href="#">La Empresa</a>
+    <a href="#" class="active">Tasaciones</a>
+    <a href="#">Residencial</a>
+    <a href="#">Inmuebles comerciales</a>
+    <a href="#">Emprendimientos</a>
+    <a href="#">Blog</a>
+  </nav>
+</header>
+
+<div class="banner"></div>
+
+<section class="section">
+  <div class="container">
+    <div class="desc">
+      <h1>Tasaciones</h1>
+      <p>¿Querés vender o alquilar tu propiedad? Aquí podrás contactarte con nosotros para conocer el valor de la misma.</p>
+      <p>Completá tus datos y describí las características de tu propiedad. Un tasador se pondrá en contacto con vos, y te asesorará en tu consulta.</p>
+      <div class="info-box">
+        <h2>Casa Central</h2>
+        <p>📞 <a href="tel:48194000">4819-4000</a></p>
+        <p>💬 <a href="https://api.whatsapp.com/send?phone=5491165256809" target="_blank">1165256809</a></p>
+        <a href="#" class="btn-outline">Ver más sucursales</a>
+      </div>
+    </div>
+
+    <div class="form-col">
+      <div class="form-row">
+        <input type="text" name="name" placeholder="Nombre *" required/>
+        <input type="text" name="apellido" placeholder="Apellido *" required/>
+      </div>
+      <input type="email" name="email" placeholder="E-mail *" required/>
+      <input type="tel" name="telefono" placeholder="Teléfono *" required/>
+      <textarea name="comentario" placeholder="Comentario"></textarea>
+      <button type="submit" class="btn-orange">Enviar</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="#">La empresa</a>
+      <a href="#">Servicios</a>
+      <a href="#">Tasaciones</a>
+      <a href="#">Residencial</a>
+      <a href="#">Contacto</a>
+    </div>
+    <p>Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+</body>
+</html>

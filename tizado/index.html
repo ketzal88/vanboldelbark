@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Contacto | Tasaciones</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Open Sans', sans-serif; background: #f2f2f2; color: #333; min-height: 100vh; display: flex; flex-direction: column; }
+
+  .top-bar { background: #555; height: 38px; display: flex; align-items: center; padding: 0 24px; gap: 20px; }
+  .top-bar a { color: #ccc; font-size: .75rem; text-decoration: none; }
+  .top-bar a:hover { color: #fff; }
+
+  .nav-bar { background: #fff; border-bottom: 1px solid #ddd; height: 52px; display: flex; align-items: center; padding: 0 24px; gap: 28px; }
+  .nav-bar a { color: #444; font-size: .85rem; font-weight: 600; text-decoration: none; }
+  .nav-bar a:hover { color: #a00; }
+
+  main { flex: 1; max-width: 1100px; width: 100%; margin: 40px auto; padding: 0 24px; }
+
+  .forms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+
+  .form-section h2 { font-size: 1.4rem; font-weight: 700; color: #333; margin-bottom: 20px; }
+
+  .field-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .field-group.full { grid-template-columns: 1fr; }
+
+  label { display: block; font-size: .75rem; font-weight: 600; color: #555; margin-bottom: 4px; }
+  label .req { color: #a00; }
+
+  input[type="text"], input[type="email"], input[type="tel"], select, textarea {
+    width: 100%; padding: 8px 10px; border: 1px solid #ccc; background: #fff;
+    font-family: inherit; font-size: .875rem; color: #333; outline: none;
+    transition: border-color .15s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: #888; }
+  textarea { height: 120px; resize: vertical; }
+  select { cursor: pointer; }
+
+  .btn-submit {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #555; color: #fff; border: none; padding: 10px 22px;
+    font-family: inherit; font-size: .875rem; font-weight: 700; cursor: pointer;
+    transition: background .15s; margin-top: 8px;
+  }
+  .btn-submit:hover { background: #333; }
+  .btn-submit .arrow { font-size: 1rem; }
+
+  .divider { border: none; border-left: 1px solid #ddd; }
+
+  footer { background: #555; color: #ccc; text-align: center; padding: 18px; font-size: .75rem; margin-top: auto; }
+
+  @media (max-width: 768px) {
+    .forms-grid { grid-template-columns: 1fr; }
+    .divider { display: none; }
+    .field-group { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="#">Red de Oficinas</a>
+  <a href="#">Contáctenos</a>
+</div>
+
+<div class="nav-bar">
+  <a href="#">Höli Haus</a>
+  <a href="#">Obras</a>
+  <a href="#">Barrios Cerrados</a>
+  <a href="#">Patagonia</a>
+  <a href="#">Tasaciones</a>
+</div>
+
+<main>
+  <div class="forms-grid">
+
+    <!-- Tasaciones -->
+    <div class="form-section">
+      <h2>Tasaciones</h2>
+      <form novalidate>
+        <div class="field-group">
+          <div>
+            <label>Nombre <span class="req">*</span></label>
+            <input type="text" placeholder="" required/>
+          </div>
+          <div>
+            <label>Teléfono</label>
+            <input type="tel" placeholder=""/>
+          </div>
+        </div>
+        <div class="field-group">
+          <div>
+            <label>Email <span class="req">*</span></label>
+            <input type="email" placeholder="" required/>
+          </div>
+          <div>
+            <label>Ubicación <span class="req">*</span></label>
+            <select required>
+              <option value="" disabled selected>Seleccione una ubicación</option>
+              <option>Ciudad de Buenos Aires</option>
+              <option>Gran Buenos Aires</option>
+              <option>Patagonia</option>
+              <option>Interior</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-group full">
+          <div>
+            <label>Mensaje <span class="req">*</span></label>
+            <textarea required></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn-submit">Pedir tasación <span class="arrow">›</span></button>
+      </form>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Contáctenos -->
+    <div class="form-section">
+      <h2>Contáctenos</h2>
+      <form novalidate>
+        <div class="field-group">
+          <div>
+            <label>Nombre <span class="req">*</span></label>
+            <input type="text" placeholder="" required/>
+          </div>
+          <div>
+            <label>Teléfono</label>
+            <input type="tel" placeholder=""/>
+          </div>
+        </div>
+        <div class="field-group">
+          <div>
+            <label>Email <span class="req">*</span></label>
+            <input type="email" placeholder="" required/>
+          </div>
+          <div>
+            <label>Ubicación</label>
+            <select>
+              <option value="" disabled selected>Seleccione una ubicación</option>
+              <option>Ciudad de Buenos Aires</option>
+              <option>Gran Buenos Aires</option>
+              <option>Patagonia</option>
+              <option>Interior</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-group full">
+          <div>
+            <label>Mensaje <span class="req">*</span></label>
+            <textarea required></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn-submit">Enviar Mensaje <span class="arrow">›</span></button>
+      </form>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <p>Responsable Matriculado: Según oficina interviniente.</p>
+</footer>
+
+</body>
+</html>

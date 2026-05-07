@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Tasaciones | Propiedades</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --green: #3a7d44; --green-light: #4caf50; --text: #555; --dark: #222; }
+  body { font-family: 'Montserrat', sans-serif; background: #fff; color: var(--text); }
+
+  /* Header */
+  .hdr { background: #fff; border-bottom: 2px solid var(--green); height: 68px; display: flex; align-items: center; padding: 0 32px; justify-content: flex-end; }
+  .hdr nav a { margin-left: 22px; color: #444; font-size: .82rem; font-weight: 600; text-decoration: none; }
+  .hdr nav a:hover { color: var(--green); }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
+                url('https://images.unsplash.com/photo-1582407947304-fd86f28f4c73?w=1600&q=80') center/cover no-repeat;
+    padding: 72px 32px; color: #fff; text-align: center;
+  }
+  .hero h1 { font-size: 2.1rem; font-weight: 700; margin-bottom: 14px; }
+  .hero p { font-size: 1rem; opacity: .88; max-width: 540px; margin: 0 auto; }
+
+  /* Layout */
+  .main { max-width: 1040px; margin: 0 auto; padding: 56px 32px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 56px; align-items: start; }
+
+  /* Left */
+  .info h2 { font-size: 1.4rem; font-weight: 700; color: var(--dark); margin-bottom: 16px; }
+  .info p { font-size: .875rem; line-height: 1.75; margin-bottom: 14px; }
+
+  .why-list { list-style: none; margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+  .why-list li { display: flex; gap: 10px; font-size: .875rem; }
+  .why-list li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+  .contact-mini { margin-top: 28px; padding: 18px; border-left: 4px solid var(--green); background: #f9f9f9; }
+  .contact-mini p { font-size: .85rem; margin-bottom: 6px; }
+  .contact-mini a { color: var(--green); text-decoration: none; font-weight: 600; }
+
+  /* Form */
+  .form-box { background: #fff; border: 1px solid #e0e0e0; border-radius: 6px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,.07); }
+  .form-box h3 { font-size: 1.05rem; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+  .form-box .sub { font-size: .8rem; color: var(--text); margin-bottom: 22px; }
+
+  .form-group { margin-bottom: 14px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 11px 14px; border: 1px solid #ddd; border-radius: 4px;
+    font-family: inherit; font-size: .875rem; color: var(--dark); outline: none;
+    transition: border-color .15s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--green-light); }
+  .form-group textarea { height: 110px; resize: vertical; }
+  .form-group select { cursor: pointer; background: #fff; }
+
+  .btn-green {
+    width: 100%; background: var(--green); color: #fff; border: none; padding: 13px;
+    border-radius: 4px; font-family: inherit; font-size: .9rem; font-weight: 700;
+    cursor: pointer; transition: background .15s; margin-top: 4px;
+  }
+  .btn-green:hover { background: #2d6234; }
+
+  .disclaimer { font-size: .72rem; color: #999; text-align: center; margin-top: 10px; line-height: 1.5; }
+
+  footer { background: #2d2d2d; color: #aaa; text-align: center; padding: 24px; font-size: .8rem; }
+
+  @media (max-width: 768px) {
+    .main { grid-template-columns: 1fr; }
+    .hdr nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <nav>
+    <a href="#">Inicio</a>
+    <a href="#">Propiedades</a>
+    <a href="#">Tasaciones</a>
+    <a href="#">Nosotros</a>
+    <a href="#">Contacto</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>Tasaciones profesionales</h1>
+  <p>Conocé el valor real de tu propiedad con el respaldo de años de experiencia en el mercado de Zona Norte y GBA.</p>
+</div>
+
+<div class="main">
+  <div class="info">
+    <h2>¿Por qué tasar con nosotros?</h2>
+    <p>Contamos con un equipo especializado en el mercado inmobiliario de Escobar, Nordelta, Tigre, Pilar y toda la Zona Norte del Gran Buenos Aires.</p>
+    <ul class="why-list">
+      <li>Tasadores matriculados con experiencia en la zona</li>
+      <li>Conocimiento profundo del mercado local</li>
+      <li>Informe personalizado sin costo</li>
+      <li>Asesoramiento post-tasación incluido</li>
+    </ul>
+    <div class="contact-mini">
+      <p><strong>Zona de cobertura:</strong> Escobar · Nordelta · Villanueva · Tigre · Rincón de Milberg · Benavídez · Pilar</p>
+      <p style="margin-top:8px"><a href="#">Consultanos directamente →</a></p>
+    </div>
+  </div>
+
+  <div class="form-box">
+    <h3>Solicitá tu tasación</h3>
+    <p class="sub">Sin cargo · Te contactamos en 24 hs</p>
+    <form novalidate>
+      <div class="form-group">
+        <input type="text" name="name" placeholder="Nombre y Apellido *" required/>
+      </div>
+      <div class="form-group">
+        <select name="localidad" required>
+          <option value="" disabled selected>Localidad</option>
+          <option value="caba">CABA</option>
+          <option value="gba">GBA</option>
+          <option value="otro">Otro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <input type="email" name="email" placeholder="Email *" required/>
+      </div>
+      <div class="form-group">
+        <input type="tel" name="phone" placeholder="Teléfono"/>
+      </div>
+      <div class="form-group">
+        <textarea name="message" placeholder="Consulta *" required></textarea>
+      </div>
+      <button type="submit" class="btn-green">Enviar</button>
+      <p class="disclaimer">Al enviar, aceptás los Términos y Condiciones de uso y la Política de Privacidad.</p>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <p>Zona Norte, Gran Buenos Aires, Argentina</p>
+</footer>
+
+</body>
+</html>

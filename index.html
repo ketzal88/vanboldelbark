@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Páginas de Tasación | Inmobiliarias</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: #0f0f13; color: #e0e0e0; min-height: 100vh; }
+
+  header { padding: 48px 32px 0; text-align: center; }
+  header h1 { font-size: 2rem; font-weight: 800; color: #fff; letter-spacing: -.5px; }
+  header p { color: #888; margin-top: 8px; font-size: .95rem; }
+
+  .grid {
+    max-width: 1060px; margin: 52px auto 64px; padding: 0 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: #1a1a24; border: 1px solid #2a2a38; border-radius: 10px;
+    padding: 28px; text-decoration: none; color: inherit;
+    display: flex; flex-direction: column; gap: 12px;
+    transition: border-color .2s, transform .2s, box-shadow .2s;
+  }
+  .card:hover { border-color: #4a4aff; transform: translateY(-3px); box-shadow: 0 8px 32px rgba(74,74,255,.15); }
+
+  .card-tag {
+    font-size: .72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 20px; display: inline-block; width: fit-content;
+  }
+
+  .card-site { font-size: .8rem; color: #666; font-weight: 500; }
+  .card-title { font-size: 1.1rem; font-weight: 700; color: #fff; line-height: 1.3; }
+  .card-desc { font-size: .83rem; color: #888; line-height: 1.6; flex: 1; }
+
+  .card-arrow {
+    display: flex; align-items: center; justify-content: flex-end;
+    font-size: .82rem; font-weight: 600; gap: 4px;
+    color: #555; transition: color .2s;
+  }
+  .card:hover .card-arrow { color: #4a4aff; }
+
+  /* Color tags per brand */
+  .tag-remax  { background: rgba(220,27,56,.15); color: #DC1B38; }
+  .tag-tizado { background: rgba(100,100,100,.2); color: #aaa; }
+  .tag-rc     { background: rgba(101,181,227,.15); color: #65b5e3; }
+  .tag-izr    { background: rgba(44,145,247,.15); color: #2c91f7; }
+  .tag-ta     { background: rgba(229,126,44,.15); color: #e57e2c; }
+  .tag-pratto { background: rgba(58,125,68,.15); color: #3a7d44; }
+
+  .also { border-top: 1px solid #2a2a38; margin-top: 0; }
+
+  footer { text-align: center; padding: 24px; color: #444; font-size: .78rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Páginas de Tasación / Contacto</h1>
+  <p>Versiones clean sin logo ni nombre de empresa · Ready para formulario GHL</p>
+</header>
+
+<div class="grid">
+
+  <!-- REMAX -->
+  <a class="card" href="vender-standalone.html">
+    <span class="card-tag tag-remax">Standalone</span>
+    <div class="card-site">remax.com.ar/sell</div>
+    <div class="card-title">Vendé tu propiedad</div>
+    <div class="card-desc">Formulario propio. Campos: nombre, email, teléfono, localidad, tipo de propiedad, comentarios.</div>
+    <div class="card-arrow">Ver página →</div>
+  </a>
+
+  <a class="card" href="vender-ghl.html">
+    <span class="card-tag tag-remax">GHL</span>
+    <div class="card-site">remax.com.ar/sell</div>
+    <div class="card-title">Vendé tu propiedad — GHL</div>
+    <div class="card-desc">Versión con iframe de Go High Level. Reemplazá TU_FORM_ID_AQUI con el ID real del formulario.</div>
+    <div class="card-arrow">Ver página →</div>
+  </a>
+
+  <!-- Tizado -->
+  <a class="card" href="tizado/index.html">
+    <span class="card-tag tag-tizado">Tasaciones</span>
+    <div class="card-site">tizado.com/Contacto</div>
+    <div class="card-title">Tasaciones + Contáctenos</div>
+    <div class="card-desc">Dos formularios en paralelo. Campos: nombre, teléfono, email, ubicación (dropdown), mensaje.</div>
+    <div class="card-arrow">Ver página →</div>
+  </a>
+
+  <!-- Rosario Costantini -->
+  <a class="card" href="rosario-costantini/index.html">
+    <span class="card-tag tag-rc">Contacto</span>
+    <div class="card-site">rosariocostantini.com.ar/contactanos</div>
+    <div class="card-title">Tasamos tu propiedad</div>
+    <div class="card-desc">Hero con imagen + formulario completo: nombre, apellido, email, teléfono, tipo propiedad, operación, localidad, dirección, comentarios.</div>
+    <div class="card-arrow">Ver página →</div>
+  </a>
+
+  <!-- IZR Tasacion -->
+  <a class="card" href="izr-tasacion/index.html">
+    <span class="card-tag tag-izr">Tasación</span>
+    <div class="card-site">izr.com.ar/tasacion-de-propiedades-buenos-aires</div>
+    <div class="card-title">Tasación de propiedades</div>
+    <div class="card-desc">Formulario en 3 pasos: ubicación → detalles (tipo, operación, calle) → datos de contacto. Sin cargo en 24 hs.</div>
+    <div class="card-arrow">Ver página →</div>
+  </a>
+
+  <!-- IZR Vender -->
+  <a class="card" href="izr-vender/index.html">
+    <span class="card-tag tag-izr">Vender</span>
+    <div class="card-site">izr.com.ar/vender</div>
+    <div class="card-title">Vendé tu propiedad</div>
+    <div class="card-desc">Mismo wizard de 3 pasos pero orientado a venta. Campos: zona, dirección, tipo, comentarios, datos de contacto.</div>
+    <div class="card-arrow">Ver página →</div>
+  </a>
+
+  <!-- Toribio Achaval -->
+  <a class="card" href="toribio-achaval/index.html">
+    <span class="card-tag tag-ta">Tasaciones</span>
+    <div class="card-site">toribioachaval.com/tasaciones</div>
+    <div class="card-title">Tasaciones — Acento naranja</div>
+    <div class="card-desc">Layout dos columnas: info de contacto izquierda + formulario simple derecha. Campos: nombre, apellido, email, teléfono, comentario.</div>
+    <div class="card-arrow">Ver página →</div>
+  </a>
+
+  <!-- Pratto -->
+  <a class="card" href="pratto/index.html">
+    <span class="card-tag tag-pratto">Tasaciones</span>
+    <div class="card-site">prattopropiedades.com/tasaciones.php</div>
+    <div class="card-title">Tasaciones — Acento verde</div>
+    <div class="card-desc">Hero + layout dos columnas. Campos: nombre y apellido, localidad (CABA/GBA/Otro), email, teléfono, consulta.</div>
+    <div class="card-arrow">Ver página →</div>
+  </a>
+
+</div>
+
+<footer>
+  <p>8 páginas · 6 inmobiliarias · Sin logos ni nombres de empresa</p>
+</footer>
+
+</body>
+</html>
