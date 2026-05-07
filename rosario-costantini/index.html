@@ -66,8 +66,11 @@
   .btn-primary:hover { background: #4fa0d0; }
 
   /* Footer */
-  .footer { background: #f8f8f8; border-top: 1px solid #eee; padding: 28px 24px; text-align: center; }
-  .footer p { font-size: .8rem; color: #888; }
+  .footer { background: #1a1a2e; color: #aaa; padding: 36px 24px; }
+  .footer-inner { max-width: 1060px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+  .footer-inner p { font-size: .82rem; color: #aaa; line-height: 1.7; }
+  .footer-inner a { color: #65b5e3; text-decoration: none; }
+  .footer-copy { text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid #2a2a4a; font-size: .75rem; color: #555; max-width: 1060px; margin-left: auto; margin-right: auto; }
 
   @media (max-width: 768px) {
     .row { grid-template-columns: 1fr; }
@@ -160,7 +163,17 @@
 </section>
 
 <div class="footer">
-  <p>Terrazas de la Bahía 1, Of 202 · Bahía Grande, Nordelta · Buenos Aires, Argentina</p>
+  <div class="footer-inner">
+    <div>
+      <p>Terrazas de la Bahía 1, Of 202<br/>Bahía Grande, Nordelta<br/>Buenos Aires, Argentina</p>
+    </div>
+    <div>
+      <p><a href="#">info@inmobiliaria.com.ar</a></p>
+      <p>☎ 4871 8166 / 4871 8158</p>
+      <p>WhatsApp: +54 9 11 3126 1985</p>
+    </div>
+  </div>
+  <p class="footer-copy">© 2024 · Negocios Inmobiliarios</p>
 </div>
 
 </body>
