@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Propiedades en Nordelta · Asesoramiento Gratis</title>
+<meta name="robots" content="noindex, nofollow"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --c-primary: #1a2e4a;
+    --c-accent:  #d4a843;
+    --c-bg:      #f7f8fa;
+    --c-card:    #ffffff;
+    --c-text:    #1a202c;
+    --c-muted:   #718096;
+    --c-border:  #e2e8f0;
+    --font:      'Inter', -apple-system, sans-serif;
+    --radius:    8px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font);
+    background: var(--c-bg);
+    color: var(--c-text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    display: flex; flex-direction: column;
+  }
+
+  /* ─── HEADER ─── */
+  .hdr {
+    background: var(--c-primary);
+    padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .hdr-brand {
+    color: rgba(255,255,255,.9);
+    font-size: .78rem; font-weight: 700;
+    letter-spacing: .6px; text-transform: uppercase;
+  }
+  .hdr-phone { color: rgba(255,255,255,.65); font-size: .75rem; }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: var(--c-primary);
+    color: #fff;
+    padding: 36px 20px 64px;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,.12);
+    color: rgba(255,255,255,.85);
+    font-size: .7rem; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 20px;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: 1.65rem; font-weight: 800;
+    line-height: 1.25; margin-bottom: 12px;
+    max-width: 540px; margin-left: auto; margin-right: auto;
+  }
+  .hero p {
+    font-size: .9rem; color: rgba(255,255,255,.72);
+    max-width: 420px; margin: 0 auto; line-height: 1.6;
+  }
+
+  /* ─── CARD / FORM ─── */
+  .wrap {
+    flex: 1;
+    max-width: 480px; width: 100%;
+    margin: -28px auto 0;
+    padding: 0 16px 48px;
+    position: relative; z-index: 10;
+  }
+  .card {
+    background: var(--c-card);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 32px rgba(0,0,0,.12);
+    padding: 26px 22px;
+  }
+  .card-hd { font-size: 1rem; font-weight: 700; margin-bottom: 3px; }
+  .card-sub { font-size: .78rem; color: var(--c-muted); margin-bottom: 20px; }
+
+  .field { margin-bottom: 14px; }
+  .field label {
+    display: block;
+    font-size: .72rem; font-weight: 600;
+    color: var(--c-muted);
+    text-transform: uppercase; letter-spacing: .4px;
+    margin-bottom: 5px;
+  }
+  input[type="text"], input[type="tel"] {
+    width: 100%; padding: 11px 13px;
+    border: 1.5px solid var(--c-border); border-radius: 6px;
+    font-family: var(--font); font-size: .9rem; color: var(--c-text);
+    background: #fff; outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  input:focus {
+    border-color: var(--c-accent);
+    box-shadow: 0 0 0 3px rgba(212,168,67,.18);
+  }
+  input::placeholder { color: #b0bec5; }
+
+  .radio-group { display: flex; flex-direction: column; gap: 7px; }
+  .radio-opt {
+    display: flex; align-items: center; gap: 10px;
+    border: 1.5px solid var(--c-border); border-radius: 6px;
+    padding: 10px 13px; cursor: pointer;
+    transition: border-color .15s, background .15s;
+    user-select: none;
+  }
+  .radio-opt:has(input:checked) {
+    border-color: var(--c-accent);
+    background: rgba(212,168,67,.07);
+  }
+  .radio-opt input[type="radio"] { accent-color: var(--c-accent); flex-shrink: 0; }
+  .radio-opt .opt-label { font-size: .875rem; font-weight: 500; }
+
+  .btn-cta {
+    width: 100%; padding: 13px;
+    background: var(--c-accent); color: #1a1a1a;
+    border: none; border-radius: 6px;
+    font-family: var(--font); font-size: .95rem; font-weight: 700;
+    cursor: pointer; margin-top: 18px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: filter .15s, transform .1s;
+  }
+  .btn-cta:hover { filter: brightness(1.06); }
+  .btn-cta:active { transform: scale(.98); }
+  .btn-cta:disabled { opacity: .55; cursor: not-allowed; }
+  .btn-cta .btn-txt { pointer-events: none; }
+  .btn-cta .spin { display: none; }
+  .btn-cta.loading .btn-txt { display: none; }
+  .btn-cta.loading .spin { display: block; }
+
+  .legal {
+    font-size: .68rem; color: var(--c-muted);
+    text-align: center; margin-top: 10px; line-height: 1.5;
+  }
+
+  /* ─── SUCCESS ─── */
+  .success { text-align: center; padding: 8px 0; }
+  .success-icon { font-size: 2.4rem; margin-bottom: 12px; }
+  .success h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+  .success p { font-size: .85rem; color: var(--c-muted); line-height: 1.6; margin-bottom: 22px; }
+  .btn-wa {
+    display: inline-flex; align-items: center; gap: 9px;
+    background: #25d366; color: #fff;
+    padding: 12px 22px; border-radius: 6px;
+    font-weight: 700; font-size: .9rem; text-decoration: none;
+    transition: filter .15s;
+  }
+  .btn-wa:hover { filter: brightness(.92); }
+
+  /* ─── TRUST ─── */
+  .trust {
+    max-width: 480px; margin: 0 auto;
+    padding: 0 16px 40px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .trust-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    background: var(--c-card);
+    border: 1px solid var(--c-border); border-radius: var(--radius);
+    padding: 13px 15px;
+  }
+  .trust-ico { font-size: 1.3rem; flex-shrink: 0; line-height: 1; }
+  .trust-copy strong { font-size: .85rem; display: block; margin-bottom: 2px; }
+  .trust-copy span { font-size: .76rem; color: var(--c-muted); line-height: 1.5; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--c-primary);
+    color: rgba(255,255,255,.45);
+    text-align: center;
+    padding: 18px 20px;
+    font-size: .68rem; line-height: 1.7;
+    margin-top: auto;
+  }
+
+  /* ─── SPINNER ─── */
+  .spin {
+    width: 15px; height: 15px;
+    border: 2px solid rgba(26,26,26,.3);
+    border-top-color: #1a1a1a;
+    border-radius: 50%;
+    animation: rot .55s linear infinite;
+  }
+  @keyframes rot { to { transform: rotate(360deg); } }
+
+  @media (min-width: 640px) {
+    .hero { padding: 52px 32px 72px; }
+    .hero h1 { font-size: 2rem; }
+    .wrap { margin-top: -36px; }
+    .card { padding: 32px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<script>
+/*
+  ╔══════════════════════════════════════════════════════╗
+  ║  CONFIGURACIÓN — Instrucciones para el operador      ║
+  ╠══════════════════════════════════════════════════════╣
+  ║  1. Reemplazá GHL_WEBHOOK_URL con la URL real de     ║
+  ║     tu webhook en GHL (Automation → Webhooks).       ║
+  ║  2. Reemplazá WA_NUMBER con tu número WhatsApp       ║
+  ║     sin + (ej: 5491155001234).                       ║
+  ║  3. Test en localhost: ?brand=remaxnordelta.com.ar   ║
+  ╚══════════════════════════════════════════════════════╝
+*/
+
+/* TODO: reemplazar con var de entorno → VITE_GHL_WEBHOOK / build script */
+var GHL_WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/KqrAuJu3oUHDyJOtRnta/webhook-trigger/1579e273-affb-4d26-a4ff-5f7fa65f1074';
+var WA_NUMBER       = '5491XXXXXXXXX'; /* TODO: número real */
+
+var BRANDS = {
+  'remaxnordelta.com.ar': {
+    zona:     'Nordelta y Zona Norte',
+    origin:   'remaxnordelta.com.ar',
+    tag:      'guerrilla-remax-nordelta',
+    color:    '#1a2e4a',
+    accent:   '#d4a843',
+    badge:    'Especialistas en Zona Norte',
+    headline: '¿Querés vender o alquilar tu propiedad en Nordelta?',
+    sub:      'Completá tus datos y te contactamos en menos de 2 horas con un análisis de mercado de tu zona.',
+    phone:    '', /* TODO: número de tracking asignado a este dominio */
+  },
+  'remaxbancalari.com.ar': {
+    zona:     'Bancalari',
+    origin:   'remaxbancalari.com.ar',
+    tag:      'guerrilla-remax-bancalari',
+    color:    '#1a2e4a',
+    accent:   '#d4a843',
+    badge:    'Especialistas en Bancalari',
+    headline: '¿Querés vender o alquilar tu propiedad en Bancalari?',
+    sub:      'Completá tus datos y te contactamos en menos de 2 horas con un análisis de mercado.',
+    phone:    '',
+  },
+  'toribiotigreventas.com.ar': {
+    zona:     'Tigre y Delta',
+    origin:   'toribiotigreventas.com.ar',
+    tag:      'guerrilla-toribio-tigre',
+    color:    '#1c3a30',
+    accent:   '#c09a3c',
+    badge:    'Especialistas en Tigre y Delta',
+    headline: '¿Querés vender o alquilar tu propiedad en Tigre?',
+    sub:      'Completá tus datos y te contactamos en menos de 2 horas con un análisis de mercado de tu zona.',
+    phone:    '',
+  },
+  'tizadonordelta.com.ar': {
+    zona:     'Nordelta y Zona Norte',
+    origin:   'tizadonordelta.com.ar',
+    tag:      'guerrilla-tizado-nordelta',
+    color:    '#0f2a45',
+    accent:   '#1e7fc4',
+    badge:    'Especialistas en Zona Norte',
+    headline: '¿Querés vender o alquilar tu propiedad en Nordelta?',
+    sub:      'Completá tus datos y te contactamos en menos de 2 horas con un análisis de mercado de tu zona.',
+    phone:    '',
+  },
+  'tizadovillanueva.com.ar': {
+    zona:     'Villanueva',
+    origin:   'tizadovillanueva.com.ar',
+    tag:      'guerrilla-tizado-villanueva',
+    color:    '#0f2a45',
+    accent:   '#1e7fc4',
+    badge:    'Especialistas en Villanueva',
+    headline: '¿Querés vender o alquilar tu propiedad en Villanueva?',
+    sub:      'Completá tus datos y te contactamos en menos de 2 horas con un análisis de mercado.',
+    phone:    '',
+  },
+  /* ── Agregar nuevos dominios aquí ── */
+};
+
+var DEFAULT_BRAND = {
+  zona:     'Nordelta y Zona Norte',
+  origin:   'dev',
+  tag:      'guerrilla-dev',
+  color:    '#1a2e4a',
+  accent:   '#d4a843',
+  badge:    'Especialistas en Zona Norte',
+  headline: '¿Querés vender o alquilar tu propiedad en la zona?',
+  sub:      'Completá tus datos y te contactamos en menos de 2 horas.',
+  phone:    '',
+};
+
+var host   = window.location.hostname.replace(/^www\./, '');
+var qBrand = new URLSearchParams(window.location.search).get('brand');
+var brand  = BRANDS[qBrand] || BRANDS[host] || DEFAULT_BRAND;
+
+document.documentElement.style.setProperty('--c-primary', brand.color);
+document.documentElement.style.setProperty('--c-accent',  brand.accent);
+</script>
+
+<!-- HEADER -->
+<div class="hdr">
+  <span class="hdr-brand" id="js-badge">Asesoramiento Inmobiliario</span>
+  <span class="hdr-phone" id="js-phone"></span>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge" id="js-hero-badge">Especialistas en la Zona</div>
+  <h1 id="js-headline">¿Querés vender o alquilar tu propiedad en la zona?</h1>
+  <p id="js-sub">Completá tus datos y te contactamos en menos de 2 horas.</p>
+</div>
+
+<!-- FORM CARD -->
+<div class="wrap">
+  <div class="card">
+    <div class="card-hd">Recibí asesoramiento gratuito</div>
+    <div class="card-sub">Sin cargo · Sin compromiso · Respuesta en 2&nbsp;hs</div>
+
+    <form id="lead-form" novalidate>
+      <!-- Campos ocultos de tracking — poblados por JS -->
+      <input type="hidden" id="f-origin" name="origin" value=""/>
+      <input type="hidden" id="f-tag"    name="tag"    value=""/>
+      <input type="hidden" id="f-zona"   name="zona"   value=""/>
+
+      <div class="field">
+        <label for="f-nombre">Tu nombre</label>
+        <input type="text" id="f-nombre" name="nombre"
+               placeholder="Ej: Martín González"
+               required autocomplete="name"/>
+      </div>
+
+      <div class="field">
+        <label for="f-tel">WhatsApp</label>
+        <input type="tel" id="f-tel" name="telefono"
+               placeholder="+54 11 ..."
+               required autocomplete="tel"/>
+      </div>
+
+      <div class="field">
+        <label>¿Qué querés hacer?</label>
+        <div class="radio-group">
+          <label class="radio-opt">
+            <input type="radio" name="necesidad" value="vender" required/>
+            <span class="opt-label">🏠 Vender mi propiedad</span>
+          </label>
+          <label class="radio-opt">
+            <input type="radio" name="necesidad" value="alquilar"/>
+            <span class="opt-label">🔑 Alquilar mi propiedad</span>
+          </label>
+          <label class="radio-opt">
+            <input type="radio" name="necesidad" value="saber_precio"/>
+            <span class="opt-label">💰 Solo quiero saber el precio</span>
+          </label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-cta" id="btn-submit">
+        <span class="btn-txt">Quiero asesoramiento gratis →</span>
+        <span class="spin" aria-hidden="true"></span>
+      </button>
+
+      <p class="legal">
+        Al enviar aceptás que un asesor te contacte.
+        Tus datos son confidenciales y no se comparten con terceros.
+      </p>
+    </form>
+
+    <!-- Estado de éxito — se muestra al enviar -->
+    <div id="success-box" class="success" style="display:none">
+      <div class="success-icon">✅</div>
+      <h2>¡Listo! Te contactamos pronto</h2>
+      <p>Un asesor de la zona revisará tu consulta y<br/>te va a escribir en menos de 2 horas.</p>
+      <a id="btn-wa" href="#" class="btn-wa" target="_blank" rel="noopener noreferrer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Escribir por WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- TRUST ITEMS -->
+<div class="trust">
+  <div class="trust-item">
+    <div class="trust-ico">⚡</div>
+    <div class="trust-copy">
+      <strong>Respuesta en menos de 2 horas</strong>
+      <span>Un asesor de la zona se pone en contacto en el horario en que lo solicitaste.</span>
+    </div>
+  </div>
+  <div class="trust-item">
+    <div class="trust-ico">📍</div>
+    <div class="trust-copy">
+      <strong>Conocemos cada barrio de la zona</strong>
+      <span>Asesoramiento especializado en Nordelta, Villanueva, Bancalari, Delta y Tigre.</span>
+    </div>
+  </div>
+  <div class="trust-item">
+    <div class="trust-ico">🔒</div>
+    <div class="trust-copy">
+      <strong>Sin compromiso</strong>
+      <span>El primer contacto es gratis y sin obligación. Tus datos son confidenciales.</span>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Sitio independiente de búsqueda y asesoramiento inmobiliario · No afiliado a ninguna red de franquicias</p>
+  <p>© 2026 <!-- TODO: agregar razón social real --></p>
+</footer>
+
+<script>
+/* Poblar DOM con config de brand */
+(function() {
+  var b = brand;
+  document.getElementById('js-badge').textContent      = b.badge;
+  document.getElementById('js-hero-badge').textContent = b.badge;
+  document.getElementById('js-headline').textContent   = b.headline;
+  document.getElementById('js-sub').textContent        = b.sub;
+  if (b.phone) document.getElementById('js-phone').textContent = b.phone;
+  document.getElementById('f-origin').value = b.origin;
+  document.getElementById('f-tag').value    = b.tag;
+  document.getElementById('f-zona').value   = b.zona;
+  document.title = 'Propiedades en ' + b.zona + ' · Asesoramiento Gratis';
+})();
+
+/* Envío del formulario a GHL */
+document.getElementById('lead-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  var nombre   = document.getElementById('f-nombre').value.trim();
+  var telefono = document.getElementById('f-tel').value.trim();
+  var checked  = document.querySelector('input[name="necesidad"]:checked');
+
+  if (!nombre)   { document.getElementById('f-nombre').focus(); return; }
+  if (!telefono) { document.getElementById('f-tel').focus(); return; }
+  if (!checked)  { return; }
+
+  var btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.classList.add('loading');
+
+  var payload = {
+    firstName: nombre,
+    phone:     telefono,
+    tags:      [brand.tag, 'tipo-propietario'],
+    source:    brand.origin,
+    customField: {
+      origen_landing: brand.origin,
+      necesidad:      checked.value,
+      zona:           brand.zona,
+    },
+  };
+
+  fetch(GHL_WEBHOOK_URL, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify(payload),
+  }).catch(function() {
+    /* silencioso — mostramos éxito igual para no bloquear el lead */
+  }).finally(function() {
+    showSuccess(checked.value);
+  });
+});
+
+function showSuccess(necesidad) {
+  var accionMap = {
+    vender:      'vender mi propiedad',
+    alquilar:    'alquilar mi propiedad',
+    saber_precio:'consultar el precio de mi propiedad',
+  };
+  var accion = accionMap[necesidad] || 'consultar sobre mi propiedad';
+  var msg    = encodeURIComponent('Hola! Quiero ' + accion + ' en ' + brand.zona + '. Completé el formulario, ¿podés contactarme?');
+  var waUrl  = 'https://wa.me/' + WA_NUMBER + '?text=' + msg;
+
+  document.getElementById('btn-wa').setAttribute('href', waUrl);
+  document.getElementById('lead-form').style.display   = 'none';
+  document.getElementById('success-box').style.display = 'block';
+}
+</script>
+</body>
+</html>

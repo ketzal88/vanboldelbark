@@ -1,6 +1,66 @@
 {
-  "routes": [
-    { "src": "/ghl", "dest": "/vender-ghl.html" },
-    { "src": "/remax", "dest": "/vender-standalone.html" }
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?remaxnordelta\\.com\\.ar" }],
+      "destination": "/vender-standalone.html"
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?remaxbancalari\\.com\\.ar" }],
+      "destination": "/vender-standalone.html"
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?remaxvillanueva\\.com\\.ar" }],
+      "destination": "/vender-standalone.html"
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?remaxtigre\\.com\\.ar" }],
+      "destination": "/vender-standalone.html"
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?tizadonordelta\\.com\\.ar" }],
+      "destination": "/tizado/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?tizadovillanueva\\.com\\.ar" }],
+      "destination": "/tizado/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?tizadobancalari\\.com\\.ar" }],
+      "destination": "/tizado/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?tizadotigre\\.com\\.ar" }],
+      "destination": "/tizado/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?toribiotigreventas\\.com\\.ar" }],
+      "destination": "/toribio-achaval/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?toribioachavalnordelta\\.com\\.ar" }],
+      "destination": "/toribio-achaval/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?keymexnordelta\\.com\\.ar" }],
+      "destination": "/guerrilla/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?izrastzoffnordelta\\.com\\.ar" }],
+      "destination": "/guerrilla/index.html"
+    },
+    { "source": "/ghl",   "destination": "/vender-standalone.html" },
+    { "source": "/remax", "destination": "/vender-standalone.html" }
   ]
 }

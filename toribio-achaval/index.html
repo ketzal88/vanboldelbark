@@ -9,14 +9,15 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Open Sans', sans-serif; background: #f5f5f5; color: #333; }
 
+  .inner { max-width: 1440px; margin: 0 auto; padding: 0 32px; width: 100%; }
+
   /* Red header */
   .hdr {
     background: #e8192c;
     height: 72px;
     display: flex; align-items: center;
-    padding: 0 32px;
-    justify-content: flex-end;
   }
+  .hdr .inner { display: flex; align-items: center; justify-content: flex-end; }
   .hdr nav a {
     margin-left: 24px; color: rgba(255,255,255,.82);
     font-size: .83rem; font-family: 'Raleway', sans-serif;
@@ -27,8 +28,8 @@
   /* Search bar */
   .search-bar {
     background: #ededed; border-bottom: 1px solid #d5d5d5;
-    padding: 10px 32px; display: flex; align-items: center; gap: 12px;
   }
+  .search-bar .inner { display: flex; align-items: center; gap: 12px; padding-top: 10px; padding-bottom: 10px; }
   .s-radios { display: flex; align-items: center; gap: 14px; }
   .s-radios label { display: flex; align-items: center; gap: 5px; font-size: .82rem; cursor: pointer; font-weight: 600; }
   .s-select {
@@ -46,9 +47,9 @@
   }
 
   /* Main */
-  .section { padding: 36px 32px 64px; }
+  .section { padding: 36px 0 64px; max-width: 1440px; margin: 0 auto; padding-left: 32px; padding-right: 32px; }
   .card {
-    max-width: 1040px; margin: 0 auto;
+    max-width: 100%; margin: 0 auto;
     background: #fff; border: 1px solid #e2e2e2; border-radius: 4px;
     padding: 44px 48px;
     display: grid; grid-template-columns: 1fr 1fr; gap: 56px;
@@ -101,9 +102,9 @@
   .btn-send:hover { background: #c0141e; }
 
   /* Footer */
-  footer { background: #222; color: #bbb; padding: 28px 32px; }
+  footer { background: #222; color: #bbb; }
   .footer-inner {
-    max-width: 1040px; margin: 0 auto;
+    max-width: 1440px; margin: 0 auto; padding: 28px 32px;
     display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
   }
   .footer-links a { color: #aaa; font-size: .8rem; margin-right: 18px; text-decoration: none; }
@@ -121,29 +122,33 @@
 <body>
 
 <header class="hdr">
-  <nav>
-    <a href="#">La Empresa</a>
-    <a href="#" class="active">Tasaciones</a>
-    <a href="#">Residencial</a>
-    <a href="#">Inmuebles comerciales</a>
-    <a href="#">Emprendimientos</a>
-    <a href="#">Blog</a>
-  </nav>
+  <div class="inner">
+    <nav>
+      <a href="#">La Empresa</a>
+      <a href="#" class="active">Tasaciones</a>
+      <a href="#">Residencial</a>
+      <a href="#">Inmuebles comerciales</a>
+      <a href="#">Emprendimientos</a>
+      <a href="#">Blog</a>
+    </nav>
+  </div>
 </header>
 
 <div class="search-bar">
-  <div class="s-radios">
-    <label><input type="radio" name="op" checked/> VENTA</label>
-    <label><input type="radio" name="op"/> ALQUILER</label>
+  <div class="inner">
+    <div class="s-radios">
+      <label><input type="radio" name="op" checked/> VENTA</label>
+      <label><input type="radio" name="op"/> ALQUILER</label>
+    </div>
+    <select class="s-select">
+      <option>DEPARTAMENTOS</option>
+      <option>CASAS</option>
+      <option>LOCALES</option>
+      <option>TERRENOS</option>
+    </select>
+    <input class="s-input" type="text" placeholder="Ingresá ubicación, barrio o palabra clave"/>
+    <button class="s-btn">🔍 BUSCAR</button>
   </div>
-  <select class="s-select">
-    <option>DEPARTAMENTOS</option>
-    <option>CASAS</option>
-    <option>LOCALES</option>
-    <option>TERRENOS</option>
-  </select>
-  <input class="s-input" type="text" placeholder="Ingresá ubicación, barrio o palabra clave"/>
-  <button class="s-btn">🔍 BUSCAR</button>
 </div>
 
 <section class="section">
@@ -155,10 +160,10 @@
       <p>Completá tus datos y describí las características de tu propiedad. Un tasador se pondrá en contacto con vos, y te asesorará en tu consulta.</p>
 
       <div class="info-box">
-        <h2>Casa Central</h2>
-        <div class="info-row">📞 <a href="tel:48194000">4819-4000</a></div>
-        <div class="info-row">💬 <a href="#">1165256809</a></div>
-        <button class="btn-more">Ver más sucursales</button>
+        <h2>Respondemos en menos de 2 horas</h2>
+        <div class="info-row">📞 <!-- TODO: número de tracking --></div>
+        <div class="info-row">💬 <!-- TODO: WhatsApp tracking --></div>
+        <button class="btn-more">Ver más información</button>
       </div>
     </div>
 
@@ -204,5 +209,45 @@
   </div>
 </footer>
 
+<script>
+/* TODO: reemplazar con webhook real de GHL */
+var GHL_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/KqrAuJu3oUHDyJOtRnta/webhook-trigger/1579e273-affb-4d26-a4ff-5f7fa65f1074';
+var WA_NUMBER   = '5491XXXXXXXXX'; /* TODO: número real */
+
+document.querySelector('form.form-col').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var nombre   = (e.target.nombre.value + ' ' + e.target.apellido.value).trim();
+  var telefono = e.target.telefono.value.trim();
+  var email    = e.target.email.value.trim();
+  var comment  = e.target.comentario.value.trim();
+  if (!nombre || !telefono) return;
+
+  var btn = e.target.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  btn.textContent = '...';
+
+  fetch(GHL_WEBHOOK, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      firstName: nombre,
+      phone:     telefono,
+      email:     email,
+      tags:      ['guerrilla-toribio-tigre', 'tipo-propietario'],
+      source:    'guerrilla-toribio-tigre',
+      customField: { comentario: comment, origen_landing: 'toribiotigreventas.com.ar' },
+    }),
+  }).catch(function(){}).finally(function() {
+    var msg = encodeURIComponent('Hola! Quiero tasar mi propiedad en Tigre/Nordelta. Completé el formulario, ¿podés contactarme?');
+    var wa  = document.createElement('a');
+    wa.href   = 'https://wa.me/' + WA_NUMBER + '?text=' + msg;
+    wa.target = '_blank';
+    wa.rel    = 'noopener noreferrer';
+    wa.textContent = '✅ ¡Gracias! Hacé clic aquí para escribirnos por WhatsApp';
+    wa.style.cssText = 'display:block;margin-top:20px;background:#25d366;color:#fff;padding:12px 20px;border-radius:20px;font-weight:700;text-align:center;text-decoration:none;font-size:.9rem';
+    e.target.replaceWith(wa);
+  });
+});
+</script>
 </body>
 </html>

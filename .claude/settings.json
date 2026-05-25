@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Write(.claude/)",
+      "Edit(.claude/)",
+      "Write(CLAUDE.md)",
+      "Edit(CLAUDE.md)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -c \"import json,sys,re; d=json.load(sys.stdin); cmd=d.get('tool_input',{}).get('command','') or ''; secrets=re.compile(r'(?i)(api.?key|secret|password|token|auth)[\\s=:]+[\\w\\-]{8,}'); found=secrets.findall(cmd); print('BLOQUEADO: posible secret detectado en comando git commit. Revisá antes de continuar.', file=sys.stderr); sys.exit(1) if found and cmd.lstrip().startswith('git commit') else None\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -c \"\nimport json,sys,re\nd=json.load(sys.stdin)\np=(d.get('tool_input',{}).get('file_path','') or '').replace('\\\\\\\\','/')\nif not p.endswith('.tsx') and not p.endswith('.jsx'): sys.exit(0)\ntry:\n    content=open(p,encoding='utf-8',errors='replace').read()\nexcept: sys.exit(0)\nhooks=re.compile(r'\\\\b(useState|useEffect|useRef|useCallback|useMemo|useContext|useReducer)\\\\s*[(<]')\nhas_directive=re.compile(r'''['\\\"]use client['\\\"]''',re.MULTILINE)\nif hooks.search(content) and not has_directive.search(content):\n    print('\\u2192 AVISO: hooks React sin \\\"use client\\\" — fallará en Vercel si lo importa un Server Component.',file=sys.stderr)\n\""
+          },
+          {
+            "type": "command",
+            "command": "python -c \"\nimport json,sys\nd=json.load(sys.stdin)\np=(d.get('tool_input',{}).get('file_path','') or '').replace('\\\\\\\\','/')\nmsgs=[]\nif 'pretasacion' in p and p.endswith(('.html','.js','.ts','.tsx')):\n    msgs.append('\\u2192 Módulo pretasación modificado. Verificá la lógica de rangos USD/m² y el webhook GHL.')\nif p.endswith('index.html') or ('landing' in p and p.endswith('.html')):\n    msgs.append('\\u2192 Landing modificada. Revisá en mobile (375px) antes de hacer deploy.')\nif msgs:\n    print('\\n'.join(msgs),file=sys.stderr)\n\""
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__claude_ai_Notion__notion-fetch",
+      "Bash(vercel whoami *)",
+      "Bash(vercel --yes --name inmobiliaria-nordelta)",
+      "Bash(vercel link *)",
+      "Bash(vercel --scope workers-projects-b9cf7e6b)"
+    ]
+  }
+}

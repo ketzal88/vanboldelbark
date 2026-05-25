@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Vendé tu propiedad | REMAX</title>
-  <meta name="description" content="Completá el formulario y una oficina adherida a la red REMAX se pondrá en contacto con vos para continuar con el proceso." />
+  <title>Vendé tu propiedad en Nordelta</title>
+  <meta name="description" content="Completá el formulario y un asesor de la zona se pondrá en contacto con vos para continuar con el proceso." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -51,6 +51,8 @@
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+      max-width: 1440px;
+      margin: 0 auto;
     }
 
     /* ─── HEADER ─── */
@@ -271,6 +273,42 @@
       color: var(--rmx-muted);
     }
 
+    /* ─── FORM NATIVO ─── */
+    .rmx-lbl {
+      display: block; font-size: .78rem; font-weight: 600;
+      color: var(--rmx-muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: .4px;
+    }
+    .rmx-inp {
+      width: 100%; padding: 10px 12px;
+      border: 1.5px solid var(--rmx-border); border-radius: var(--rmx-radius);
+      font-family: var(--rmx-font); font-size: .875rem; color: var(--rmx-dark);
+      background: #fff; outline: none; transition: border-color .15s;
+    }
+    .rmx-inp:focus { border-color: var(--rmx-red); }
+    .rmx-inp::placeholder { color: #c0c0c0; }
+    .rmx-btn-send {
+      width: 100%; padding: 12px;
+      background: var(--rmx-red); color: #fff;
+      border: none; border-radius: var(--rmx-radius);
+      font-family: var(--rmx-font); font-size: .9rem; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: opacity .15s;
+    }
+    .rmx-btn-send:hover { opacity: .88; }
+    .rmx-btn-send:disabled { opacity: .55; cursor: not-allowed; }
+    .rmx-btn-send .rmx-spin { display: none; }
+    .rmx-btn-send.loading .rmx-btn-txt { display: none; }
+    .rmx-btn-send.loading .rmx-spin { display: block; }
+    .rmx-spin {
+      width: 15px; height: 15px;
+      border: 2px solid rgba(255,255,255,.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: rmx-rot .55s linear infinite;
+    }
+    @keyframes rmx-rot { to { transform: rotate(360deg); } }
+    .rmx-legal { font-size: .68rem; color: var(--rmx-muted); margin-top: 8px; text-align: center; }
+
     /* ─── RESPONSIVE ─── */
     @media (max-width: 900px) {
       .rmx-layout { flex-direction: column; height: auto; }
@@ -311,29 +349,54 @@
 
   <!-- Columna izquierda: formulario nativo GHL -->
   <div class="rmx-form-col">
-    <h1 class="rmx-pg-title">Vendé tu propiedad</h1>
+    <h1 class="rmx-pg-title">Vendé tu propiedad en Nordelta</h1>
     <p class="rmx-pg-desc">
-      Completá el formulario y una oficina adherida a la red REMAX se pondrá
-      en contacto con vos para continuar con el proceso.
+      Completá el formulario y un asesor de la zona se pondrá
+      en contacto con vos en menos de 2 horas.
     </p>
 
-    <!--
-      ════════════════════════════════════════════════════
-      FORMULARIO GHL — Reemplazá TU_FORM_ID_AQUI con el
-      ID del formulario de tu cuenta de Go High Level.
-      Lo encontrás en: Sites → Forms → Tu formulario → Integrate
-      ════════════════════════════════════════════════════
-    -->
-    <div class="rmx-ghl-form-wrap">
-      <iframe
-        src="https://api.leadconnectorhq.com/widget/form/TU_FORM_ID_AQUI"
-        style="width:100%;border:none;overflow:hidden;"
-        scrolling="no"
-        id="rmx-ghl-iframe"
-        title="Formulario de contacto REMAX"
-      ></iframe>
+    <form class="rmx-ghl-form-wrap" id="rmx-form" novalidate>
+      <input type="hidden" name="origin" value="guerrilla-remax-nordelta"/>
+      <input type="hidden" name="tag"    value="guerrilla-remax-nordelta"/>
+
+      <div style="margin-bottom:14px">
+        <label class="rmx-lbl">Nombre</label>
+        <input class="rmx-inp" type="text" name="nombre" placeholder="Tu nombre" required/>
+      </div>
+      <div style="margin-bottom:14px">
+        <label class="rmx-lbl">WhatsApp</label>
+        <input class="rmx-inp" type="tel" name="telefono" placeholder="+54 11 ..." required/>
+      </div>
+      <div style="margin-bottom:14px">
+        <label class="rmx-lbl">Email</label>
+        <input class="rmx-inp" type="email" name="email" placeholder="tu@email.com"/>
+      </div>
+      <div style="margin-bottom:20px">
+        <label class="rmx-lbl">¿Qué necesitás?</label>
+        <select class="rmx-inp" name="necesidad" required>
+          <option value="" disabled selected>Seleccioná una opción</option>
+          <option value="vender">Vender mi propiedad</option>
+          <option value="alquilar">Alquilar mi propiedad</option>
+          <option value="saber_precio">Solo quiero saber el precio</option>
+        </select>
+      </div>
+      <button type="submit" class="rmx-btn-send" id="rmx-btn">
+        <span class="rmx-btn-txt">Quiero que me contacten →</span>
+        <span class="rmx-spin" aria-hidden="true"></span>
+      </button>
+      <p class="rmx-legal">Tus datos son confidenciales. Sin compromiso.</p>
+    </form>
+
+    <div id="rmx-success" style="display:none;text-align:center;padding:24px 0">
+      <div style="font-size:2rem;margin-bottom:12px">✅</div>
+      <strong style="font-size:1rem">¡Gracias! Te contactamos pronto.</strong>
+      <p style="font-size:.83rem;color:#777;margin:8px 0 20px;line-height:1.6">Un asesor de la zona te va a escribir<br/>en menos de 2 horas.</p>
+      <a id="rmx-wa" href="#" target="_blank" rel="noopener noreferrer"
+         style="display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#fff;padding:10px 20px;border-radius:4px;font-weight:700;font-size:.875rem;text-decoration:none">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Escribir por WhatsApp
+      </a>
     </div>
-    <script src="https://link.msgsndr.com/js/form_embed.js"></script>
   </div>
 
   <!-- Columna derecha: foto de propiedad -->
@@ -354,14 +417,9 @@
     <!-- Sidebar: logo + nav links -->
     <div class="rmx-footer-sidebar">
       <a href="/" class="rmx-f-logo">
-        <svg width="48" height="58" viewBox="0 0 60 72" fill="none">
-          <ellipse cx="30" cy="30" rx="28" ry="28" fill="#DC1B38"/>
-          <path d="M3 38 Q4 58 30 58 Q56 58 57 38 Z" fill="#003087"/>
-          <rect x="3" y="26" width="54" height="14" fill="white"/>
-          <text x="30" y="37" text-anchor="middle" font-family="Montserrat,sans-serif" font-weight="900" font-size="9.5" fill="#DC1B38" letter-spacing="0.5">RE/MAX</text>
-          <line x1="22" y1="58" x2="19" y2="67" stroke="#9e9e9e" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="38" y1="58" x2="41" y2="67" stroke="#9e9e9e" stroke-width="1.5" stroke-linecap="round"/>
-          <rect x="19" y="67" width="22" height="5" rx="1.5" fill="#bdbdbd"/>
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+          <rect width="44" height="44" rx="6" fill="#DC1B38"/>
+          <path d="M10 32V14h8l4 8 4-8h8v18h-5V22l-3.5 7h-7L15 22v10z" fill="#fff"/>
         </svg>
       </a>
       <ul class="rmx-footer-nav">
@@ -369,9 +427,7 @@
         <li><a href="#">Comprar</a></li>
         <li><a href="#">Alquilar</a></li>
         <li><a href="#">Vender</a></li>
-        <li><a href="#">Franquicias</a></li>
         <li><a href="#">Oficinas</a></li>
-        <li><a href="#">Index REMAX</a></li>
         <li><a href="#">Contacto</a></li>
         <li><a href="#">Términos y Condiciones</a></li>
         <li><a href="#">Política de Privacidad</a></li>
@@ -464,5 +520,43 @@
 </footer>
 
 </div><!-- .rmx-page -->
+
+<script>
+/* TODO: reemplazar con webhook real de GHL */
+var GHL_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/KqrAuJu3oUHDyJOtRnta/webhook-trigger/1579e273-affb-4d26-a4ff-5f7fa65f1074';
+var WA_NUMBER   = '5491XXXXXXXXX'; /* TODO: número real */
+
+document.getElementById('rmx-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var nombre    = e.target.nombre.value.trim();
+  var telefono  = e.target.telefono.value.trim();
+  var email     = e.target.email.value.trim();
+  var necesidad = e.target.necesidad.value;
+  if (!nombre || !telefono || !necesidad) return;
+
+  var btn = document.getElementById('rmx-btn');
+  btn.disabled = true;
+  btn.classList.add('loading');
+
+  fetch(GHL_WEBHOOK, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      firstName: nombre,
+      phone:     telefono,
+      email:     email,
+      tags:      ['guerrilla-remax-nordelta', 'tipo-propietario'],
+      source:    'guerrilla-remax-nordelta',
+      customField: { necesidad: necesidad, origen_landing: 'remaxnordelta.com.ar' },
+    }),
+  }).catch(function(){}).finally(function() {
+    var accion = { vender:'vender mi propiedad', alquilar:'alquilar mi propiedad', saber_precio:'consultar el precio' }[necesidad] || 'consultar';
+    var msg = encodeURIComponent('Hola! Quiero ' + accion + ' en Nordelta. Completé el formulario, ¿podés contactarme?');
+    document.getElementById('rmx-wa').setAttribute('href', 'https://wa.me/' + WA_NUMBER + '?text=' + msg);
+    document.getElementById('rmx-form').style.display    = 'none';
+    document.getElementById('rmx-success').style.display = 'block';
+  });
+});
+</script>
 </body>
 </html>

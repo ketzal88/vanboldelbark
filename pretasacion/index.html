@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Pretasación Online Gratis | Nordelta y Zona Norte</title>
+  <meta name="description" content="Conocé el valor estimado de tu propiedad en Nordelta, Villanueva, Bancalari o Delta en 2 minutos. Resultado instantáneo sin cargo."/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --accent: #1a6bff;
+      --accent-dark: #1452cc;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --text: #1a1a2e;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --radius: 10px;
+      --shadow: 0 4px 24px rgba(0,0,0,.08);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* ── HEADER ── */
+    .hdr {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .hdr-brand { font-size: 1.1rem; font-weight: 800; color: var(--text); }
+    .hdr-brand span { color: var(--accent); }
+    .hdr-trust { font-size: .78rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+    .hdr-trust::before { content: '🔒'; font-size: .9rem; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #0f2555 0%, #1a6bff 100%);
+      color: #fff;
+      text-align: center;
+      padding: 52px 24px 40px;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      margin-bottom: 16px;
+    }
+    .hero h1 { font-size: 1.9rem; font-weight: 800; line-height: 1.2; margin-bottom: 10px; }
+    .hero p { font-size: 1rem; opacity: .85; max-width: 540px; margin: 0 auto; }
+    @media(max-width: 480px) { .hero h1 { font-size: 1.5rem; } }
+
+    /* ── PROGRESS ── */
+    .progress-wrap {
+      max-width: 560px;
+      margin: 32px auto 0;
+      padding: 0 24px;
+    }
+    .progress-steps {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+      position: relative;
+    }
+    .progress-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      width: 100%;
+      height: 2px;
+      background: rgba(255,255,255,.25);
+      z-index: 0;
+    }
+    .progress-step[data-active="true"]:not(:last-child)::after { background: rgba(255,255,255,.6); }
+    .step-dot {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      border: 2px solid rgba(255,255,255,.4);
+      color: rgba(255,255,255,.7);
+      font-size: .75rem;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 1;
+      transition: background .3s, border-color .3s;
+    }
+    .progress-step[data-active="true"] .step-dot {
+      background: #fff;
+      border-color: #fff;
+      color: var(--accent);
+    }
+    .progress-step[data-done="true"] .step-dot {
+      background: rgba(255,255,255,.6);
+      border-color: rgba(255,255,255,.6);
+      color: var(--text);
+    }
+    .step-label { font-size: .68rem; color: rgba(255,255,255,.7); font-weight: 500; text-align: center; }
+    .progress-step[data-active="true"] .step-label { color: #fff; font-weight: 700; }
+
+    /* ── CARD ── */
+    .card-wrap {
+      max-width: 560px;
+      margin: 24px auto 48px;
+      padding: 0 16px;
+    }
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 32px;
+    }
+    @media(max-width: 480px) { .card { padding: 24px 20px; } }
+    .card-title { font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .card-subtitle { font-size: .83rem; color: var(--muted); margin-bottom: 24px; }
+
+    /* ── FORM FIELDS ── */
+    .field { margin-bottom: 18px; }
+    .field label {
+      display: block;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+    .field select, .field input[type="text"], .field input[type="number"], .field input[type="email"], .field input[type="tel"] {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      font-family: 'Inter', sans-serif;
+      font-size: .9rem;
+      color: var(--text);
+      background: var(--white);
+      outline: none;
+      transition: border-color .15s;
+      -webkit-appearance: none;
+    }
+    .field select:focus, .field input:focus { border-color: var(--accent); }
+    .field select.error, .field input.error { border-color: var(--danger); }
+
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media(max-width: 400px) { .field-row { grid-template-columns: 1fr; } }
+
+    .field-error {
+      font-size: .73rem;
+      color: var(--danger);
+      margin-top: 4px;
+      display: none;
+    }
+    .field-error.visible { display: block; }
+
+    /* ── TOGGLE FIELD ── */
+    .toggle-group { display: flex; gap: 10px; }
+    .toggle-option { flex: 1; }
+    .toggle-option input[type="radio"] { display: none; }
+    .toggle-option label {
+      display: block;
+      text-align: center;
+      padding: 10px 8px;
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      transition: border-color .15s, color .15s, background .15s;
+      text-transform: none;
+      letter-spacing: normal;
+    }
+    .toggle-option input[type="radio"]:checked + label {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(26,107,255,.06);
+      font-weight: 700;
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 24px;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: .9rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: background .15s, transform .1s;
+    }
+    .btn:active { transform: scale(.98); }
+    .btn-primary { background: var(--accent); color: #fff; width: 100%; }
+    .btn-primary:hover { background: var(--accent-dark); }
+    .btn-ghost { background: transparent; color: var(--muted); padding-left: 0; font-weight: 600; }
+    .btn-ghost:hover { color: var(--text); }
+    .btn-row { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+    .btn-whatsapp { background: #25d366; color: #fff; width: 100%; font-size: 1rem; padding: 15px 24px; }
+    .btn-whatsapp:hover { background: #1da851; }
+    .btn-secondary { background: var(--bg); color: var(--text); width: 100%; border: 1.5px solid var(--border); }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── RESULT PANEL ── */
+    .result-badge {
+      display: inline-block;
+      background: rgba(22,163,74,.1);
+      color: var(--success);
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      margin-bottom: 16px;
+    }
+    .result-title { font-size: 1rem; color: var(--muted); margin-bottom: 4px; }
+    .result-range {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 12px 0 20px;
+      flex-wrap: wrap;
+    }
+    .result-val {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+    }
+    .result-sep { font-size: 1.2rem; color: var(--muted); }
+    .result-disclaimer {
+      font-size: .8rem;
+      color: var(--muted);
+      line-height: 1.6;
+      padding: 14px;
+      background: var(--bg);
+      border-radius: 7px;
+      margin-bottom: 20px;
+    }
+    .result-props {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .result-prop {
+      padding: 10px 12px;
+      background: var(--bg);
+      border-radius: 7px;
+    }
+    .result-prop-label { font-size: .68rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .4px; }
+    .result-prop-val { font-size: .9rem; font-weight: 700; color: var(--text); margin-top: 2px; }
+
+    /* ── TRUST STRIP ── */
+    .trust-strip {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding: 0 16px 32px;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .78rem;
+      color: var(--muted);
+    }
+    .trust-item .icon { font-size: 1rem; }
+
+    /* ── FOOTER ── */
+    footer { text-align: center; padding: 24px 16px; font-size: .72rem; color: #aaa; border-top: 1px solid var(--border); }
+
+    /* ── 3-COL ROW ── */
+    .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    @media(max-width: 480px) { .field-row-3 { grid-template-columns: 1fr 1fr; } }
+
+    /* ── TOGGLE 3-UP ── */
+    .toggle-group-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    @media(max-width: 400px) { .toggle-group-3 { grid-template-columns: 1fr 1fr; } }
+
+    /* ── AMENITIES PILLS ── */
+    .amenity-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+    .amenity-item input[type="checkbox"] { display: none; }
+    .amenity-item label {
+      display: block;
+      padding: 7px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 999px;
+      font-size: .82rem;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      transition: border-color .15s, color .15s, background .15s;
+      white-space: nowrap;
+      text-transform: none;
+      letter-spacing: normal;
+    }
+    .amenity-item input[type="checkbox"]:checked + label {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(26,107,255,.06);
+      font-weight: 700;
+    }
+
+    /* ── RESULT PROPS 3-COL ── */
+    .result-props-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .result-props-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    @media(max-width: 380px) {
+      .result-props-3 { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ── STEP VISIBILITY ── */
+    [data-testid="step-2"], [data-testid="step-3"] { display: none; }
+  </style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-brand">Tasación<span>Online</span></div>
+  <div class="hdr-trust">Gratuita · Sin compromiso · 2 minutos</div>
+</header>
+
+<section class="hero">
+  <div class="hero-badge">Pretasación Instantánea</div>
+  <h1>¿Cuánto vale tu propiedad<br>en Nordelta y Zona Norte?</h1>
+  <p>Resultado en USD en 2 minutos. Sin cargo, sin obligación.</p>
+
+  <div class="progress-wrap">
+    <div class="progress-steps" data-testid="step-indicator">
+      <div class="progress-step" data-active="true" data-step="1">
+        <div class="step-dot">1</div>
+        <div class="step-label">Tu propiedad</div>
+      </div>
+      <div class="progress-step" data-step="2">
+        <div class="step-dot">2</div>
+        <div class="step-label">Tus datos</div>
+      </div>
+      <div class="progress-step" data-step="3">
+        <div class="step-dot">3</div>
+        <div class="step-label">Resultado</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── STEP 1: Datos de la propiedad ─── -->
+<div class="card-wrap">
+  <div class="card" data-testid="step-1">
+    <div class="card-title">Tu propiedad</div>
+    <div class="card-subtitle">Completá los datos para calcular el valor estimado</div>
+
+    <div class="field">
+      <label for="zona">Zona</label>
+      <select id="zona" data-testid="zona" aria-label="Zona">
+        <option value="">Seleccioná una zona</option>
+        <option value="nordelta">Nordelta</option>
+        <option value="villanueva">Villanueva</option>
+        <option value="bancalari">Bancalari / Santa Bárbara</option>
+        <option value="delta">Delta / Tigre</option>
+      </select>
+      <div class="field-error" data-testid="error-zona" id="error-zona">Por favor seleccioná una zona</div>
+    </div>
+
+    <div class="field" id="field-barrio" style="display:none">
+      <label for="barrio">Barrio</label>
+      <select id="barrio" data-testid="barrio" aria-label="Barrio">
+        <option value="">Seleccioná el barrio</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="tipo">Tipo de propiedad</label>
+      <select id="tipo" data-testid="tipo" aria-label="Tipo de propiedad">
+        <option value="">Seleccioná el tipo</option>
+        <option value="casa">Casa</option>
+        <option value="dpto">Departamento</option>
+        <option value="lote">Lote / Terreno</option>
+      </select>
+      <div class="field-error" data-testid="error-tipo" id="error-tipo">Por favor seleccioná el tipo de propiedad</div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="m2">Metros cubiertos (m²)</label>
+        <input type="number" id="m2" data-testid="m2" min="1" max="9999" placeholder="Ej: 180" aria-label="Metros cubiertos"/>
+        <div class="field-error" data-testid="error-m2" id="error-m2">Ingresá los metros cubiertos</div>
+      </div>
+      <div class="field">
+        <label for="estado">Estado de la propiedad</label>
+        <select id="estado" data-testid="estado" aria-label="Estado de la propiedad">
+          <option value="">Seleccioná el estado</option>
+          <option value="nuevo">A nuevo / Estrenar</option>
+          <option value="muybueno">Muy bueno</option>
+          <option value="bueno">Bueno</option>
+          <option value="regular">Regular / A refaccionar</option>
+        </select>
+        <div class="field-error" data-testid="error-estado" id="error-estado">Por favor seleccioná el estado</div>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="ambientes">Ambientes</label>
+        <select id="ambientes" data-testid="ambientes" aria-label="Ambientes">
+          <option value="">Seleccioná</option>
+          <option value="mono">Monoambiente</option>
+          <option value="2">2 ambientes</option>
+          <option value="3">3 ambientes</option>
+          <option value="4">4 ambientes</option>
+          <option value="5+">5 o más</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="banos">Baños</label>
+        <select id="banos" data-testid="banos" aria-label="Baños">
+          <option value="">Seleccioná</option>
+          <option value="1">1 baño</option>
+          <option value="2">2 baños</option>
+          <option value="3">3 baños</option>
+          <option value="4+">4 o más</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>¿Tiene salida directa al agua / canal?</label>
+      <div class="toggle-group">
+        <div class="toggle-option">
+          <input type="radio" name="agua" id="agua-si" value="si" data-testid="agua-si"/>
+          <label for="agua-si">Sí, tiene</label>
+        </div>
+        <div class="toggle-option">
+          <input type="radio" name="agua" id="agua-no" value="no" data-testid="agua-no" checked/>
+          <label for="agua-no">No tiene</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>¿Tiene pileta?</label>
+      <div class="toggle-group">
+        <div class="toggle-option">
+          <input type="radio" name="pileta" id="pileta-si" value="si" data-testid="pileta-si"/>
+          <label for="pileta-si">Sí, tiene</label>
+        </div>
+        <div class="toggle-option">
+          <input type="radio" name="pileta" id="pileta-no" value="no" data-testid="pileta-no" checked/>
+          <label for="pileta-no">No tiene</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>¿Tiene cochera?</label>
+      <div class="toggle-group">
+        <div class="toggle-option">
+          <input type="radio" name="cochera" id="cochera-si" value="si" data-testid="cochera-si"/>
+          <label for="cochera-si">Sí, tiene</label>
+        </div>
+        <div class="toggle-option">
+          <input type="radio" name="cochera" id="cochera-no" value="no" data-testid="cochera-no" checked/>
+          <label for="cochera-no">No tiene</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Amenities del barrio (seleccioná los que tiene)</label>
+      <div class="amenity-group">
+        <div class="amenity-item">
+          <input type="checkbox" id="amenity-sum" value="sum" data-testid="amenity-sum"/>
+          <label for="amenity-sum">SUM / Quincho</label>
+        </div>
+        <div class="amenity-item">
+          <input type="checkbox" id="amenity-gym" value="gym" data-testid="amenity-gym"/>
+          <label for="amenity-gym">Gimnasio</label>
+        </div>
+        <div class="amenity-item">
+          <input type="checkbox" id="amenity-seg" value="seg" data-testid="amenity-seg"/>
+          <label for="amenity-seg">Seguridad 24hs</label>
+        </div>
+        <div class="amenity-item">
+          <input type="checkbox" id="amenity-jardin" value="jardin" data-testid="amenity-jardin"/>
+          <label for="amenity-jardin">Jardín / Terraza</label>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" data-testid="btn-siguiente-1" onclick="irAPaso2()">
+      Calcular valor estimado →
+    </button>
+  </div>
+
+  <!-- ─── STEP 2: Datos de contacto ─── -->
+  <div class="card" data-testid="step-2">
+    <div class="card-title">Casi listo</div>
+    <div class="card-subtitle">Ingresá tus datos para ver el resultado</div>
+
+    <div class="field">
+      <label for="nombre">Nombre y apellido</label>
+      <input type="text" id="nombre" data-testid="nombre" placeholder="Ej: María González" aria-label="Nombre y apellido"/>
+      <div class="field-error" data-testid="error-nombre" id="error-nombre">Ingresá tu nombre</div>
+    </div>
+
+    <div class="field">
+      <label for="telefono">Teléfono WhatsApp</label>
+      <input type="tel" id="telefono" data-testid="telefono" placeholder="Ej: 11 5555-5555" aria-label="Teléfono WhatsApp"/>
+      <div class="field-error" data-testid="error-telefono" id="error-telefono">Ingresá tu teléfono</div>
+    </div>
+
+    <div class="field">
+      <label for="email">Email (opcional)</label>
+      <input type="email" id="email" data-testid="email" placeholder="tu@email.com" aria-label="Email"/>
+    </div>
+
+    <div class="field">
+      <label for="intencion">¿Estás pensando en vender?</label>
+      <select id="intencion" data-testid="intencion" aria-label="Intención de venta">
+        <option value="">Seleccioná una opción</option>
+        <option value="caliente">Sí, quiero vender pronto</option>
+        <option value="tibio">Sí, pero no es urgente</option>
+        <option value="frio">Solo tengo curiosidad</option>
+      </select>
+      <div class="field-error" data-testid="error-intencion" id="error-intencion">Por favor seleccioná una opción</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" data-testid="btn-atras-2" onclick="irAPaso1()">← Atrás</button>
+      <button class="btn btn-primary" data-testid="btn-calcular" onclick="calcularYMostrar()" style="flex:1; margin-left:12px;">Ver resultado →</button>
+    </div>
+  </div>
+
+  <!-- ─── STEP 3: Resultado ─── -->
+  <div class="card" data-testid="step-3">
+    <div class="result-badge">✓ Pretasación lista</div>
+    <div class="result-title">Tu propiedad en <strong data-testid="result-zona-nombre">—</strong> vale estimativamente</div>
+
+    <div class="result-range">
+      <div class="result-val" data-testid="result-low">USD —</div>
+      <div class="result-sep">—</div>
+      <div class="result-val" data-testid="result-high">USD —</div>
+    </div>
+
+    <div class="result-props-3" data-testid="result-props">
+      <div class="result-prop">
+        <div class="result-prop-label">Tipo</div>
+        <div class="result-prop-val" data-testid="result-tipo-val">—</div>
+      </div>
+      <div class="result-prop">
+        <div class="result-prop-label">Metros</div>
+        <div class="result-prop-val" data-testid="result-m2-val">— m²</div>
+      </div>
+      <div class="result-prop">
+        <div class="result-prop-label">Barrio</div>
+        <div class="result-prop-val" data-testid="result-barrio-val">—</div>
+      </div>
+    </div>
+    <div class="result-props-3">
+      <div class="result-prop">
+        <div class="result-prop-label">Ambientes</div>
+        <div class="result-prop-val" data-testid="result-ambientes-val">—</div>
+      </div>
+      <div class="result-prop">
+        <div class="result-prop-label">Baños</div>
+        <div class="result-prop-val" data-testid="result-banos-val">—</div>
+      </div>
+      <div class="result-prop">
+        <div class="result-prop-label">Estado</div>
+        <div class="result-prop-val" data-testid="result-estado-val">—</div>
+      </div>
+    </div>
+    <div class="result-props-2">
+      <div class="result-prop">
+        <div class="result-prop-label">Extras</div>
+        <div class="result-prop-val" data-testid="result-extras-val">—</div>
+      </div>
+      <div class="result-prop">
+        <div class="result-prop-label">Amenities</div>
+        <div class="result-prop-val" data-testid="result-amenities-val">—</div>
+      </div>
+    </div>
+
+    <div class="result-disclaimer">
+      Este es un estimado preliminar basado en valores de mercado de la zona. Para una tasación precisa y gratuita, un asesor te contactará en menos de 2 horas.
+    </div>
+
+    <a data-testid="btn-whatsapp" class="btn btn-whatsapp" target="_blank" rel="noopener">
+      💬 Quiero la tasación completa gratis
+    </a>
+
+    <div style="margin-top: 12px;">
+      <button class="btn btn-secondary" data-testid="btn-nueva-tasacion" onclick="reiniciar()">
+        Hacer otra consulta
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="trust-strip">
+  <div class="trust-item"><span class="icon">📍</span> Especialistas zona norte</div>
+  <div class="trust-item"><span class="icon">⚡</span> Respuesta en &lt; 2 hs</div>
+  <div class="trust-item"><span class="icon">🔒</span> Datos confidenciales</div>
+</div>
+
+<footer>
+  <p>Sitio independiente de búsqueda inmobiliaria · Zona Norte AMBA</p>
+  <!-- TODO: Reemplazar número de WhatsApp con variable de entorno por landing -->
+</footer>
+
+<script>
+  // ── Precio base por m² (midpoint de rango, en USD) ──
+  const PRECIOS = {
+    nordelta: {
+      casa:  { agua: 4000, noAgua: 2600 },
+      dpto:  { agua: 2400, noAgua: 2400 },
+      lote:  { agua: 3400, noAgua: 2200 }
+    },
+    villanueva: {
+      casa:  { agua: 2150, noAgua: 2150 },
+      dpto:  { agua: 2150, noAgua: 2150 },
+      lote:  { agua: 2150, noAgua: 2150 }
+    },
+    bancalari: {
+      casa:  { agua: 1900, noAgua: 1900 },
+      dpto:  { agua: 1900, noAgua: 1900 },
+      lote:  { agua: 1900, noAgua: 1900 }
+    },
+    delta: {
+      casa:  { agua: 1600, noAgua: 1600 },
+      dpto:  { agua: 1600, noAgua: 1600 },
+      lote:  { agua: 1600, noAgua: 1600 }
+    }
+  };
+
+  // Ajuste +20% agua para zonas sin distinción de tier
+  const ZONAS_CON_TIER_AGUA = ['nordelta'];
+
+  // ── Barrios por zona ──
+  const BARRIOS = {
+    nordelta:   ['Los Alisos','Los Caracoles','Los Eucaliptos','Los Flamencos','Los Naranjos','Los Sauces','Los Tulipanes','El Condado','Puerto Nordelta','The Hills'],
+    villanueva: ['Barrio Golf','Barrio del Lago','Barrio Portezuelo','Torres del Lago','Villanueva Chico'],
+    bancalari:  ['Santa Bárbara','Bancalari','Av. de los Lagos','San Nicolás'],
+    delta:      ['Delta del Tigre','Primera Sección','Segunda Sección','Tercera Sección','Arroyo Rama Negra']
+  };
+
+  // ── Función de cálculo exportable ──
+  // cochera: boolean (+4%) | amenitiesCount: 0-4 (+2% cada uno, máx +6%)
+  function calcular(zona, tipo, m2, agua, estado, pileta, cochera, amenitiesCount) {
+    if (!PRECIOS[zona] || !PRECIOS[zona][tipo]) return null;
+    if (!m2 || m2 <= 0) return null;
+
+    let ppm2 = agua
+      ? PRECIOS[zona][tipo].agua
+      : PRECIOS[zona][tipo].noAgua;
+
+    // Ajuste agua solo para zonas sin tier propio (evita doble conteo en Nordelta)
+    if (agua && !ZONAS_CON_TIER_AGUA.includes(zona)) {
+      ppm2 = ppm2 * 1.20;
+    }
+
+    let mult = 1;
+    if (estado === 'nuevo')   mult *= 1.15;
+    if (estado === 'regular') mult *= 0.80;
+    if (pileta)               mult *= 1.08;
+    if (cochera)              mult *= 1.04;
+    mult *= (1 + Math.min(amenitiesCount || 0, 3) * 0.02);
+
+    const valor = m2 * ppm2 * mult;
+    return {
+      low:  Math.round(valor * 0.85),
+      high: Math.round(valor * 1.15),
+      valor: Math.round(valor)
+    };
+  }
+
+  // Exponer al contexto global para tests
+  window.__calcular = calcular;
+  window.__PRECIOS  = PRECIOS;
+
+  // ── Helpers UI ──
+  const $ = id => document.getElementById(id);
+  const $t = id => document.querySelector(`[data-testid="${id}"]`);
+
+  function mostrarError(id, show) {
+    const el = $(id);
+    if (el) el.classList.toggle('visible', show);
+    const input = el && el.previousElementSibling;
+    if (input && (input.tagName === 'INPUT' || input.tagName === 'SELECT')) {
+      input.classList.toggle('error', show);
+    }
+  }
+
+  function limpiarErrores() {
+    document.querySelectorAll('.field-error').forEach(e => e.classList.remove('visible'));
+    document.querySelectorAll('.error').forEach(e => e.classList.remove('error'));
+  }
+
+  function setStep(n) {
+    $t('step-1').style.display = n === 1 ? 'block' : 'none';
+    $t('step-2').style.display = n === 2 ? 'block' : 'none';
+    $t('step-3').style.display = n === 3 ? 'block' : 'none';
+
+    document.querySelectorAll('[data-step]').forEach(el => {
+      const s = parseInt(el.dataset.step);
+      el.dataset.active = s === n ? 'true' : 'false';
+      el.dataset.done   = s < n  ? 'true' : 'false';
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── Validación paso 1 ──
+  function validarPaso1() {
+    let ok = true;
+    limpiarErrores();
+
+    const zona = $('zona').value;
+    if (!zona) { mostrarError('error-zona', true); ok = false; }
+
+    const tipo = $('tipo').value;
+    if (!tipo) { mostrarError('error-tipo', true); ok = false; }
+
+    const m2 = parseFloat($('m2').value);
+    if (!m2 || m2 <= 0 || isNaN(m2)) { mostrarError('error-m2', true); ok = false; }
+
+    const estado = $('estado').value;
+    if (!estado) { mostrarError('error-estado', true); ok = false; }
+
+    return ok;
+  }
+
+  // ── Validación paso 2 ──
+  function validarPaso2() {
+    let ok = true;
+    limpiarErrores();
+
+    const nombre = $('nombre').value.trim();
+    if (!nombre) { mostrarError('error-nombre', true); ok = false; }
+
+    const telefono = $('telefono').value.trim();
+    if (!telefono) { mostrarError('error-telefono', true); ok = false; }
+
+    const intencion = $('intencion').value;
+    if (!intencion) { mostrarError('error-intencion', true); ok = false; }
+
+    return ok;
+  }
+
+  function irAPaso2() {
+    if (validarPaso1()) setStep(2);
+  }
+
+  function irAPaso1() {
+    limpiarErrores();
+    setStep(1);
+  }
+
+  // ── Formateo numérico (estilo AR: punto como separador de miles) ──
+  function fmtUSD(n) {
+    return 'USD ' + n.toLocaleString('es-AR');
+  }
+
+  // ── Nombres legibles ──
+  const ZONA_LABEL = {
+    nordelta:   'Nordelta',
+    villanueva: 'Villanueva',
+    bancalari:  'Bancalari / Santa Bárbara',
+    delta:      'Delta / Tigre'
+  };
+  const TIPO_LABEL      = { casa: 'Casa', dpto: 'Departamento', lote: 'Lote / Terreno' };
+  const ESTADO_LABEL    = { nuevo: 'A nuevo', muybueno: 'Muy bueno', bueno: 'Bueno', regular: 'Regular' };
+  const AMBIENTES_LABEL = { mono: 'Monoambiente', '2': '2 amb.', '3': '3 amb.', '4': '4 amb.', '5+': '5+ amb.' };
+  const BANOS_LABEL     = { '1': '1 baño', '2': '2 baños', '3': '3 baños', '4+': '4+ baños' };
+
+  // Poblar barrios según zona seleccionada (DOM seguro, sin innerHTML)
+  $('zona').addEventListener('change', function () {
+    const zona = this.value;
+    const fieldBarrio = document.getElementById('field-barrio');
+    const sel = $('barrio');
+
+    while (sel.options.length > 0) sel.options.remove(0);
+
+    const defOpt = document.createElement('option');
+    defOpt.value = '';
+    defOpt.textContent = 'Seleccioná el barrio';
+    sel.appendChild(defOpt);
+
+    if (zona && BARRIOS[zona]) {
+      BARRIOS[zona].forEach(b => {
+        const opt = document.createElement('option');
+        opt.value = b;
+        opt.textContent = b;
+        sel.appendChild(opt);
+      });
+      fieldBarrio.style.display = 'block';
+    } else {
+      fieldBarrio.style.display = 'none';
+    }
+  });
+
+  // ── Número de WhatsApp (reemplazar con variable de entorno en producción) ──
+  const WA_NUMBER = '5491100000000'; // TODO: reemplazar con número real
+
+  function calcularYMostrar() {
+    if (!validarPaso2()) return;
+
+    const zona      = $('zona').value;
+    const tipo      = $('tipo').value;
+    const m2        = parseFloat($('m2').value);
+    const estado    = $('estado').value;
+    const agua      = document.querySelector('input[name="agua"]:checked').value === 'si';
+    const pileta    = document.querySelector('input[name="pileta"]:checked').value === 'si';
+    const cochera   = document.querySelector('input[name="cochera"]:checked').value === 'si';
+    const barrio    = $('barrio').value;
+    const ambientes = $('ambientes').value;
+    const banos     = $('banos').value;
+    const nombre    = $('nombre').value.trim();
+    const tel       = $('telefono').value.trim();
+    const intencion = $('intencion').value;
+
+    const checkedAmenities = [...document.querySelectorAll('.amenity-item input[type="checkbox"]:checked')];
+    const amenityNames     = checkedAmenities.map(el => el.nextElementSibling.textContent);
+    const amenitiesCount   = amenityNames.length;
+
+    const res = calcular(zona, tipo, m2, agua, estado, pileta, cochera, amenitiesCount);
+    if (!res) return;
+
+    // Poblar resultado
+    $t('result-zona-nombre').textContent    = ZONA_LABEL[zona] || zona;
+    $t('result-low').textContent            = fmtUSD(res.low);
+    $t('result-high').textContent           = fmtUSD(res.high);
+    $t('result-tipo-val').textContent       = TIPO_LABEL[tipo] || tipo;
+    $t('result-m2-val').textContent         = m2 + ' m²';
+    $t('result-barrio-val').textContent     = barrio || '—';
+    $t('result-ambientes-val').textContent  = AMBIENTES_LABEL[ambientes] || '—';
+    $t('result-banos-val').textContent      = BANOS_LABEL[banos] || '—';
+    $t('result-estado-val').textContent     = ESTADO_LABEL[estado] || estado;
+
+    const extras = [];
+    if (agua)    extras.push('Al agua');
+    if (pileta)  extras.push('Pileta');
+    if (cochera) extras.push('Cochera');
+    $t('result-extras-val').textContent    = extras.length ? extras.join(', ') : 'Sin extras';
+    $t('result-amenities-val').textContent = amenityNames.length ? amenityNames.join(', ') : '—';
+
+    // WhatsApp link
+    const zonaLabel = ZONA_LABEL[zona] || zona;
+    const amenStr   = amenityNames.length ? amenityNames.join(', ') : 'ninguno';
+    const msg = encodeURIComponent(
+      `Hola, hice la pretasación en el sitio.\n` +
+      `Mi propiedad: ${TIPO_LABEL[tipo] || tipo}${barrio ? ' - ' + barrio : ''} (${zonaLabel}), ${m2}m² - ${ESTADO_LABEL[estado] || estado}.\n` +
+      `Ambientes: ${AMBIENTES_LABEL[ambientes] || '—'} | Baños: ${BANOS_LABEL[banos] || '—'}\n` +
+      `Extras: ${extras.length ? extras.join(', ') : 'ninguno'} | Amenities: ${amenStr}\n` +
+      `Resultado: ${fmtUSD(res.low)} – ${fmtUSD(res.high)}\n` +
+      `Intención: ${intencion}\n` +
+      `Nombre: ${nombre} | Tel: ${tel}`
+    );
+    $t('btn-whatsapp').href = `https://wa.me/${WA_NUMBER}?text=${msg}`;
+
+    setStep(3);
+  }
+
+  function reiniciar() {
+    $('zona').value      = '';
+    $('tipo').value      = '';
+    $('m2').value        = '';
+    $('estado').value    = '';
+    $('ambientes').value = '';
+    $('banos').value     = '';
+    $('barrio').value    = '';
+    document.getElementById('field-barrio').style.display = 'none';
+    document.getElementById('agua-no').checked    = true;
+    document.getElementById('pileta-no').checked  = true;
+    document.getElementById('cochera-no').checked = true;
+    document.querySelectorAll('.amenity-item input[type="checkbox"]').forEach(cb => { cb.checked = false; });
+    $('nombre').value    = '';
+    $('telefono').value  = '';
+    $('email').value     = '';
+    $('intencion').value = '';
+    limpiarErrores();
+    setStep(1);
+  }
+
+  // Init: mostrar paso 1
+  setStep(1);
+</script>
+
+</body>
+</html>

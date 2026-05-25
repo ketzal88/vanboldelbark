@@ -4,20 +4,47 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Contacto | Tasaciones</title>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;600;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet"/>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Open Sans', sans-serif; background: #f2f2f2; color: #333; min-height: 100vh; display: flex; flex-direction: column; }
 
-  .top-bar { background: #555; height: 38px; display: flex; align-items: center; padding: 0 24px; gap: 20px; }
-  .top-bar a { color: #ccc; font-size: .75rem; text-decoration: none; }
-  .top-bar a:hover { color: #fff; }
+  .top-bar { height: 6px; background: #1a1a1a; width: 100%; }
 
-  .nav-bar { background: #fff; border-bottom: 1px solid #ddd; height: 52px; display: flex; align-items: center; padding: 0 24px; gap: 28px; }
-  .nav-bar a { color: #444; font-size: .85rem; font-weight: 600; text-decoration: none; }
-  .nav-bar a:hover { color: #a00; }
+  .header { background: #6b6b6b; height: 64px; display: flex; align-items: center; padding: 0 32px; width: 100%; }
+  .header-inner { max-width: 1440px; margin: 0 auto; width: 100%; display: flex; align-items: center; justify-content: space-between; }
 
-  main { flex: 1; max-width: 1100px; width: 100%; margin: 40px auto; padding: 0 24px; }
+  .left-block { display: flex; align-items: center; gap: 18px; }
+  .logo { border: 2px solid #fff; padding: 6px 14px 5px; display: inline-flex; align-items: center; border-radius: 3px; }
+  .logo-text { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 24px; letter-spacing: 3px; color: #fff; line-height: 1; display: flex; }
+  .logo-text .accent { color: #c8102e; }
+  .hdr-divider { width: 1px; height: 28px; background: rgba(255,255,255,0.45); }
+  .tagline { color: #fff; font-size: 14px; font-weight: 400; letter-spacing: 0.2px; }
+
+  .nav-items { display: flex; align-items: center; gap: 36px; }
+  .nav-item { display: flex; align-items: center; gap: 9px; color: #d8d8d8; font-size: 14px; text-decoration: none; transition: color 0.2s ease; cursor: pointer; }
+  .nav-item:hover { color: #fff; }
+  .nav-item svg { width: 16px; height: 16px; fill: #d8d8d8; transition: fill 0.2s ease; }
+  .nav-item:hover svg { fill: #fff; }
+  .nav-item.whatsapp { color: #fff; font-weight: 400; }
+
+  .wa-icon { width: 26px; height: 26px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .wa-icon svg { width: 16px; height: 16px; fill: #fff !important; }
+
+  .anniversary { position: relative; width: 70px; height: 50px; display: flex; align-items: center; justify-content: center; }
+  .anniversary .mark { font-family: 'Oswald', sans-serif; font-weight: 300; font-size: 32px; color: #fff; letter-spacing: 1px; line-height: 1; position: relative; z-index: 1; }
+  .anniversary .stroke { position: absolute; top: 50%; left: 50%; width: 80px; height: 3px; background: #c8102e; transform: translate(-50%, -50%) rotate(-22deg); border-radius: 2px; z-index: 2; }
+  .anniversary .years { position: absolute; bottom: -2px; right: -4px; font-family: 'Open Sans', sans-serif; font-size: 10px; color: #fff; font-weight: 300; letter-spacing: 1px; z-index: 3; }
+
+  .subnav { background: #fff; height: 52px; display: flex; align-items: center; padding: 0 32px; border-bottom: 1px solid #e8e8e8; }
+  .subnav-inner { max-width: 1440px; margin: 0 auto; width: 100%; display: flex; align-items: center; gap: 44px; }
+  .subnav-item { color: #1a1a1a; font-size: 15px; font-weight: 400; text-decoration: none; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: color 0.2s ease; position: relative; padding: 8px 0; }
+  .subnav-item:hover { color: #c8102e; }
+  .subnav-item.active { font-weight: 700; }
+  .subnav-item.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: #1a1a1a; }
+  .chevron { width: 10px; height: 10px; fill: #1a1a1a; }
+
+  main { flex: 1; max-width: 1440px; width: 100%; margin: 40px auto; padding: 0 24px; }
 
   .forms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
 
@@ -53,25 +80,68 @@
 
   @media (max-width: 768px) {
     .forms-grid { grid-template-columns: 1fr; }
-    .divider { display: none; }
     .field-group { grid-template-columns: 1fr; }
+    .hdr-divider, .tagline, .anniversary { display: none; }
+    .nav-items { gap: 16px; }
+    .nav-item span:not(.wa-icon) { display: none; }
+    .subnav-inner { gap: 20px; overflow-x: auto; }
   }
 </style>
 </head>
 <body>
 
-<div class="top-bar">
-  <a href="#">Red de Oficinas</a>
-  <a href="#">Contáctenos</a>
-</div>
+<div class="top-bar"></div>
 
-<div class="nav-bar">
-  <a href="#">Höli Haus</a>
-  <a href="#">Obras</a>
-  <a href="#">Barrios Cerrados</a>
-  <a href="#">Patagonia</a>
-  <a href="#">Tasaciones</a>
-</div>
+<header class="header">
+  <div class="header-inner">
+    <div class="left-block">
+      <div class="logo">
+        <span class="logo-text">VR<span class="accent">A</span>NDO</span>
+      </div>
+      <div class="hdr-divider"></div>
+      <span class="tagline">Seguinos, Te Acompañamos</span>
+    </div>
+
+    <nav class="nav-items">
+      <a href="#" class="nav-item whatsapp">
+        <span class="wa-icon">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        </span>
+        Enviar Mensaje
+      </a>
+      <a href="#" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        Red de Oficinas
+      </a>
+      <a href="#" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        Contactenos
+      </a>
+    </nav>
+
+    <div class="anniversary">
+      <span class="mark">ti</span>
+      <span class="stroke"></span>
+      <span class="years">años</span>
+    </div>
+  </div>
+</header>
+
+<nav class="subnav">
+  <div class="subnav-inner">
+    <a href="#" class="subnav-item">Propiedades</a>
+    <a href="#" class="subnav-item">
+      Obras
+      <svg class="chevron" viewBox="0 0 12 12"><path d="M6 8L2 4h8z"/></svg>
+    </a>
+    <a href="#" class="subnav-item">
+      Barrios Cerrados
+      <svg class="chevron" viewBox="0 0 12 12"><path d="M6 8L2 4h8z"/></svg>
+    </a>
+    <a href="#" class="subnav-item">Patagonia</a>
+    <a href="#" class="subnav-item active">Tasaciones</a>
+  </div>
+</nav>
 
 <main>
   <div class="forms-grid">
@@ -163,5 +233,49 @@
   <p>Responsable Matriculado: Según oficina interviniente.</p>
 </footer>
 
+<script>
+/* TODO: reemplazar con webhook real de GHL */
+var GHL_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/KqrAuJu3oUHDyJOtRnta/webhook-trigger/1579e273-affb-4d26-a4ff-5f7fa65f1074';
+var WA_NUMBER   = '5491XXXXXXXXX'; /* TODO: número real */
+
+function handleTizadoForm(form, tag, originLabel) {
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var nombre   = form.querySelector('input[type="text"]').value.trim();
+    var telefono = (form.querySelector('input[type="tel"]') || {}).value || '';
+    var email    = (form.querySelector('input[type="email"]') || {}).value || '';
+    if (!nombre) return;
+
+    var btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+
+    fetch(GHL_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName: nombre,
+        phone:     telefono.trim(),
+        email:     email.trim(),
+        tags:      [tag, 'tipo-propietario'],
+        source:    tag,
+        customField: { origen_landing: originLabel },
+      }),
+    }).catch(function(){}).finally(function() {
+      var msg = encodeURIComponent('Hola! Quiero tasar mi propiedad en Nordelta. Completé el formulario, ¿podés contactarme?');
+      var wa  = document.createElement('a');
+      wa.href   = 'https://wa.me/' + WA_NUMBER + '?text=' + msg;
+      wa.target = '_blank';
+      wa.rel    = 'noopener noreferrer';
+      wa.textContent = '✅ ¡Gracias! Escribinos por WhatsApp';
+      wa.style.cssText = 'display:inline-block;margin-top:16px;background:#a00;color:#fff;padding:10px 20px;font-weight:700;text-decoration:none;font-size:.875rem';
+      btn.replaceWith(wa);
+    });
+  });
+}
+
+var forms = document.querySelectorAll('form');
+if (forms[0]) handleTizadoForm(forms[0], 'guerrilla-tizado-nordelta', 'tizadonordelta.com.ar');
+if (forms[1]) handleTizadoForm(forms[1], 'guerrilla-tizado-nordelta', 'tizadonordelta.com.ar');
+</script>
 </body>
 </html>

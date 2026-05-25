@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Vendé tu propiedad | REMAX</title>
-  <meta name="description" content="Completá el formulario y una oficina adherida a la red REMAX se pondrá en contacto con vos para continuar con el proceso." />
+  <title>Vendé tu propiedad en Nordelta</title>
+  <meta name="description" content="Completá el formulario y un asesor de la zona se pondrá en contacto con vos en menos de 2 horas." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -105,6 +105,9 @@
     .layout {
       display: flex;
       height: calc(100vh - var(--header-h));
+      max-width: 1440px;
+      margin: 0 auto;
+      width: 100%;
     }
 
     /* ── Left: form column ── */
@@ -339,6 +342,8 @@
       grid-template-columns: 190px 1fr 1fr 1fr;
       gap: 24px;
       padding: 40px 24px 28px;
+      max-width: 1440px;
+      margin: 0 auto;
     }
 
     /* Footer sidebar */
@@ -469,10 +474,10 @@
   <div class="form-col">
 
     <div id="form-section">
-      <h1 class="pg-title">Vendé tu propiedad</h1>
+      <h1 class="pg-title">Vendé tu propiedad en Nordelta</h1>
       <p class="pg-desc">
-        Completá el formulario y una oficina adherida a la red REMAX se pondrá
-        en contacto con vos para continuar con el proceso.
+        Completá el formulario y un asesor de la zona se pondrá
+        en contacto con vos en menos de 2 horas.
       </p>
 
       <form class="rm-form" id="sell-form" novalidate>
@@ -578,7 +583,12 @@
     <div class="success-msg" id="success-msg">
       <div class="success-check">✓</div>
       <h2>¡Consulta enviada!</h2>
-      <p>Un agente REMAX de tu zona se comunicará con vos a la brevedad.</p>
+      <p>Un asesor de la zona se comunicará con vos en menos de 2 horas.</p>
+      <a id="wa-link" href="#" target="_blank" rel="noopener noreferrer"
+         style="display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;font-size:.875rem;text-decoration:none;margin-top:8px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Escribir por WhatsApp
+      </a>
     </div>
 
   </div>
@@ -587,7 +597,7 @@
   <div class="photo-col">
     <img
       src="fondormax.png"
-      alt="Vendé tu propiedad con REMAX"
+      alt="Propiedades en Nordelta"
       loading="eager"
     />
   </div>
@@ -601,14 +611,9 @@
     <!-- Sidebar: logo + nav links -->
     <div class="footer-sidebar">
       <a href="/" class="f-logo">
-        <svg width="48" height="58" viewBox="0 0 60 72" fill="none">
-          <ellipse cx="30" cy="30" rx="28" ry="28" fill="#DC1B38"/>
-          <path d="M3 38 Q4 58 30 58 Q56 58 57 38 Z" fill="#003087"/>
-          <rect x="3" y="26" width="54" height="14" fill="white"/>
-          <text x="30" y="37" text-anchor="middle" font-family="Montserrat,sans-serif" font-weight="900" font-size="9.5" fill="#DC1B38" letter-spacing="0.5">RE/MAX</text>
-          <line x1="22" y1="58" x2="19" y2="67" stroke="#9e9e9e" stroke-width="1.5" stroke-linecap="round"/>
-          <line x1="38" y1="58" x2="41" y2="67" stroke="#9e9e9e" stroke-width="1.5" stroke-linecap="round"/>
-          <rect x="19" y="67" width="22" height="5" rx="1.5" fill="#bdbdbd"/>
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+          <rect width="44" height="44" rx="6" fill="#DC1B38"/>
+          <path d="M10 32V14h8l4 8 4-8h8v18h-5V22l-3.5 7h-7L15 22v10z" fill="#fff"/>
         </svg>
       </a>
       <ul class="footer-nav">
@@ -616,9 +621,7 @@
         <li><a href="#">Comprar</a></li>
         <li><a href="#">Alquilar</a></li>
         <li><a href="#">Vender</a></li>
-        <li><a href="#">Franquicias</a></li>
         <li><a href="#">Oficinas</a></li>
-        <li><a href="#">Index REMAX</a></li>
         <li><a href="#">Contacto</a></li>
         <li><a href="#">Términos y Condiciones</a></li>
         <li><a href="#">Política de Privacidad</a></li>
@@ -735,12 +738,47 @@
     if (nombreHint) nombreHint.style.display = 'none';
   });
 
-  // Form submit
+  /* TODO: reemplazar con webhook real de GHL */
+  var GHL_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/KqrAuJu3oUHDyJOtRnta/webhook-trigger/1579e273-affb-4d26-a4ff-5f7fa65f1074';
+  var WA_NUMBER   = '5491XXXXXXXXX'; /* TODO: número real */
+
+  // Form submit → GHL webhook + WA
   document.getElementById('sell-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    document.getElementById('form-section').style.display = 'none';
-    const msg = document.getElementById('success-msg');
-    msg.style.display = 'flex';
+    var btn = e.target.querySelector('.btn-submit');
+    btn.disabled = true;
+    btn.textContent = '...';
+
+    var nombre     = document.getElementById('nombre').value.trim();
+    var email      = document.getElementById('email').value.trim();
+    var telefono   = document.getElementById('telefono').value.trim();
+    var localidad  = document.getElementById('localidad').value.trim();
+    var tipo       = document.getElementById('tipo').value;
+    var comentarios = document.getElementById('comentarios').value.trim();
+
+    fetch(GHL_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName: nombre,
+        email:     email,
+        phone:     telefono,
+        tags:      ['guerrilla-remax-nordelta', 'tipo-propietario'],
+        source:    'guerrilla-remax-nordelta',
+        customField: {
+          localidad:      localidad,
+          tipo_propiedad: tipo,
+          comentarios:    comentarios,
+          origen_landing: 'remaxnordelta.com.ar',
+        },
+      }),
+    }).catch(function(){}).finally(function() {
+      var msg = encodeURIComponent('Hola! Quiero vender mi propiedad en Nordelta. Completé el formulario, ¿podés contactarme?');
+      document.getElementById('wa-link').setAttribute('href', 'https://wa.me/' + WA_NUMBER + '?text=' + msg);
+      document.getElementById('form-section').style.display = 'none';
+      var successEl = document.getElementById('success-msg');
+      successEl.style.display = 'flex';
+    });
   });
 </script>
 
