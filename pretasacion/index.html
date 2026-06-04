@@ -3,8 +3,71 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Pretasación Online Gratis | Nordelta y Zona Norte</title>
-  <meta name="description" content="Conocé el valor estimado de tu propiedad en Nordelta, Villanueva, Bancalari o Delta en 2 minutos. Resultado instantáneo sin cargo."/>
+  <title>Tasación Online Gratis | Zona Norte — Nordelta, San Isidro, Vicente López</title>
+  <meta name="description" content="Conocé el valor de tu propiedad en Nordelta, San Isidro, Vicente López, Villanueva, Bancalari o Delta en 2 minutos. Tasación gratuita, resultado inmediato en USD."/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://www.tasacionesnordelta.com/"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:locale" content="es_AR"/>
+  <meta property="og:title" content="Tasación Online Gratis | Zona Norte AMBA"/>
+  <meta property="og:description" content="Sabé cuánto vale tu propiedad en Nordelta, San Isidro, Vicente López o Villanueva. Resultado en USD en 2 minutos. Gratis y sin compromiso."/>
+  <meta property="og:url" content="https://www.tasacionesnordelta.com/"/>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Cuánto vale una propiedad en Nordelta?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "En Nordelta los valores dependen del barrio y tipo: casas al agua cotizan entre USD 3.500 y USD 4.500/m², casas internas entre USD 2.200 y USD 3.000/m², lotes al agua entre USD 2.800 y USD 4.000/m² y departamentos entre USD 2.000 y USD 2.800/m²."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Cuánto vale una propiedad en San Isidro o Vicente López?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "En San Isidro los departamentos y casas cotizan entre USD 2.500 y USD 3.000/m². En Vicente López el rango es USD 3.000 a USD 3.500/m². Los valores varían según barrio, estado y amenities."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Cómo funciona la tasación online gratuita?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Completás un formulario de 3 pasos con los datos de tu propiedad (zona, tipo, superficie y características) y obtenés un rango estimado en USD de forma inmediata, sin cargo y sin compromiso de venta."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿En qué zonas realizan tasaciones?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Realizamos tasaciones en Nordelta, Villanueva, Bancalari, Santa Bárbara, Delta del Tigre, San Isidro, Acassuso, Martínez, Vicente López, Olivos, La Lucila y toda la Zona Norte del Gran Buenos Aires."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Cuánto tiempo lleva la pretasación?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "La pretasación online tarda 2 minutos y el resultado es inmediato. Para una tasación completa y precisa, un asesor especializado en la zona se comunica con vos en menos de 2 horas."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿La tasación es realmente gratuita?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, completamente gratuita. Tanto la pretasación online instantánea como la tasación completa a cargo de un asesor son sin cargo y sin obligación de venta."
+        }
+      }
+    ]
+  }
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -360,8 +423,8 @@
 </header>
 
 <section class="hero">
-  <div class="hero-badge">Pretasación Instantánea</div>
-  <h1>¿Cuánto vale tu propiedad<br>en Nordelta y Zona Norte?</h1>
+  <div class="hero-badge" id="hero-badge">Pretasación Instantánea</div>
+  <h1>¿Cuánto vale tu propiedad<br>en Zona Norte y <span id="zona-label">Nordelta</span>?</h1>
   <p>Resultado en USD en 2 minutos. Sin cargo, sin obligación.</p>
 
   <div class="progress-wrap">
@@ -662,6 +725,25 @@
 </footer>
 
 <script>
+  // ── Keyword insertion: ?zona= personaliza headline y pre-selecciona form ──
+  (function () {
+    const ZONA_LABEL = {
+      nordelta: 'Nordelta', villanueva: 'Villanueva', bancalari: 'Bancalari',
+      delta: 'Delta del Tigre', tigre: 'Tigre', sanisidro: 'San Isidro',
+      vicentelopez: 'Vicente López'
+    };
+    const zona = new URLSearchParams(window.location.search).get('zona');
+    const label = zona && ZONA_LABEL[zona];
+    if (!label) return;
+    const span = document.getElementById('zona-label');
+    if (span) span.textContent = label;
+    document.title = 'Tasación Online Gratis en ' + label + ' | Zona Norte';
+    const md = document.querySelector('meta[name="description"]');
+    if (md) md.content = 'Conocé el valor de tu propiedad en ' + label + ' en 2 minutos. Tasación gratuita e instantánea en USD. Sin cargo, sin compromiso.';
+    const sel = document.getElementById('zona');
+    if (sel) sel.value = zona;
+  })();
+
   // ── Precio base por m² (midpoint de rango, en USD) ──
   const PRECIOS = {
     nordelta: {
