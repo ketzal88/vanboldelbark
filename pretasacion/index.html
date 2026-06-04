@@ -30,7 +30,7 @@
         "name": "¿Cuánto vale una propiedad en San Isidro o Vicente López?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "En San Isidro los departamentos y casas cotizan entre USD 2.500 y USD 3.000/m². En Vicente López el rango es USD 3.000 a USD 3.500/m². Los valores varían según barrio, estado y amenities."
+          "text": "En San Isidro los departamentos cotizan entre USD 2.500 y USD 2.900/m², y las casas entre USD 2.000 y USD 2.500/m². En Vicente López los departamentos están en USD 2.700 a USD 3.100/m², y las casas en USD 2.200 a USD 2.600/m². Los valores varían según barrio, estado y amenities."
         }
       },
       {
@@ -783,7 +783,7 @@
   </details>
   <details class="faq-item">
     <summary>¿Cuánto vale una propiedad en San Isidro o Vicente López?</summary>
-    <p>En <strong>San Isidro</strong> (Acassuso, Beccar, Martínez) las propiedades cotizan entre USD 2.500 y USD 3.000/m². En <strong>Vicente López</strong> (Olivos, La Lucila, Florida) el rango es USD 3.000 a USD 3.500/m². Los valores exactos varían según barrio, estado del inmueble, cochera y amenities.</p>
+    <p>En <strong>San Isidro</strong> (Acassuso, Beccar, Martínez) los departamentos cotizan entre USD 2.500 y USD 2.900/m²; las casas entre USD 2.000 y USD 2.500/m². En <strong>Vicente López</strong> (Olivos, La Lucila, Florida) los departamentos rondan USD 2.700–3.100/m² y las casas USD 2.200–2.600/m². Los valores exactos varían según barrio, estado del inmueble, cochera y amenities.</p>
   </details>
   <details class="faq-item">
     <summary>¿Cómo funciona la pretasación online?</summary>
@@ -831,10 +831,10 @@
   // ── Precio base por m² (midpoint de rango, en USD) ──
   const PRECIOS = {
     nordelta: {
-      casa:   { agua: 4000, noAgua: 2600 },
-      dpto:   { agua: 2400, noAgua: 2400 },
-      ph:     { agua: 2700, noAgua: 2700 },
-      duplex: { agua: 3200, noAgua: 2900 },
+      casa:   { agua: 4000, noAgua: 2400 },
+      dpto:   { agua: 2300, noAgua: 2300 },
+      ph:     { agua: 2500, noAgua: 2500 },
+      duplex: { agua: 3000, noAgua: 2700 },
       lote:   { agua: 3400, noAgua: 2200 }
     },
     villanueva: {
@@ -859,18 +859,18 @@
       lote:   { agua: 1600, noAgua: 1200 }
     },
     vicentelopez: {
-      casa:   { agua: 3500, noAgua: 3500 },
-      dpto:   { agua: 3000, noAgua: 3000 },
-      ph:     { agua: 3100, noAgua: 3100 },
-      duplex: { agua: 3200, noAgua: 3200 },
-      lote:   { agua: 2500, noAgua: 2500 }
+      casa:   { agua: 2400, noAgua: 2400 },
+      dpto:   { agua: 2900, noAgua: 2900 },
+      ph:     { agua: 2800, noAgua: 2800 },
+      duplex: { agua: 2800, noAgua: 2800 },
+      lote:   { agua: 2200, noAgua: 2200 }
     },
     sanisidro: {
-      casa:   { agua: 3000, noAgua: 3000 },
-      dpto:   { agua: 2500, noAgua: 2500 },
-      ph:     { agua: 2600, noAgua: 2600 },
-      duplex: { agua: 2700, noAgua: 2700 },
-      lote:   { agua: 2150, noAgua: 2150 }
+      casa:   { agua: 2200, noAgua: 2200 },
+      dpto:   { agua: 2700, noAgua: 2700 },
+      ph:     { agua: 2500, noAgua: 2500 },
+      duplex: { agua: 2500, noAgua: 2500 },
+      lote:   { agua: 2000, noAgua: 2000 }
     }
   };
 
