@@ -1,0 +1,52 @@
+# Tasaciones Zona Norte — Pretasación Online Gratuita
+
+> Servicio de pretasación online e inmediata de propiedades en Zona Norte del Gran Buenos Aires. Resultado en USD en 2 minutos, sin cargo y sin compromiso.
+
+## Servicio
+
+- Pretasación online gratuita: formulario de 3 pasos, resultado inmediato en USD y USD/m²
+- Tasación presencial completa a cargo de asesor especializado en la zona (sin cargo)
+- Asesoramiento en compra, venta y alquiler de propiedades en Zona Norte AMBA
+- Respuesta garantizada en menos de 2 horas
+
+## Zonas de cobertura
+
+- **Nordelta** (Tigre): Los Alisos, Los Caracoles, Los Eucaliptos, La Laguna, Los Naranjos, Los Sauces, Los Tulipanes, El Condado, Puerto Nordelta, The Hills, Los Castores, Isla Santa Mónica
+- **Villanueva** (Tigre): Barrio Golf, Barrio del Lago, Portezuelo, Torres del Lago
+- **Bancalari / Santa Bárbara** (Tigre): Santa Bárbara, Av. de los Lagos, San Nicolás
+- **Delta del Tigre**: Primera, Segunda y Tercera Sección, Arroyo Rama Negra
+- **San Isidro**: Acassuso, Beccar, Boulogne, Martínez, San Isidro Centro, Bajo San Isidro
+- **Vicente López**: Olivos, La Lucila, Florida, Munro, Villa Martelli, Carapachay
+
+## Valores de referencia en USD/m² (2025)
+
+| Zona | Tipo | Rango USD/m² |
+|------|------|--------------|
+| Nordelta | Casa al agua | 3.500 – 4.500 |
+| Nordelta | Casa interna | 2.200 – 3.000 |
+| Nordelta | Departamento | 2.000 – 2.800 |
+| Nordelta | Lote al agua | 2.800 – 4.000 |
+| San Isidro | Casa/Dpto | 2.500 – 3.000 |
+| Vicente López | Casa/Dpto | 3.000 – 3.500 |
+| Villanueva | Casa | 1.800 – 2.500 |
+| Bancalari | Casa | 1.600 – 2.200 |
+| Delta/Tigre | Casa | 1.200 – 2.000 |
+
+## Factores de ajuste aplicados
+
+- Frente al agua / canal: +20%
+- Propiedad nueva o a estrenar: +15%
+- Necesita refacciones: -20%
+- Pileta propia: +8%
+- Cochera: +4%
+- Amenities (SUM, gimnasio, etc.): +2% por amenity (máx +6%)
+
+## Metodología
+
+La pretasación usa precio base por m² cubierto según zona y tipo de propiedad, ajustado por los factores de la propiedad. El resultado es un rango estimado [valor × 0.85 — valor × 1.15]. Para tasación precisa se requiere visita presencial.
+
+## URLs
+
+- Pretasación: https://www.tasacionesnordelta.com/
+- Pretasación alternativa: https://www.tasatupropiedad.ar/
+- Venta de propiedades: https://www.remaxnordelta.com.ar/

@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /pretasacion/
+Allow: /vender-standalone.html
+
+Disallow: /showcase.html
+Disallow: /tizado/
+Disallow: /guerrilla/
+Disallow: /toribio-achaval/
+
+Sitemap: https://www.tasacionesnordelta.com/sitemap.xml
