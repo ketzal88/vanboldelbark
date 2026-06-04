@@ -88,6 +88,7 @@
     { "source": "/ghl",     "destination": "/vender-standalone.html" },
     { "source": "/remax",   "destination": "/vender-standalone.html" },
     { "source": "/tasador", "destination": "/pretasacion/index.html" },
-    { "source": "/cotiza",  "destination": "/pretasacion/index.html" }
+    { "source": "/cotiza",  "destination": "/pretasacion/index.html" },
+    { "source": "/(.*)",    "destination": "/showcase.html" }
   ]
 }
