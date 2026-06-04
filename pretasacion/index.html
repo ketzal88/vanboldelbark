@@ -344,6 +344,10 @@
       .result-props-3 { grid-template-columns: 1fr 1fr; }
     }
 
+    .result-prop--highlight { border: 1.5px solid var(--accent); background: rgba(26,107,255,.04); }
+    .result-prop--highlight .result-prop-label { color: var(--accent); }
+    .result-prop--highlight .result-prop-val { color: var(--accent); font-size: 1.05rem; }
+
     /* ── STEP VISIBILITY ── */
     [data-testid="step-2"], [data-testid="step-3"] { display: none; }
   </style>
@@ -392,6 +396,8 @@
         <option value="villanueva">Villanueva</option>
         <option value="bancalari">Bancalari / Santa Bárbara</option>
         <option value="delta">Delta / Tigre</option>
+        <option value="vicentelopez">Vicente López</option>
+        <option value="sanisidro">San Isidro</option>
       </select>
       <div class="field-error" data-testid="error-zona" id="error-zona">Por favor seleccioná una zona</div>
     </div>
@@ -409,6 +415,8 @@
         <option value="">Seleccioná el tipo</option>
         <option value="casa">Casa</option>
         <option value="dpto">Departamento</option>
+        <option value="ph">PH / Planta Baja</option>
+        <option value="duplex">Dúplex / Triplex</option>
         <option value="lote">Lote / Terreno</option>
       </select>
       <div class="field-error" data-testid="error-tipo" id="error-tipo">Por favor seleccioná el tipo de propiedad</div>
@@ -457,7 +465,7 @@
       </div>
     </div>
 
-    <div class="field">
+    <div class="field" id="field-agua">
       <label>¿Tiene salida directa al agua / canal?</label>
       <div class="toggle-group">
         <div class="toggle-option">
@@ -576,6 +584,17 @@
       <div class="result-val" data-testid="result-high">USD —</div>
     </div>
 
+    <div class="result-props-2" style="margin-bottom:12px;">
+      <div class="result-prop result-prop--highlight">
+        <div class="result-prop-label">Precio estimado / m²</div>
+        <div class="result-prop-val" data-testid="result-ppm2-val">—</div>
+      </div>
+      <div class="result-prop">
+        <div class="result-prop-label">Ajustes aplicados</div>
+        <div class="result-prop-val" data-testid="result-factores-val" style="font-size:.78rem;line-height:1.5;">—</div>
+      </div>
+    </div>
+
     <div class="result-props-3" data-testid="result-props">
       <div class="result-prop">
         <div class="result-prop-label">Tipo</div>
@@ -646,36 +665,60 @@
   // ── Precio base por m² (midpoint de rango, en USD) ──
   const PRECIOS = {
     nordelta: {
-      casa:  { agua: 4000, noAgua: 2600 },
-      dpto:  { agua: 2400, noAgua: 2400 },
-      lote:  { agua: 3400, noAgua: 2200 }
+      casa:   { agua: 4000, noAgua: 2600 },
+      dpto:   { agua: 2400, noAgua: 2400 },
+      ph:     { agua: 2700, noAgua: 2700 },
+      duplex: { agua: 3200, noAgua: 2900 },
+      lote:   { agua: 3400, noAgua: 2200 }
     },
     villanueva: {
-      casa:  { agua: 2150, noAgua: 2150 },
-      dpto:  { agua: 2150, noAgua: 2150 },
-      lote:  { agua: 2150, noAgua: 2150 }
+      casa:   { agua: 2150, noAgua: 2150 },
+      dpto:   { agua: 1900, noAgua: 1900 },
+      ph:     { agua: 2000, noAgua: 2000 },
+      duplex: { agua: 2100, noAgua: 2100 },
+      lote:   { agua: 2150, noAgua: 2150 }
     },
     bancalari: {
-      casa:  { agua: 1900, noAgua: 1900 },
-      dpto:  { agua: 1900, noAgua: 1900 },
-      lote:  { agua: 1900, noAgua: 1900 }
+      casa:   { agua: 1900, noAgua: 1900 },
+      dpto:   { agua: 1700, noAgua: 1700 },
+      ph:     { agua: 1800, noAgua: 1800 },
+      duplex: { agua: 1850, noAgua: 1850 },
+      lote:   { agua: 1900, noAgua: 1900 }
     },
     delta: {
-      casa:  { agua: 1600, noAgua: 1600 },
-      dpto:  { agua: 1600, noAgua: 1600 },
-      lote:  { agua: 1600, noAgua: 1600 }
+      casa:   { agua: 1600, noAgua: 1300 },
+      dpto:   { agua: 1400, noAgua: 1400 },
+      ph:     { agua: 1500, noAgua: 1500 },
+      duplex: { agua: 1550, noAgua: 1350 },
+      lote:   { agua: 1600, noAgua: 1200 }
+    },
+    vicentelopez: {
+      casa:   { agua: 3500, noAgua: 3500 },
+      dpto:   { agua: 3000, noAgua: 3000 },
+      ph:     { agua: 3100, noAgua: 3100 },
+      duplex: { agua: 3200, noAgua: 3200 },
+      lote:   { agua: 2500, noAgua: 2500 }
+    },
+    sanisidro: {
+      casa:   { agua: 3000, noAgua: 3000 },
+      dpto:   { agua: 2500, noAgua: 2500 },
+      ph:     { agua: 2600, noAgua: 2600 },
+      duplex: { agua: 2700, noAgua: 2700 },
+      lote:   { agua: 2150, noAgua: 2150 }
     }
   };
 
-  // Ajuste +20% agua para zonas sin distinción de tier
-  const ZONAS_CON_TIER_AGUA = ['nordelta'];
+  // Zonas sin canal — no aplica bonus de agua
+  const ZONAS_SIN_BONUS_AGUA = ['nordelta', 'vicentelopez', 'sanisidro'];
 
   // ── Barrios por zona ──
   const BARRIOS = {
-    nordelta:   ['Los Alisos','Los Caracoles','Los Eucaliptos','Los Flamencos','Los Naranjos','Los Sauces','Los Tulipanes','El Condado','Puerto Nordelta','The Hills'],
-    villanueva: ['Barrio Golf','Barrio del Lago','Barrio Portezuelo','Torres del Lago','Villanueva Chico'],
-    bancalari:  ['Santa Bárbara','Bancalari','Av. de los Lagos','San Nicolás'],
-    delta:      ['Delta del Tigre','Primera Sección','Segunda Sección','Tercera Sección','Arroyo Rama Negra']
+    nordelta:     ['Los Alisos','Los Caracoles','Los Eucaliptos','Los Flamencos','La Laguna','Los Naranjos','Los Sauces','Los Tulipanes','El Condado','Puerto Nordelta','The Hills','Los Castores','Isla Santa Mónica'],
+    villanueva:   ['Barrio Golf','Barrio del Lago','Barrio Portezuelo','Torres del Lago','Villanueva Chico'],
+    bancalari:    ['Santa Bárbara','Bancalari','Av. de los Lagos','San Nicolás'],
+    delta:        ['Delta del Tigre','Primera Sección','Segunda Sección','Tercera Sección','Arroyo Rama Negra'],
+    vicentelopez: ['Olivos','La Lucila','Vicente López Centro','Florida','Munro','Villa Martelli','Carapachay','Villa Adelina'],
+    sanisidro:    ['Acassuso','Beccar','Boulogne','Martínez','San Isidro Centro','Villa Morra','Bajo San Isidro','Las Lomas de San Isidro']
   };
 
   // ── Función de cálculo exportable ──
@@ -689,7 +732,7 @@
       : PRECIOS[zona][tipo].noAgua;
 
     // Ajuste agua solo para zonas sin tier propio (evita doble conteo en Nordelta)
-    if (agua && !ZONAS_CON_TIER_AGUA.includes(zona)) {
+    if (agua && !ZONAS_SIN_BONUS_AGUA.includes(zona)) {
       ppm2 = ppm2 * 1.20;
     }
 
@@ -796,20 +839,25 @@
 
   // ── Nombres legibles ──
   const ZONA_LABEL = {
-    nordelta:   'Nordelta',
-    villanueva: 'Villanueva',
-    bancalari:  'Bancalari / Santa Bárbara',
-    delta:      'Delta / Tigre'
+    nordelta:     'Nordelta',
+    villanueva:   'Villanueva',
+    bancalari:    'Bancalari / Santa Bárbara',
+    delta:        'Delta / Tigre',
+    vicentelopez: 'Vicente López',
+    sanisidro:    'San Isidro'
   };
-  const TIPO_LABEL      = { casa: 'Casa', dpto: 'Departamento', lote: 'Lote / Terreno' };
+  const TIPO_LABEL = { casa: 'Casa', dpto: 'Departamento', ph: 'PH / Planta Baja', duplex: 'Dúplex', lote: 'Lote / Terreno' };
   const ESTADO_LABEL    = { nuevo: 'A nuevo', muybueno: 'Muy bueno', bueno: 'Bueno', regular: 'Regular' };
   const AMBIENTES_LABEL = { mono: 'Monoambiente', '2': '2 amb.', '3': '3 amb.', '4': '4 amb.', '5+': '5+ amb.' };
   const BANOS_LABEL     = { '1': '1 baño', '2': '2 baños', '3': '3 baños', '4+': '4+ baños' };
+
+  const ZONAS_CON_CANAL = ['nordelta', 'villanueva', 'bancalari', 'delta'];
 
   // Poblar barrios según zona seleccionada (DOM seguro, sin innerHTML)
   $('zona').addEventListener('change', function () {
     const zona = this.value;
     const fieldBarrio = document.getElementById('field-barrio');
+    const fieldAgua   = document.getElementById('field-agua');
     const sel = $('barrio');
 
     while (sel.options.length > 0) sel.options.remove(0);
@@ -829,6 +877,13 @@
       fieldBarrio.style.display = 'block';
     } else {
       fieldBarrio.style.display = 'none';
+    }
+
+    // Ocultar pregunta de canal para zonas sin agua
+    if (fieldAgua) {
+      const tieneCanal = ZONAS_CON_CANAL.includes(zona);
+      fieldAgua.style.display = tieneCanal ? 'block' : 'none';
+      if (!tieneCanal) document.getElementById('agua-no').checked = true;
     }
   });
 
@@ -876,6 +931,17 @@
     if (cochera) extras.push('Cochera');
     $t('result-extras-val').textContent    = extras.length ? extras.join(', ') : 'Sin extras';
     $t('result-amenities-val').textContent = amenityNames.length ? amenityNames.join(', ') : '—';
+
+    $t('result-ppm2-val').textContent = 'USD ' + Math.round(res.valor / m2).toLocaleString('es-AR') + '/m²';
+
+    const factores = [];
+    if (estado === 'nuevo')     factores.push('+15% a nuevo');
+    if (estado === 'regular')   factores.push('-20% a refaccionar');
+    if (agua)                   factores.push('+20% al agua');
+    if (pileta)                 factores.push('+8% pileta');
+    if (cochera)                factores.push('+4% cochera');
+    if (amenitiesCount > 0)     factores.push('+' + (Math.min(amenitiesCount, 3) * 2) + '% amenities');
+    $t('result-factores-val').textContent = factores.length ? factores.join(' · ') : 'Base sin ajustes';
 
     // WhatsApp link
     const zonaLabel = ZONA_LABEL[zona] || zona;

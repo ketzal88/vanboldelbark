@@ -60,7 +60,34 @@
       "has": [{ "type": "host", "value": "(?:www\\.)?izrastzoffnordelta\\.com\\.ar" }],
       "destination": "/guerrilla/index.html"
     },
-    { "source": "/ghl",   "destination": "/vender-standalone.html" },
-    { "source": "/remax", "destination": "/vender-standalone.html" }
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?remaxvillanueva\\.com" }],
+      "destination": "/vender-standalone.html"
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?tasatupropiedad\\.ar" }],
+      "destination": "/pretasacion/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?tasatupropiedad\\.online" }],
+      "destination": "/pretasacion/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?tasacionesnordelta\\.com" }],
+      "destination": "/pretasacion/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?tasacionesnordelta\\.online" }],
+      "destination": "/pretasacion/index.html"
+    },
+    { "source": "/ghl",     "destination": "/vender-standalone.html" },
+    { "source": "/remax",   "destination": "/vender-standalone.html" },
+    { "source": "/tasador", "destination": "/pretasacion/index.html" },
+    { "source": "/cotiza",  "destination": "/pretasacion/index.html" }
   ]
 }
