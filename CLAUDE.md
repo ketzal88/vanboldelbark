@@ -85,3 +85,18 @@ Izrastzoff (izr.com.ar), Tizado, RE/MAX (4 franquicias fragmentadas), Toribio Ac
 ## Hallazgo estratégico clave
 
 Nadie en la zona tiene pretasación online instantánea seria. Todos los competidores usan formularios de contacto clásicos. **Ser el especialista hiperlocal con pretasación online = ventaja competitiva absoluta en keywords de propietario.**
+
+## Design Context
+
+Ver [PRODUCT.md](PRODUCT.md) antes de tocar cualquier landing. Define register, usuarios, anti-referencias y los 5 principios de diseño que guían toda decisión visual.
+
+**Resumen operativo:**
+
+- **Register:** brand (cada landing es una superficie de conversión; el diseño ES el producto)
+- **Personalidad:** premium · serio · institucional — autoridad por restraint, no por pompa
+- **Superficie prioritaria:** `pretasacion/` (lead magnet, único diferenciador en el mercado local)
+- **Color anchor marca propia (pivot):** verde náutico oscuro / petróleo (OKLCH ~0.30 L, ~0.06 C, hue ~200) — distingue de azul-fintech (RE/MAX) y rojo-saturado (RE/MAX)
+- **Anti-ref principal:** la inmobiliaria amarillenta tradicional (beige warm + serifa decorativa + layouts apretados, Toribio-Achaval-style). Secundarios: caos RE/MAX, glassmorphism proptech
+- **A11y:** mínimo necesario para no perder conversión (contraste legible en mobile bajo sol, focus visible, prefers-reduced-motion respetado)
+
+Cuando tengas dudas de diseño, leer PRODUCT.md primero. Cuando exista, DESIGN.md cubrirá los tokens visuales concretos.
