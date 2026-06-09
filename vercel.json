@@ -67,6 +67,21 @@
     },
     {
       "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?remaxtasaciones\\.com" }],
+      "destination": "/vender-standalone.html"
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?remaxtasaciones\\.store" }],
+      "destination": "/vender-standalone.html"
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?remaxtasaciones\\.online" }],
+      "destination": "/vender-standalone.html"
+    },
+    {
+      "source": "/(.*)",
       "has": [{ "type": "host", "value": "(?:www\\.)?tasatupropiedad\\.ar" }],
       "destination": "/pretasacion/index.html"
     },
