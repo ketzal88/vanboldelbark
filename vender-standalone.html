@@ -526,6 +526,14 @@
     .faq-item[open] summary::after { content: '−'; }
     .faq-item p { padding: 0 18px 14px; font-family: var(--font-b); font-size: .825rem; color: var(--text); line-height: 1.6; }
   </style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18227149553"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-18227149553');
+  </script>
 </head>
 <body>
 
@@ -875,6 +883,7 @@
         },
       }),
     }).catch(function(){}).finally(function() {
+      gtag('event', 'conversion', {'send_to': 'AW-18227149553/GpQ4CIGr-LscEPH1sPND'});
       var msg = encodeURIComponent('Hola! Quiero vender mi propiedad en Nordelta. Completé el formulario, ¿podés contactarme?');
       document.getElementById('wa-link').setAttribute('href', 'https://wa.me/' + WA_NUMBER + '?text=' + msg);
       document.getElementById('form-section').style.display = 'none';

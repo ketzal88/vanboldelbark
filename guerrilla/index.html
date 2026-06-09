@@ -201,6 +201,14 @@
     .card { padding: 32px 28px; }
   }
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18227149553"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18227149553');
+</script>
 </head>
 <body>
 
@@ -463,6 +471,7 @@ document.getElementById('lead-form').addEventListener('submit', function(e) {
   }).catch(function() {
     /* silencioso — mostramos éxito igual para no bloquear el lead */
   }).finally(function() {
+    gtag('event', 'conversion', {'send_to': 'AW-18227149553/GpQ4CIGr-LscEPH1sPND'});
     showSuccess(checked.value);
   });
 });
