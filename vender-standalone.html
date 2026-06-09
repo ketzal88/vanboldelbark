@@ -576,7 +576,6 @@
               type="text"
               id="nombre"
               name="nombre"
-              class="is-error"
               autocomplete="name"
               required
             />
@@ -855,13 +854,22 @@
   // Form submit → GHL webhook + WA
   document.getElementById('sell-form').addEventListener('submit', function(e) {
     e.preventDefault();
+    var nombreInput = document.getElementById('nombre');
+    var nombre      = nombreInput.value.trim();
+    if (!nombre) {
+      nombreInput.classList.add('is-error');
+      var hint = nombreInput.closest('.field').querySelector('.field-hint');
+      if (hint) hint.style.display = 'block';
+      nombreInput.focus();
+      return;
+    }
+
     var btn = e.target.querySelector('.btn-submit');
     btn.disabled = true;
     btn.textContent = '...';
 
-    var nombre     = document.getElementById('nombre').value.trim();
-    var email      = document.getElementById('email').value.trim();
-    var telefono   = document.getElementById('telefono').value.trim();
+    var email       = document.getElementById('email').value.trim();
+    var telefono    = document.getElementById('telefono').value.trim();
     var localidad  = document.getElementById('localidad').value.trim();
     var tipo       = document.getElementById('tipo').value;
     var comentarios = document.getElementById('comentarios').value.trim();
