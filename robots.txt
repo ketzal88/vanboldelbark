@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /pretasacion/
 Allow: /vender-standalone.html
+Allow: /blog/
 
 Disallow: /showcase.html
 Disallow: /tizado/
