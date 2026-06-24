@@ -543,10 +543,11 @@
 
   <nav>
     <ul class="hdr-nav">
-      <li><a href="#">Comprar</a></li>
-      <li><a href="#">Alquilar</a></li>
-      <li><a href="#" class="hdr-active">Vender</a></li>
-      <li><a href="#">Más</a></li>
+      <li><a href="#propiedades">Propiedades en Nordelta</a></li>
+      <li><a href="#vender">Vender mi propiedad</a></li>
+      <li><a href="#tasacion" class="hdr-active">Tasación gratuita</a></li>
+      <li><a href="#preguntas-frecuentes">Preguntas frecuentes</a></li>
+      <li><a href="#contacto">Contacto</a></li>
     </ul>
   </nav>
 
@@ -556,7 +557,7 @@
 </header>
 
 <!-- ─── MAIN: form izq + foto der ─── -->
-<main class="layout">
+<main class="layout" id="vender">
 
   <!-- Columna izquierda: formulario -->
   <div class="form-col">
@@ -691,8 +692,29 @@
 
 </main>
 
+<!-- ─── TASACIÓN ONLINE ─── -->
+<section id="tasacion" style="background:#f8f8f8;padding:40px 32px;text-align:center;border-top:1px solid #e5e5e5">
+  <div style="max-width:680px;margin:0 auto">
+    <h2 style="font-family:var(--font-h);font-size:1.4rem;font-weight:700;color:#1a1a1a;margin-bottom:10px">¿Cuánto vale tu propiedad?</h2>
+    <p style="font-size:.9rem;color:#555;margin-bottom:18px">Usá nuestra herramienta de pretasación online gratuita y conocé el valor estimado en USD en 2 minutos, sin registrarte.</p>
+    <a href="https://www.tasacionesnordelta.com/" target="_blank" rel="noopener" style="display:inline-block;background:var(--red);color:#fff;padding:12px 28px;border-radius:4px;font-family:var(--font-h);font-weight:700;font-size:.9rem;text-decoration:none">Tasar mi propiedad gratis →</a>
+  </div>
+</section>
+
+<!-- ─── PROPIEDADES ─── -->
+<section id="propiedades" style="padding:40px 32px;max-width:900px;margin:0 auto">
+  <h2 style="font-family:var(--font-h);font-size:1.3rem;font-weight:700;color:#1a1a1a;margin-bottom:16px">Propiedades en Nordelta y Zona Norte</h2>
+  <p style="font-size:.875rem;color:#555;line-height:1.7;margin-bottom:12px">Encontrá casas, departamentos y lotes en venta en Nordelta, Villanueva, Bancalari, Santa Bárbara, Delta del Tigre, San Isidro y Vicente López. Asesoramiento especializado en toda la Zona Norte del AMBA.</p>
+  <ul style="font-size:.875rem;color:#555;line-height:2;padding-left:18px">
+    <li><a href="#vender" style="color:var(--red);text-decoration:none">Vender propiedad en Nordelta</a></li>
+    <li><a href="#tasacion" style="color:var(--red);text-decoration:none">Tasación online gratuita Zona Norte</a></li>
+    <li><a href="#contacto" style="color:var(--red);text-decoration:none">Contactar asesor inmobiliario Nordelta</a></li>
+    <li><a href="#preguntas-frecuentes" style="color:var(--red);text-decoration:none">Preguntas frecuentes sobre venta</a></li>
+  </ul>
+</section>
+
 <!-- ─── FAQ ─── -->
-<section class="faq-section" aria-label="Preguntas frecuentes sobre venta de propiedades">
+<section class="faq-section" id="preguntas-frecuentes" aria-label="Preguntas frecuentes sobre venta de propiedades">
   <div class="faq-inner">
     <h2>Preguntas frecuentes</h2>
     <details class="faq-item">
@@ -715,7 +737,7 @@
 </section>
 
 <!-- ─── FOOTER ─── -->
-<footer class="footer">
+<footer class="footer" id="contacto">
   <div class="footer-main">
 
     <!-- Sidebar: logo + nav links -->
@@ -727,12 +749,11 @@
         </svg>
       </a>
       <ul class="footer-nav">
-        <li><a href="#">Propiedades</a></li>
-        <li><a href="#">Comprar</a></li>
-        <li><a href="#">Alquilar</a></li>
-        <li><a href="#">Vender</a></li>
-        <li><a href="#">Oficinas</a></li>
-        <li><a href="#">Contacto</a></li>
+        <li><a href="#propiedades">Propiedades en Nordelta</a></li>
+        <li><a href="#vender">Vender mi propiedad</a></li>
+        <li><a href="#tasacion">Tasación gratuita</a></li>
+        <li><a href="#preguntas-frecuentes">Preguntas frecuentes</a></li>
+        <li><a href="#contacto">Contacto</a></li>
         <li><a href="#">Términos y Condiciones</a></li>
         <li><a href="#">Política de Privacidad</a></li>
       </ul>
