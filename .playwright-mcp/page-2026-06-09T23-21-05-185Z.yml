@@ -1,0 +1,223 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - list [ref=e4]:
+        - listitem [ref=e5]:
+          - link "Comprar" [ref=e6] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=e7]:
+          - link "Alquilar" [ref=e8] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=e9]:
+          - link "Vender" [ref=e10] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=e11]:
+          - link "Más" [ref=e12] [cursor=pointer]:
+            - /url: "#"
+    - button "Iniciar sesión" [ref=e14] [cursor=pointer]
+  - main [ref=e15]:
+    - generic [ref=e199]:
+      - generic [ref=e200]: ✓
+      - heading "¡Consulta enviada!" [level=2] [ref=e201]
+      - paragraph [ref=e202]: Un asesor de la zona se comunicará con vos en menos de 2 horas.
+      - link "Escribir por WhatsApp" [ref=e203] [cursor=pointer]:
+        - /url: https://wa.me/5491XXXXXXXXX?text=Hola!%20Quiero%20vender%20mi%20propiedad%20en%20Nordelta.%20Complet%C3%A9%20el%20formulario%2C%20%C2%BFpod%C3%A9s%20contactarme%3F
+        - img [ref=e204]
+        - text: Escribir por WhatsApp
+    - img "Propiedades en Nordelta" [ref=e57]
+  - region "Preguntas frecuentes sobre venta de propiedades" [ref=e58]:
+    - generic [ref=e59]:
+      - heading "Preguntas frecuentes" [level=2] [ref=e60]
+      - group [ref=e61]:
+        - generic "¿Cómo es el proceso para vender mi propiedad en Nordelta? +" [ref=e62] [cursor=pointer]
+      - group [ref=e63]:
+        - generic "¿Cuánto tiempo lleva vender una propiedad en Zona Norte? +" [ref=e64] [cursor=pointer]
+      - group [ref=e65]:
+        - generic "¿En qué zonas trabajan? +" [ref=e66] [cursor=pointer]
+      - group [ref=e67]:
+        - generic "¿La tasación y el asesoramiento inicial son gratuitos? +" [ref=e68] [cursor=pointer]
+  - contentinfo [ref=e69]:
+    - generic [ref=e70]:
+      - generic [ref=e71]:
+        - link [ref=e72] [cursor=pointer]:
+          - /url: /
+          - img [ref=e73]
+        - list [ref=e76]:
+          - listitem [ref=e77]:
+            - link "Propiedades" [ref=e78] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e79]:
+            - link "Comprar" [ref=e80] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e81]:
+            - link "Alquilar" [ref=e82] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e83]:
+            - link "Vender" [ref=e84] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e85]:
+            - link "Oficinas" [ref=e86] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e87]:
+            - link "Contacto" [ref=e88] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e89]:
+            - link "Términos y Condiciones" [ref=e90] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e91]:
+            - link "Política de Privacidad" [ref=e92] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=e93]:
+        - generic [ref=e94]: Encontrá más propiedades
+        - list [ref=e95]:
+          - listitem [ref=e96]:
+            - link "Propiedades en La Plata" [ref=e97] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e98]:
+            - link "Propiedades en Santa Fé" [ref=e99] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e100]:
+            - link "Propiedades en Mendoza" [ref=e101] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e102]:
+            - link "Propiedades en Bariloche" [ref=e103] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e104]:
+            - link "Propiedades en PH" [ref=e105] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e106]:
+            - link "Propiedades en Palermo" [ref=e107] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e108]:
+            - link "Propiedades en Rosario" [ref=e109] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e110]:
+            - link "Propiedades en Nordelta" [ref=e111] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e112]:
+            - link "Propiedades en Cañuelas" [ref=e113] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e114]:
+            - link "Propiedades en Balcarce" [ref=e115] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e116]:
+            - link "Propiedades en San Pedro" [ref=e117] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e118]:
+            - link "Propiedades en San Juan" [ref=e119] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e120]:
+            - link "Propiedades en Tigre" [ref=e121] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e122]:
+            - link "Propiedades en CABA" [ref=e123] [cursor=pointer]:
+              - /url: "#"
+        - link "Ver más ↓" [ref=e124] [cursor=pointer]:
+          - /url: "#"
+      - generic [ref=e125]:
+        - generic [ref=e126]: Alquilar
+        - list [ref=e127]:
+          - listitem [ref=e128]:
+            - link "Departamentos en alquiler en Tandil" [ref=e129] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e130]:
+            - link "Departamentos en alquiler en Posadas" [ref=e131] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e132]:
+            - link "Departamentos en alquiler en Jujuy" [ref=e133] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e134]:
+            - link "Departamentos en alquiler en San Juan" [ref=e135] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e136]:
+            - link "Departamentos en alquiler en Córdoba" [ref=e137] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e138]:
+            - link "Departamentos en alquiler en Bariloche" [ref=e139] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e140]:
+            - link "Departamentos en alquiler en CABA" [ref=e141] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e142]:
+            - link "Casas en alquiler en Tandil" [ref=e143] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e144]:
+            - link "Casas en alquiler en Posadas" [ref=e145] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e146]:
+            - link "Casas en alquiler en Jujuy" [ref=e147] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e148]:
+            - link "Casas en alquiler en Bariloche" [ref=e149] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e150]:
+            - link "Casas en alquiler en San Juan" [ref=e151] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e152]:
+            - link "Casas en alquiler en Córdoba" [ref=e153] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e154]:
+            - link "Casas en alquiler en Rosario" [ref=e155] [cursor=pointer]:
+              - /url: "#"
+        - link "Ver más ↓" [ref=e156] [cursor=pointer]:
+          - /url: "#"
+      - generic [ref=e157]:
+        - generic [ref=e158]: Comprar
+        - list [ref=e159]:
+          - listitem [ref=e160]:
+            - link "Departamentos en venta en Tandil" [ref=e161] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e162]:
+            - link "Departamentos en venta en Posadas" [ref=e163] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e164]:
+            - link "Departamentos en venta en Jujuy" [ref=e165] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e166]:
+            - link "Departamentos en venta en San Juan" [ref=e167] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e168]:
+            - link "Departamentos en venta en Córdoba" [ref=e169] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e170]:
+            - link "Departamentos en venta en Santa Fé" [ref=e171] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e172]:
+            - link "Departamentos en venta en Bariloche" [ref=e173] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e174]:
+            - link "Departamentos en venta en Mar del Plata" [ref=e175] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e176]:
+            - link "Departamentos en venta en Palermo" [ref=e177] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e178]:
+            - link "Departamentos en venta en Belgrano" [ref=e179] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e180]:
+            - link "Departamentos en venta en CABA" [ref=e181] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e182]:
+            - link "Casas en alquiler en Córdoba" [ref=e183] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e184]:
+            - link "Casas en alquiler en Rosario" [ref=e185] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e186]:
+            - link "Casas en alquiler en CABA" [ref=e187] [cursor=pointer]:
+              - /url: "#"
+        - link "Ver más ↓" [ref=e188] [cursor=pointer]:
+          - /url: "#"
+    - generic [ref=e189]:
+      - generic [ref=e190]: Información al consumidor
+      - generic [ref=e191]:
+        - link "Facebook" [ref=e192] [cursor=pointer]:
+          - /url: "#"
+          - img "Facebook" [ref=e193]
+        - link "Instagram" [ref=e194] [cursor=pointer]:
+          - /url: "#"
+          - img "Instagram" [ref=e195]
+        - link "Twitter" [ref=e196] [cursor=pointer]:
+          - /url: "#"
+          - img "X" [ref=e197]
+      - generic [ref=e198]: Powered by QR Solutions
