@@ -113,13 +113,21 @@
     .hdr nav { display: none; }
   }
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18273599408"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18273599408');
+  gtag('config', 'G-1LXQ33YD0N');
+</script>
 </head>
 <body>
 
 <div class="top-bar">
-  <span>WhatsApp: (011) 3500 7746</span>
-  <span>☎ (011) 3500 7746</span>
-  <span>Fax: (011) 3500 7748</span>
+  <a href="https://wa.me/5491139535981" target="_blank" rel="noopener">WhatsApp: +54 9 11 3953-5981</a>
+  <a href="tel:+5491139535981">☎ +54 9 11 3953-5981</a>
 </div>
 
 <header class="hdr">
@@ -187,8 +195,8 @@
     <div class="footer-col">
       <h4>Nuestra Oficina</h4>
       <p>Paraná del Delta (CP 32)<br/>Nordelta</p>
-      <p>Tel: +4871-3333</p>
-      <p>Cel: 11 5 3500-7746</p>
+      <p>Tel: <a href="tel:+5491139535981" style="color:#aaa">+54 9 11 3953-5981</a></p>
+      <p>WhatsApp: <a href="https://wa.me/5491139535981" target="_blank" rel="noopener" style="color:#aaa">+54 9 11 3953-5981</a></p>
     </div>
     <div class="footer-col">
       <h4>Newsletter</h4>
@@ -211,5 +219,55 @@
   <p class="footer-copy">Copyright todos los derechos reservados.</p>
 </footer>
 
+<script>
+/* GHL webhook — mismo endpoint que el resto de landings */
+var GHL_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/KqrAuJu3oUHDyJOtRnta/webhook-trigger/1579e273-affb-4d26-a4ff-5f7fa65f1074';
+var WA_NUMBER   = '5491139535981';                 /* +54 9 11 3953-5981 */
+var ORIGEN_TAG  = 'guerrilla-pratto-nordelta';     /* TODO: ajustar al dominio real cuando se registre */
+var ORIGEN_DOM  = 'pratto (guerrilla clone)';
+
+(function () {
+  var form = document.querySelector('form');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var val = function (sel) { var el = form.querySelector(sel); return el ? el.value.trim() : ''; };
+    var nombre    = val('[name="nombre"]');
+    var email     = val('[name="email"]');
+    var telefono  = val('[name="telefono"]');
+    var localidad = val('[name="localidad"]');
+    var consulta  = val('[name="consulta"]');
+    if (!nombre) return;
+
+    var btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+
+    fetch(GHL_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName: nombre,
+        phone:     telefono,
+        email:     email,
+        tags:      [ORIGEN_TAG, 'tipo-propietario'],
+        source:    ORIGEN_TAG,
+        customField: { origen_landing: ORIGEN_DOM, localidad: localidad, consulta: consulta },
+      }),
+    }).catch(function () {}).finally(function () {
+      if (typeof gtag === 'function') {
+        gtag('event', 'conversion', { 'send_to': 'AW-18273599408/I4GHCKyU5cUcELD_w4lE' });
+      }
+      var msg = encodeURIComponent('Hola! Quiero tasar mi propiedad en Nordelta. Completé el formulario, ¿podés contactarme?');
+      var wa  = document.createElement('a');
+      wa.href = 'https://wa.me/' + WA_NUMBER + '?text=' + msg;
+      wa.target = '_blank';
+      wa.rel  = 'noopener noreferrer';
+      wa.textContent = '✅ ¡Gracias! Escribinos por WhatsApp';
+      wa.style.cssText = 'display:inline-block;margin-top:16px;background:#f0a500;color:#fff;padding:12px 24px;font-weight:700;text-decoration:none;border-radius:3px;font-size:.9rem';
+      btn.replaceWith(wa);
+    });
+  });
+})();
+</script>
 </body>
 </html>

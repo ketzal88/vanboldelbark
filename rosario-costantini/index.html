@@ -82,6 +82,15 @@
     .form-grid { grid-template-columns: 1fr; }
   }
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18273599408"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18273599408');
+  gtag('config', 'G-1LXQ33YD0N');
+</script>
 </head>
 <body>
 
@@ -99,7 +108,7 @@
 <section class="hero">
   <h1>Tasamos tu Propiedad</h1>
   <h5>¿Necesitás vender para comprar?</h5>
-  <a class="btn-wa" href="#form"><i class="fab fa-whatsapp"></i> Consultanos vía Whatsapp</a>
+  <a class="btn-wa" href="https://wa.me/5491139535981?text=Hola!%20Quiero%20tasar%20mi%20propiedad%20en%20Nordelta" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Consultanos vía Whatsapp</a>
 </section>
 
 <section class="section">
@@ -112,9 +121,9 @@
         <hr style="border:none;border-top:1px solid #eee;margin-bottom:18px"/>
         <ul class="info-list">
           <li><span class="ttl">Dirección:</span>Terrazas de la Bahía 1, Of 202, Bahía Grande, Nordelta</li>
-          <li><span class="ttl">Teléfono:</span><a href="#">4871 8166 / 4871 8158</a></li>
+          <li><span class="ttl">Teléfono:</span><a href="tel:+5491139535981">+54 9 11 3953-5981</a></li>
           <li><span class="ttl">Email:</span><a href="#">info@inmobiliaria.com.ar</a></li>
-          <li><span class="ttl">Whatsapp:</span><a href="#">+54 9 11 3126 1985</a></li>
+          <li><span class="ttl">Whatsapp:</span><a href="https://wa.me/5491139535981" target="_blank" rel="noopener">+54 9 11 3953-5981</a></li>
         </ul>
       </div>
       <div id="form">
@@ -179,12 +188,74 @@
     <div></div>
     <div>
       <a href="#"><span class="foot-icon">✉</span>info@rosariocostantini.com.ar</a>
-      <a href="tel:+541148718166"><span class="foot-icon">☎</span>+54 11 4871 8166</a>
-      <a href="tel:+541148718158"><span class="foot-icon">☎</span>+54 11 4871 8158</a>
+      <a href="tel:+5491139535981"><span class="foot-icon">☎</span>+54 9 11 3953-5981</a>
+      <a href="https://wa.me/5491139535981" target="_blank" rel="noopener"><span class="foot-icon">💬</span>WhatsApp +54 9 11 3953-5981</a>
     </div>
   </div>
 </div>
 <div class="footer-copy">© 2024 · Rosario Costantini Negocios Inmobiliarios</div>
 
+<script>
+/* GHL webhook — mismo endpoint que el resto de landings */
+var GHL_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/KqrAuJu3oUHDyJOtRnta/webhook-trigger/1579e273-affb-4d26-a4ff-5f7fa65f1074';
+var WA_NUMBER   = '5491139535981';                    /* +54 9 11 3953-5981 */
+var ORIGEN_TAG  = 'guerrilla-costantini-nordelta';    /* TODO: ajustar al dominio real cuando se registre */
+var ORIGEN_DOM  = 'rosario-costantini (guerrilla clone)';
+
+(function () {
+  var form = document.querySelector('form');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var val = function (sel) { var el = form.querySelector(sel); return el ? el.value.trim() : ''; };
+    var nombre    = val('[name="name"]');
+    var apellido  = val('[name="lastname"]');
+    var email     = val('[name="email"]');
+    var telefono  = val('[name="phone"]');
+    var tipoProp  = val('[name="tipo_propiedad"]');
+    var tipoOper  = val('[name="tipo_operacion"]');
+    var localidad = val('[name="localidad"]');
+    var direccion = val('[name="address"]');
+    var mensaje   = val('[name="message"]');
+    if (!nombre) return;
+
+    var btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+
+    fetch(GHL_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName: nombre,
+        lastName:  apellido,
+        phone:     telefono,
+        email:     email,
+        tags:      [ORIGEN_TAG, 'tipo-propietario'],
+        source:    ORIGEN_TAG,
+        customField: {
+          origen_landing: ORIGEN_DOM,
+          tipo_propiedad: tipoProp,
+          tipo_operacion: tipoOper,
+          localidad: localidad,
+          direccion: direccion,
+          mensaje: mensaje,
+        },
+      }),
+    }).catch(function () {}).finally(function () {
+      if (typeof gtag === 'function') {
+        gtag('event', 'conversion', { 'send_to': 'AW-18273599408/I4GHCKyU5cUcELD_w4lE' });
+      }
+      var msg = encodeURIComponent('Hola! Quiero tasar mi propiedad en Nordelta. Completé el formulario, ¿podés contactarme?');
+      var wa  = document.createElement('a');
+      wa.href = 'https://wa.me/' + WA_NUMBER + '?text=' + msg;
+      wa.target = '_blank';
+      wa.rel  = 'noopener noreferrer';
+      wa.textContent = '✅ ¡Gracias! Escribinos por WhatsApp';
+      wa.style.cssText = 'display:inline-block;margin-top:16px;background:#65b5e3;color:#fff;padding:12px 28px;font-weight:700;text-decoration:none;border-radius:3px;font-size:.9rem';
+      btn.replaceWith(wa);
+    });
+  });
+})();
+</script>
 </body>
 </html>
