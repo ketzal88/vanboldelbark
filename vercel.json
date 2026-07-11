@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    { "source": "/tasar-remax", "destination": "/tasar-remax.html" },
     {
       "source": "/(.*)",
       "has": [{ "type": "host", "value": "(?:www\\.)?remaxnordelta\\.com\\.ar" }],
