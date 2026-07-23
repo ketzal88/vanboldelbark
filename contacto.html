@@ -722,21 +722,67 @@
     });
   });
 
-  function marcarError(input) {
+  function marcarError(input, msg) {
     input.classList.add('is-error');
     var hint = input.closest('.field').querySelector('.field-hint.is-error');
-    if (hint) hint.style.display = 'block';
+    if (hint) {
+      if (msg) hint.textContent = msg;
+      hint.style.display = 'block';
+    }
   }
 
   /* ──────────────────────────────────────────────────────────────
-     TODO(gabriel): validación de los 3 campos obligatorios.
-     Devolver el primer input inválido, o null si está todo OK.
-     Ver la conversación — hay decisiones de negocio acá.
+     VALIDACIÓN
+     Criterio: permisiva. En un form de captación cada regla de más
+     es un lead menos. Sólo frenamos basura evidente (un campo vacío,
+     un teléfono de 3 dígitos, un mail sin @), no formatos raros pero
+     válidos. Ante la duda, pasa: preferimos un dato imperfecto que
+     un propietario que abandona el form.
      ────────────────────────────────────────────────────────────── */
+
+  /* Los celulares argentinos llegan en mil formatos:
+     "11 5555-5555", "+54 9 11 5555-5555", "011 15 5555-5555".
+     Contamos dígitos en vez de exigir un formato. 8 cubre un fijo del
+     interior sin característica; 15 es el máximo de E.164. */
+  function digitos(valor) {
+    return valor.replace(/\D/g, '');
+  }
+
+  /* Normalización a E.164 para que GHL pueda automatizar WhatsApp y SMS.
+     Conservadora a propósito: si el número no encaja en un patrón que
+     entendemos, lo dejamos como vino y que lo resuelva un humano —
+     inventar un prefijo es peor que no ponerlo. */
+  function normalizarCelular(valor) {
+    var d = digitos(valor);
+    if (d.indexOf('54') === 0) d = d.slice(2);          // ya trae el país
+    if (d.indexOf('0')  === 0) d = d.slice(1);          // 0 de larga distancia
+    if (d.indexOf('9')  === 0 && d.length > 10) d = d.slice(1); // 9 de móvil
+    d = d.replace(/^(\d{2,4})15(\d{6,8})$/, '$1$2');    // 15 después de la característica
+    return d.length >= 8 ? '+549' + d : valor.trim();
+  }
+
+  /* Deliberadamente laxa: algo, arroba, algo, punto, algo. Las regex
+     "completas" de RFC 5322 rechazan mails válidos y no atajan el error
+     que importa (gmail.con escrito mal igual pasa cualquier regex). */
+  function emailValido(valor) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(valor.trim());
+  }
+
+  /* Devuelve el primer input inválido con su mensaje, o null si está todo OK */
   function validar(nombre, celular, email) {
-    if (!nombre.value.trim())  return nombre;
-    if (!celular.value.trim()) return celular;
-    if (!email.value.trim())   return email;
+    if (nombre.value.trim().length < 2) {
+      return { input: nombre, msg: 'Ingresá tu nombre y apellido' };
+    }
+
+    var cant = digitos(celular.value).length;
+    if (cant < 8 || cant > 15) {
+      return { input: celular, msg: 'Ingresá un celular válido con característica' };
+    }
+
+    if (!emailValido(email.value)) {
+      return { input: email, msg: 'Ingresá un mail válido' };
+    }
+
     return null;
   }
 
@@ -750,8 +796,8 @@
 
     var invalido = validar(nombre, celular, email);
     if (invalido) {
-      marcarError(invalido);
-      invalido.focus();
+      marcarError(invalido.input, invalido.msg);
+      invalido.input.focus();
       return;
     }
 
@@ -766,21 +812,21 @@
       body: JSON.stringify({
         firstName: nombre.value.trim(),
         email:     email.value.trim(),
-        phone:     celular.value.trim(),
+        phone:     normalizarCelular(celular.value),
         tags:      CFG.tags,
         source:    CFG.source,
         customField: {
           comentarios:     comentarios.value.trim(),
           intencion:       tipo,
           origen_landing:  window.location.hostname || 'contacto',
+          /* El número tal cual lo tipeó: si la normalización se equivoca,
+             el dato original sigue estando para recuperarlo a mano. */
+          celular_ingresado: celular.value.trim(),
         },
       }),
     }).catch(function () {}).finally(function () {
-      /* Este orden importa. El POST a GHL ya terminó (estamos en el finally),
-         así que el dato está guardado antes de que el browser se vaya de la página.
-         Recién ahí cumplimos la promesa y mandamos el usuario a WhatsApp. */
-      gtag('event', 'conversion', { 'send_to': GADS_CONV });
-
+      /* El POST a GHL ya terminó (estamos en el finally), así que el lead está
+         guardado antes de que el browser se vaya de la página. */
       var waUrl = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(CFG.waMsg);
       document.getElementById('wa-link').setAttribute('href', waUrl);
 
@@ -790,7 +836,24 @@
       document.getElementById('form-section').style.display = 'none';
       document.getElementById('success-msg').style.display  = 'flex';
 
-      window.location.href = waUrl;
+      /* Navegar sin esperar a gtag mata la conversión: el beacon a Google es
+         asincrónico y el browser se va antes de que salga. event_callback avisa
+         cuando ya salió; event_timeout garantiza que igual navegamos si gtag
+         nunca responde (adblocker, red caída). `navegado` evita el doble disparo
+         cuando el callback y el timeout llegan los dos. */
+      var navegado = false;
+      function irAWhatsapp() {
+        if (navegado) return;
+        navegado = true;
+        window.location.href = waUrl;
+      }
+
+      gtag('event', 'conversion', {
+        'send_to': GADS_CONV,
+        'event_callback': irAWhatsapp,
+        'event_timeout': 2000
+      });
+      setTimeout(irAWhatsapp, 2000);
     });
   });
 </script>
