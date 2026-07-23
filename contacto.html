@@ -967,6 +967,32 @@
       var tipo = detectarTipo();
       var CFG = TIPOS[tipo];
 
+      /* ─── ATRIBUCIÓN ───
+         Recupera los UTM que se guardaron al aterrizar en la home, o los lee
+         de esta misma URL si el anuncio apunta directo acá. Viajan con el lead
+         a GHL para saber que campania lo trajo. */
+      function recuperarAtribucion() {
+        var p = new URLSearchParams(location.search);
+        var directo = {};
+        [
+          "utm_source", "utm_medium", "utm_campaign",
+          "utm_term", "utm_content", "gclid", "fbclid",
+        ].forEach(function (k) { if (p.get(k)) directo[k] = p.get(k); });
+
+        /* Los de esta URL ganan: son mas recientes que los de la sesion */
+        if (Object.keys(directo).length) {
+          directo.landing_inicial = location.pathname;
+          return directo;
+        }
+        try {
+          return JSON.parse(sessionStorage.getItem("attrib") || "{}");
+        } catch (e) {
+          return {};
+        }
+      }
+
+      var ATRIB = recuperarAtribucion();
+
       /* Aplicar la config a la página */
       document.title = CFG.docTitle;
       document.querySelector('[data-testid="pg-title"]').textContent =
@@ -1109,14 +1135,18 @@
               phone: normalizarCelular(celular.value),
               tags: CFG.tags,
               source: CFG.source,
-              customField: {
-                comentarios: comentarios.value.trim(),
-                intencion: tipo,
-                origen_landing: window.location.hostname || "contacto",
-                /* El número tal cual lo tipeó: si la normalización se equivoca,
-             el dato original sigue estando para recuperarlo a mano. */
-                celular_ingresado: celular.value.trim(),
-              },
+              customField: Object.assign(
+                {
+                  comentarios: comentarios.value.trim(),
+                  intencion: tipo,
+                  origen_landing: window.location.hostname || "contacto",
+                  /* El número tal cual lo tipeó: si la normalización se equivoca,
+                     el dato original sigue estando para recuperarlo a mano. */
+                  celular_ingresado: celular.value.trim(),
+                },
+                /* utm_source, utm_campaign, gclid, fbclid… si vino de un anuncio */
+                ATRIB,
+              ),
             }),
           })
             .catch(function () {})
