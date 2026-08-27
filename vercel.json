@@ -4,6 +4,11 @@
 
     { "source": "/comprar", "destination": "/contacto.html?tipo=comprar" },
     { "source": "/vender",  "destination": "/contacto.html?tipo=vender" },
+    { "source": "/ghl",     "destination": "/vender-standalone.html" },
+    { "source": "/remax",   "destination": "/vender-standalone.html" },
+    { "source": "/tasador", "destination": "/pretasacion/index.html" },
+    { "source": "/cotiza",  "destination": "/pretasacion/index.html" },
+
     {
       "source": "/(.*)",
       "has": [{ "type": "host", "value": "(?:www\\.)?remaxnordelta\\.com\\.ar" }],
@@ -104,10 +109,6 @@
       "has": [{ "type": "host", "value": "(?:www\\.)?tasacionesnordelta\\.online" }],
       "destination": "/pretasacion/index.html"
     },
-    { "source": "/ghl",     "destination": "/vender-standalone.html" },
-    { "source": "/remax",   "destination": "/vender-standalone.html" },
-    { "source": "/tasador", "destination": "/pretasacion/index.html" },
-    { "source": "/cotiza",  "destination": "/pretasacion/index.html" },
-    { "source": "/(.*)",    "destination": "/showcase.html" }
+    { "source": "/(.*)", "destination": "/showcase.html" }
   ]
 }
