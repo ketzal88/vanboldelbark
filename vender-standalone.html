@@ -548,7 +548,7 @@
 
       <div class="choose-grid">
 
-        <a class="choose-card choose-card--featured" href="/tasador" data-testid="choose-tasar">
+        <a class="choose-card choose-card--featured" href="/tasar-remax" data-testid="choose-tasar">
           <span class="choose-icon" aria-hidden="true">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="4" y="2" width="16" height="20" rx="2"/>
@@ -665,7 +665,7 @@
   <div style="max-width:680px;margin:0 auto">
     <h2 style="font-family:var(--font-h);font-size:1.4rem;font-weight:700;color:#1a1a1a;margin-bottom:10px">¿Cuánto vale tu propiedad?</h2>
     <p style="font-size:.9rem;color:#555;margin-bottom:18px">Usá nuestra herramienta de pretasación online gratuita y conocé el valor estimado en USD en 2 minutos, sin registrarte.</p>
-    <a href="/tasador" style="display:inline-block;background:var(--red);color:#fff;padding:12px 28px;border-radius:4px;font-family:var(--font-h);font-weight:700;font-size:.9rem;text-decoration:none">Tasar mi propiedad gratis →</a>
+    <a href="/tasar-remax" style="display:inline-block;background:var(--red);color:#fff;padding:12px 28px;border-radius:4px;font-family:var(--font-h);font-weight:700;font-size:.9rem;text-decoration:none">Tasar mi propiedad gratis →</a>
   </div>
 </section>
 
@@ -842,7 +842,7 @@
   /* Medición del split: qué camino elige la gente y desde dónde.
      El lead se dispara en /comprar y /vender;
      acá sólo registramos la intención para comparar los dos caminos en GA4. */
-  document.querySelectorAll('a[href^="/comprar"], a[href^="/vender"], a[href^="/tasador"]')
+  document.querySelectorAll('a[href^="/comprar"], a[href^="/vender"], a[href^="/tasar-remax"]')
     .forEach(function (el) {
       el.addEventListener('click', function () {
         gtag('event', 'elegir_camino', {
