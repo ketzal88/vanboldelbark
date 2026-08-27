@@ -271,6 +271,40 @@
       outline-offset: 2px;
     }
 
+    /* Destacada: arriba, ocupa las dos columnas, centrada — es el camino de
+       menor fricción (sin WhatsApp todavía) así que entra primero a la vista */
+    .choose-card--featured {
+      grid-column: 1 / -1;
+      align-items: center;
+      text-align: center;
+      padding: 26px 24px;
+      border-color: var(--red);
+      background: #fef6f7;
+    }
+    .choose-card--featured .choose-icon {
+      width: 48px;
+      height: 48px;
+    }
+    .choose-card--featured .choose-icon svg { width: 24px; height: 24px; }
+    .choose-card--featured .choose-title { font-size: 1.1rem; }
+    .choose-card--featured .choose-desc { max-width: 320px; }
+
+    /* Compactas: comprar/vender bajan de jerarquía visual una vez que
+       tasación instantánea es la opción principal */
+    .choose-card--compact {
+      padding: 16px 14px;
+      gap: 5px;
+    }
+    .choose-card--compact .choose-icon {
+      width: 30px;
+      height: 30px;
+      margin-bottom: 0;
+    }
+    .choose-card--compact .choose-icon svg { width: 15px; height: 15px; }
+    .choose-card--compact .choose-title { font-size: .8125rem; }
+    .choose-card--compact .choose-desc { font-size: .75rem; }
+    .choose-card--compact .choose-go { font-size: .75rem; }
+
     .choose-icon {
       width: 40px; height: 40px;
       border-radius: 50%;
@@ -514,37 +548,7 @@
 
       <div class="choose-grid">
 
-        <a class="choose-card" href="/comprar" data-testid="choose-comprar">
-          <span class="choose-icon" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m21 21-4.35-4.35"/>
-              <circle cx="11" cy="11" r="7"/>
-            </svg>
-          </span>
-          <span class="choose-title">COMPRAR</span>
-          <span class="choose-desc">
-            Buscás casa, departamento o lote en Nordelta, Villanueva,
-            Bancalari o Delta.
-          </span>
-          <span class="choose-go">Hablar por WhatsApp →</span>
-        </a>
-
-        <a class="choose-card" href="/vender" data-testid="choose-vender">
-          <span class="choose-icon" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/>
-              <path d="M9 21v-6h6v6"/>
-            </svg>
-          </span>
-          <span class="choose-title">VENDER</span>
-          <span class="choose-desc">
-            Querés vender tu propiedad. Tasación sin cargo y honorarios
-            sólo si vendemos.
-          </span>
-          <span class="choose-go">Hablar por WhatsApp →</span>
-        </a>
-
-        <a class="choose-card" href="/tasador" data-testid="choose-tasar">
+        <a class="choose-card choose-card--featured" href="/tasador" data-testid="choose-tasar">
           <span class="choose-icon" aria-hidden="true">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="4" y="2" width="16" height="20" rx="2"/>
@@ -561,6 +565,36 @@
             en 2 minutos, sin hablar con nadie todavía.
           </span>
           <span class="choose-go">Calcular el valor →</span>
+        </a>
+
+        <a class="choose-card choose-card--compact" href="/comprar" data-testid="choose-comprar">
+          <span class="choose-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m21 21-4.35-4.35"/>
+              <circle cx="11" cy="11" r="7"/>
+            </svg>
+          </span>
+          <span class="choose-title">COMPRAR</span>
+          <span class="choose-desc">
+            Buscás casa, departamento o lote en Nordelta, Villanueva,
+            Bancalari o Delta.
+          </span>
+          <span class="choose-go">Hablar por WhatsApp →</span>
+        </a>
+
+        <a class="choose-card choose-card--compact" href="/vender" data-testid="choose-vender">
+          <span class="choose-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/>
+              <path d="M9 21v-6h6v6"/>
+            </svg>
+          </span>
+          <span class="choose-title">VENDER</span>
+          <span class="choose-desc">
+            Querés vender tu propiedad. Tasación sin cargo y honorarios
+            sólo si vendemos.
+          </span>
+          <span class="choose-go">Hablar por WhatsApp →</span>
         </a>
 
       </div>
