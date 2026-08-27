@@ -544,10 +544,29 @@
           <span class="choose-go">Hablar por WhatsApp →</span>
         </a>
 
+        <a class="choose-card" href="/tasador" data-testid="choose-tasar">
+          <span class="choose-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="2" width="16" height="20" rx="2"/>
+              <line x1="8" y1="7" x2="16" y2="7"/>
+              <line x1="8" y1="11" x2="10" y2="11"/>
+              <line x1="8" y1="15" x2="10" y2="15"/>
+              <line x1="14" y1="11" x2="16" y2="11"/>
+              <line x1="14" y1="15" x2="16" y2="15"/>
+            </svg>
+          </span>
+          <span class="choose-title">TASAR ONLINE GRATIS</span>
+          <span class="choose-desc">
+            Sabé cuánto vale tu propiedad ahora mismo. Resultado en USD
+            en 2 minutos, sin hablar con nadie todavía.
+          </span>
+          <span class="choose-go">Calcular el valor →</span>
+        </a>
+
       </div>
 
       <p class="choose-note">
-        Completás tus datos y seguimos por WhatsApp · Sin cargo y sin compromiso
+        Sin cargo y sin compromiso
       </p>
     </div>
 
@@ -611,10 +630,8 @@
 <section id="tasacion" style="background:#f8f8f8;padding:40px 32px;text-align:center;border-top:1px solid #e5e5e5">
   <div style="max-width:680px;margin:0 auto">
     <h2 style="font-family:var(--font-h);font-size:1.4rem;font-weight:700;color:#1a1a1a;margin-bottom:10px">¿Cuánto vale tu propiedad?</h2>
-    <!-- La copy promete lo que el destino cumple. Cuando levantemos el lead
-         magnet de pretasación online, acá vuelve el "resultado en 2 minutos". -->
-    <p style="font-size:.9rem;color:#555;margin-bottom:18px">Dejanos tus datos y coordinamos una tasación sin cargo. Un asesor especializado en tu barrio la hace y te pasa el valor por WhatsApp.</p>
-    <a href="/vender" style="display:inline-block;background:var(--red);color:#fff;padding:12px 28px;border-radius:4px;font-family:var(--font-h);font-weight:700;font-size:.9rem;text-decoration:none">Pedir mi tasación gratis →</a>
+    <p style="font-size:.9rem;color:#555;margin-bottom:18px">Usá nuestra herramienta de pretasación online gratuita y conocé el valor estimado en USD en 2 minutos, sin registrarte.</p>
+    <a href="/tasador" style="display:inline-block;background:var(--red);color:#fff;padding:12px 28px;border-radius:4px;font-family:var(--font-h);font-weight:700;font-size:.9rem;text-decoration:none">Tasar mi propiedad gratis →</a>
   </div>
 </section>
 
@@ -791,7 +808,7 @@
   /* Medición del split: qué camino elige la gente y desde dónde.
      El lead se dispara en /comprar y /vender;
      acá sólo registramos la intención para comparar los dos caminos en GA4. */
-  document.querySelectorAll('a[href^="/comprar"], a[href^="/vender"]')
+  document.querySelectorAll('a[href^="/comprar"], a[href^="/vender"], a[href^="/tasador"]')
     .forEach(function (el) {
       el.addEventListener('click', function () {
         gtag('event', 'elegir_camino', {

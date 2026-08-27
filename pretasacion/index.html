@@ -134,6 +134,9 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <style>
       *,
       *::before,
@@ -1387,32 +1390,57 @@
       // ── Barrios por zona ──
       const BARRIOS = {
         nordelta: [
+          "Silvestre",
+          "Los Puentes",
+          "Carpinchos",
+          "El Golf",
+          "Castaños",
+          "Tipas",
+          "El Yacht",
+          "Puerto Escondido",
+          "Bahía Grande",
+          "El Palmar",
+          "La Isla",
+          "Los Lagos",
           "Los Alisos",
-          "Los Caracoles",
-          "Los Eucaliptos",
-          "Los Flamencos",
-          "La Laguna",
-          "Los Naranjos",
-          "Los Sauces",
-          "Los Tulipanes",
-          "El Condado",
-          "Puerto Nordelta",
-          "The Hills",
+          "Barrancas del Lago",
+          "Las Glorietas",
+          "Cabos del Lago",
+          "Lago Escondido",
+          "La Alameda",
           "Los Castores",
-          "Isla Santa Mónica",
+          "Los Sauces",
+          "Portezuelo",
+          "El Portal",
+          "Islas del Canal",
+          "Las Caletas",
         ],
         villanueva: [
-          "Barrio Golf",
-          "Barrio del Lago",
-          "Barrio Portezuelo",
-          "Torres del Lago",
-          "Villanueva Chico",
+          "Bahía",
+          "Casas de Santa Ana",
+          "Casas de Santa María",
+          "El Canal",
+          "San Agustín",
+          "San Andrés",
+          "San Benito",
+          "San Francisco",
+          "San Gabriel",
+          "San Isidro Labrador",
+          "San Juan",
+          "San Marco",
+          "San Rafael",
+          "Santa Ana",
+          "Santa Catalina",
+          "Santa Clara",
+          "Santa Teresa",
+          "Villa Marina",
         ],
         bancalari: [
           "Santa Bárbara",
-          "Bancalari",
-          "Av. de los Lagos",
-          "San Nicolás",
+          "Talar del Lago",
+          "La Comarca",
+          "Lagos del Norte",
+          "Barrancas de Santa María",
         ],
         delta: [
           "Delta del Tigre",
@@ -1426,6 +1454,7 @@
           "La Lucila",
           "Vicente López Centro",
           "Florida",
+          "Florida Oeste",
           "Munro",
           "Villa Martelli",
           "Carapachay",
@@ -1437,9 +1466,10 @@
           "Boulogne",
           "Martínez",
           "San Isidro Centro",
-          "Villa Morra",
+          "La Horqueta",
           "Bajo San Isidro",
           "Las Lomas de San Isidro",
+          "Villa Adelina",
         ],
       };
 
@@ -1632,9 +1662,11 @@
 
       const ZONAS_CON_CANAL = ["nordelta", "villanueva", "bancalari", "delta"];
 
-      // Poblar barrios según zona seleccionada (DOM seguro, sin innerHTML)
-      $("zona").addEventListener("change", function () {
-        const zona = this.value;
+      // Poblar barrios según zona seleccionada (DOM seguro, sin innerHTML).
+      // Función nombrada (no solo el listener) porque el pre-fill por
+      // ?zona= corre ANTES de que este listener exista — sin esto, cada
+      // clic de Ads con ?zona= aterriza con el dropdown de barrio vacío.
+      function actualizarCamposPorZona(zona) {
         const fieldBarrio = document.getElementById("field-barrio");
         const fieldAgua = document.getElementById("field-agua");
         const sel = $("barrio");
@@ -1664,10 +1696,62 @@
           fieldAgua.style.display = tieneCanal ? "block" : "none";
           if (!tieneCanal) document.getElementById("agua-no").checked = true;
         }
+      }
+
+      $("zona").addEventListener("change", function () {
+        actualizarCamposPorZona(this.value);
       });
 
       // ── Número de WhatsApp (reemplazar con variable de entorno en producción) ──
       const WA_NUMBER = "5491139535981"; // +54 9 11 3953-5981
+      const GADS_CONV = "AW-18273599408/I4GHCKyU5cUcELD_w4lE";
+
+      /* TODO: reemplazar con var de entorno en Vercel — mismo webhook que
+         contacto.html y guerrilla/index.html, la cuenta GHL enruta por tags */
+      const GHL_WEBHOOK =
+        "https://services.leadconnectorhq.com/hooks/KqrAuJu3oUHDyJOtRnta/webhook-trigger/1579e273-affb-4d26-a4ff-5f7fa65f1074";
+
+      const TAGS_INTENCION = {
+        caliente: "propietario-caliente",
+        tibio: "propietario-tibio",
+        frio: "propietario-frio",
+      };
+
+      // Mismos dígitos-primero que contacto.html: contamos dígitos en vez de
+      // exigir formato, y normalizamos a E.164 para que GHL pueda automatizar
+      // WhatsApp/SMS. Si no encaja en un patrón conocido, se deja como vino.
+      function digitos(valor) {
+        return valor.replace(/\D/g, "");
+      }
+      function normalizarCelular(valor) {
+        let d = digitos(valor);
+        if (d.indexOf("54") === 0) d = d.slice(2);
+        if (d.indexOf("0") === 0) d = d.slice(1);
+        if (d.indexOf("9") === 0 && d.length > 10) d = d.slice(1);
+        d = d.replace(/^(\d{2,4})15(\d{6,8})$/, "$1$2");
+        return d.length >= 8 ? "+549" + d : valor.trim();
+      }
+
+      // ── Atribución: la pretasación es casi siempre la landing de aterrizaje
+      // directa del anuncio (Campaña 5), así que los UTM/gclid/fbclid están en
+      // la misma URL durante todo el flujo — no hace falta sessionStorage
+      // entre páginas como en contacto.html. ──
+      function recuperarAtribucion() {
+        const p = new URLSearchParams(window.location.search);
+        const attrib = {};
+        [
+          "utm_source",
+          "utm_medium",
+          "utm_campaign",
+          "utm_term",
+          "utm_content",
+          "gclid",
+          "fbclid",
+        ].forEach((k) => {
+          if (p.get(k)) attrib[k] = p.get(k);
+        });
+        return attrib;
+      }
 
       function calcularYMostrar() {
         if (!validarPaso2()) return;
@@ -1766,8 +1850,51 @@
         );
         $t("btn-whatsapp").href = `https://wa.me/${WA_NUMBER}?text=${msg}`;
 
+        // ── Lead a GHL ──
+        // Fire-and-forget: el resultado ya se calculó (es la promesa central
+        // del producto, "inmediato"), así que no lo hacemos esperar a la red.
+        // Si el POST falla o el visitante nunca toca el botón de WhatsApp, el
+        // lead igual queda en el CRM con su tag de intención correcto.
+        fetch(GHL_WEBHOOK, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            firstName: nombre,
+            phone: normalizarCelular(tel),
+            email: $("email").value.trim(),
+            tags: [
+              "pretasacion",
+              "tipo-propietario",
+              TAGS_INTENCION[intencion] || "propietario-frio",
+            ],
+            source: "pretasacion",
+            customField: Object.assign(
+              {
+                zona: zonaLabel,
+                barrio: barrio || "—",
+                tipo_propiedad: TIPO_LABEL[tipo] || tipo,
+                m2: m2,
+                ambientes: AMBIENTES_LABEL[ambientes] || "—",
+                banos: BANOS_LABEL[banos] || "—",
+                estado: ESTADO_LABEL[estado] || estado,
+                al_agua: agua ? "si" : "no",
+                pileta: pileta ? "si" : "no",
+                cochera: cochera ? "si" : "no",
+                amenities: amenStr,
+                resultado_low: res.low,
+                resultado_high: res.high,
+                resultado_ppm2: Math.round(res.valor / m2),
+                intencion: intencion,
+                origen_landing: window.location.hostname || "pretasacion",
+                celular_ingresado: tel,
+              },
+              recuperarAtribucion(),
+            ),
+          }),
+        }).catch(function () {});
+
         gtag("event", "conversion", {
-          send_to: "AW-18273599408/I4GHCKyU5cUcELD_w4lE",
+          send_to: GADS_CONV,
         });
         setStep(3);
       }
@@ -1799,6 +1926,11 @@
 
       // Init: mostrar paso 1
       setStep(1);
+
+      // Si llegó con ?zona= (deep link de Ads), el <select> ya quedó
+      // pre-seleccionado en el IIFE de arriba, pero sin evento "change" el
+      // dropdown de barrio y la pregunta de canal nunca se actualizan.
+      if ($("zona").value) actualizarCamposPorZona($("zona").value);
     </script>
   </body>
 </html>

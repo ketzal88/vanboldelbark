@@ -5,18 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tasá tu propiedad en Nordelta y Zona Norte | Tasación online gratuita</title>
   <meta name="description" content="Conocé cuánto vale tu propiedad en Nordelta, Villanueva, Bancalari, San Isidro o Vicente López. Tasación online gratuita, resultado inmediato en USD. Sin cargo, sin compromiso." />
-  <!-- EN PAUSA — el flujo de pretasación online todavía no está en uso.
-       noindex mientras tanto: no queremos que Google indexe una superficie
-       que no estamos promocionando, y el canonical de abajo apuntaba a
-       remaxtasaciones.com, que en vercel.json sirve vender-standalone.html
-       (contenido distinto). Cuando se active: volver a "index, follow" y
-       corregir el canonical al dominio que realmente sirva esta página. -->
-  <meta name="robots" content="noindex, nofollow"/>
+  <meta name="robots" content="index, follow"/>
+  <!-- Esta ruta (/tasar-remax) no tiene restricción de host en vercel.json:
+       cualquier dominio del proyecto la sirve. Canonicalizamos a un solo
+       dominio para no generar contenido duplicado entre remaxnordelta.com.ar,
+       remaxbancalari.com.ar, tizadonordelta.com.ar, etc. -->
+  <link rel="canonical" href="https://www.remaxnordelta.com.ar/tasar-remax"/>
   <meta property="og:type" content="website"/>
   <meta property="og:locale" content="es_AR"/>
   <meta property="og:title" content="Tasá tu propiedad en Nordelta y Zona Norte"/>
   <meta property="og:description" content="Tasación online gratuita. Resultado en USD en 2 minutos. Sin cargo, sin compromiso."/>
-  <meta property="og:url" content="https://www.remaxtasaciones.com/"/>
+  <meta property="og:url" content="https://www.remaxnordelta.com.ar/tasar-remax"/>
   <meta name="keywords" content="tasar propiedad Nordelta, tasación online zona norte, cuánto vale mi casa Nordelta, tasación gratuita Villanueva Bancalari, tasación inmobiliaria Tigre"/>
   <meta name="geo.region" content="AR-B"/>
   <meta name="geo.placename" content="Nordelta, Tigre, Buenos Aires, Argentina"/>
@@ -1074,11 +1073,11 @@
   <h2 style="font-size:1.3rem;font-weight:700;color:#1a1a1a;margin-bottom:16px">Zonas de cobertura</h2>
   <p style="font-family:var(--font-b);font-size:.875rem;color:#555;line-height:1.7;margin-bottom:16px">Tasamos propiedades en toda la Zona Norte del Gran Buenos Aires con asesores especializados en cada barrio:</p>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px 24px;font-family:var(--font-b);font-size:.875rem;color:#444;line-height:1.8">
-    <div><strong>Nordelta</strong><br>Los Alisos · Los Caracoles · Los Eucaliptos · La Laguna · Los Naranjos · Los Sauces · Puerto Nordelta · The Hills · Los Castores</div>
-    <div><strong>Villanueva</strong><br>Barrio Golf · Barrio del Lago · Portezuelo · Torres del Lago</div>
-    <div><strong>Bancalari / Santa Bárbara</strong><br>Santa Bárbara · Av. de los Lagos · San Nicolás</div>
+    <div><strong>Nordelta</strong><br>Los Castores · Los Alisos · La Isla · El Yacht · Puerto Escondido · Portezuelo · Los Sauces</div>
+    <div><strong>Villanueva</strong><br>Santa Clara · San Rafael · San Gabriel · San Marco · San Benito</div>
+    <div><strong>Bancalari / Santa Bárbara</strong><br>Santa Bárbara · Talar del Lago · La Comarca · Lagos del Norte</div>
     <div><strong>Delta del Tigre</strong><br>Primera · Segunda · Tercera Sección · Rama Negra</div>
-    <div><strong>San Isidro</strong><br>Acassuso · Beccar · Boulogne · Martínez · San Isidro Centro</div>
+    <div><strong>San Isidro</strong><br>Acassuso · Beccar · Boulogne · Martínez · La Horqueta</div>
     <div><strong>Vicente López</strong><br>Olivos · La Lucila · Florida · Munro · Villa Martelli</div>
   </div>
 </section>
@@ -1271,12 +1270,12 @@
 
   // ── Barrios por zona ──
   const BARRIOS = {
-    nordelta:     ['Los Alisos','Los Caracoles','Los Eucaliptos','Los Flamencos','La Laguna','Los Naranjos','Los Sauces','Los Tulipanes','El Condado','Puerto Nordelta','The Hills','Los Castores','Isla Santa Mónica'],
-    villanueva:   ['Barrio Golf','Barrio del Lago','Barrio Portezuelo','Torres del Lago','Villanueva Chico'],
-    bancalari:    ['Santa Bárbara','Bancalari','Av. de los Lagos','San Nicolás'],
+    nordelta:     ['Silvestre','Los Puentes','Carpinchos','El Golf','Castaños','Tipas','El Yacht','Puerto Escondido','Bahía Grande','El Palmar','La Isla','Los Lagos','Los Alisos','Barrancas del Lago','Las Glorietas','Cabos del Lago','Lago Escondido','La Alameda','Los Castores','Los Sauces','Portezuelo','El Portal','Islas del Canal','Las Caletas'],
+    villanueva:   ['Bahía','Casas de Santa Ana','Casas de Santa María','El Canal','San Agustín','San Andrés','San Benito','San Francisco','San Gabriel','San Isidro Labrador','San Juan','San Marco','San Rafael','Santa Ana','Santa Catalina','Santa Clara','Santa Teresa','Villa Marina'],
+    bancalari:    ['Santa Bárbara','Talar del Lago','La Comarca','Lagos del Norte','Barrancas de Santa María'],
     delta:        ['Delta del Tigre','Primera Sección','Segunda Sección','Tercera Sección','Arroyo Rama Negra'],
-    vicentelopez: ['Olivos','La Lucila','Vicente López Centro','Florida','Munro','Villa Martelli','Carapachay','Villa Adelina'],
-    sanisidro:    ['Acassuso','Beccar','Boulogne','Martínez','San Isidro Centro','Villa Morra','Bajo San Isidro','Las Lomas de San Isidro']
+    vicentelopez: ['Olivos','La Lucila','Vicente López Centro','Florida','Florida Oeste','Munro','Villa Martelli','Carapachay','Villa Adelina'],
+    sanisidro:    ['Acassuso','Beccar','Boulogne','Martínez','San Isidro Centro','La Horqueta','Bajo San Isidro','Las Lomas de San Isidro','Villa Adelina']
   };
 
   // ── Función de cálculo exportable ──
