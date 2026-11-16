@@ -7,5 +7,8 @@
       "Bash(vercel link *)",
       "Bash(vercel --scope workers-projects-b9cf7e6b)"
     ]
+  },
+  "enabledPlugins": {
+    "ponytail@ponytail": true
   }
 }
