@@ -918,10 +918,9 @@
       </div>
     </footer>
 
+    <script src="/lead.js"></script>
     <script>
-      /* TODO: reemplazar con webhook real de GHL — mover a var env en Vercel */
-      var GHL_WEBHOOK =
-        "https://services.leadconnectorhq.com/hooks/KqrAuJu3oUHDyJOtRnta/webhook-trigger/1579e273-affb-4d26-a4ff-5f7fa65f1074";
+      /* Los leads salen por /api/lead (webhook de GHL en env var del servidor) */
       var WA_NUMBER = "5491139535981"; /* +54 9 11 3953-5981 */
       var GADS_CONV = "AW-18273599408/I4GHCKyU5cUcELD_w4lE";
 
@@ -1091,7 +1090,7 @@
 
       /* Devuelve el primer input inválido con su mensaje, o null si está todo OK */
       function validar(nombre, celular, email) {
-        if (nombre.value.trim().length < 2) {
+        if (nombre.value.trim().length < 2 || nombre.value.trim().length > 120) {
           return { input: nombre, msg: "Ingresá tu nombre y apellido" };
         }
 
@@ -1103,7 +1102,7 @@
           };
         }
 
-        if (!emailValido(email.value)) {
+        if (!emailValido(email.value) || email.value.trim().length > 200) {
           return { input: email, msg: "Ingresá un mail válido" };
         }
 
@@ -1132,33 +1131,28 @@
           /* Sólo el texto: si piso el textContent del botón me llevo puesto el logo */
           btn.querySelector("span").textContent = "Abriendo WhatsApp…";
 
-          fetch(GHL_WEBHOOK, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              firstName: nombre.value.trim(),
-              email: email.value.trim(),
-              phone: normalizarCelular(celular.value),
-              tags: CFG.tags,
-              source: CFG.source,
-              customField: Object.assign(
-                {
-                  comentarios: comentarios.value.trim(),
-                  intencion: tipo,
-                  origen_landing: window.location.hostname || "contacto",
-                  /* El número tal cual lo tipeó: si la normalización se equivoca,
-                     el dato original sigue estando para recuperarlo a mano. */
-                  celular_ingresado: celular.value.trim(),
-                },
-                /* utm_source, utm_campaign, gclid, fbclid… si vino de un anuncio */
-                ATRIB,
-              ),
-            }),
+          Lead.enviar({
+            firstName: nombre.value.trim(),
+            email: email.value.trim(),
+            phone: normalizarCelular(celular.value),
+            tags: CFG.tags,
+            source: CFG.source,
+            customField: Object.assign(
+              {
+                comentarios: comentarios.value.trim(),
+                intencion: tipo,
+                origen_landing: window.location.hostname || "contacto",
+                /* El número tal cual lo tipeó: si la normalización se equivoca,
+                   el dato original sigue estando para recuperarlo a mano. */
+                celular_ingresado: celular.value.trim(),
+              },
+              /* utm_source, utm_campaign, gclid, fbclid… si vino de un anuncio */
+              ATRIB,
+            ),
           })
-            .catch(function () {})
-            .finally(function () {
-              /* El POST a GHL ya terminó (estamos en el finally), así que el lead está
-         guardado antes de que el browser se vaya de la página. */
+            .then(function (ok) {
+              /* Ya terminó el envío (con timeout y reintento); si falló, el lead
+         queda en la cola local y no se cuenta conversión. */
               var waUrl =
                 "https://wa.me/" +
                 WA_NUMBER +
@@ -1184,12 +1178,14 @@
                 window.location.href = waUrl;
               }
 
-              gtag("event", "conversion", {
-                send_to: GADS_CONV,
-                event_callback: irAWhatsapp,
-                event_timeout: 2000,
-              });
-              setTimeout(irAWhatsapp, 2000);
+              if (ok) {
+                gtag("event", "conversion", {
+                  send_to: GADS_CONV,
+                  event_callback: irAWhatsapp,
+                  event_timeout: 2000,
+                });
+              }
+              setTimeout(irAWhatsapp, ok ? 2000 : 0);
             });
         });
     </script>

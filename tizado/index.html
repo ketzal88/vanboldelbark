@@ -243,10 +243,10 @@
   <p>Responsable Matriculado: Según oficina interviniente.</p>
 </footer>
 
+<script src="/lead.js"></script>
 <script>
-/* TODO: reemplazar con webhook real de GHL */
-var GHL_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/KqrAuJu3oUHDyJOtRnta/webhook-trigger/1579e273-affb-4d26-a4ff-5f7fa65f1074';
-var WA_NUMBER   = '5491139535981'; /* +54 9 11 3953-5981 */
+/* Los leads salen por /api/lead (webhook de GHL en env var del servidor) */
+var WA_NUMBER  = '5491139535981'; /* +54 9 11 3953-5981 */
 
 function handleTizadoForm(form, tag, originLabel) {
   form.addEventListener('submit', function(e) {
@@ -254,24 +254,23 @@ function handleTizadoForm(form, tag, originLabel) {
     var nombre   = form.querySelector('input[type="text"]').value.trim();
     var telefono = (form.querySelector('input[type="tel"]') || {}).value || '';
     var email    = (form.querySelector('input[type="email"]') || {}).value || '';
-    if (!nombre) return;
+    telefono = telefono.trim();
+    if (!nombre || nombre.length > 120) return;
+    if (telefono && !Lead.telefonoValido(telefono)) return;
+    if (!telefono && !email.trim()) return;
 
     var btn = form.querySelector('button[type="submit"]');
     btn.disabled = true;
 
-    fetch(GHL_WEBHOOK, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        firstName: nombre,
-        phone:     telefono.trim(),
-        email:     email.trim(),
-        tags:      [tag, 'tipo-propietario'],
-        source:    tag,
-        customField: { origen_landing: originLabel },
-      }),
-    }).catch(function(){}).finally(function() {
-      gtag('event', 'conversion', {'send_to': 'AW-18273599408/I4GHCKyU5cUcELD_w4lE'});
+    Lead.enviar({
+      firstName: nombre,
+      phone:     telefono ? Lead.normalizarCelular(telefono) : '',
+      email:     email.trim(),
+      tags:      [tag, 'tipo-propietario'],
+      source:    tag,
+      customField: { origen_landing: originLabel },
+    }).then(function(ok) {
+      if (ok) gtag('event', 'conversion', {'send_to': 'AW-18273599408/I4GHCKyU5cUcELD_w4lE'});
       var msg = encodeURIComponent('Hola! Quiero tasar mi propiedad en Nordelta. Completé el formulario, ¿podés contactarme?');
       var wa  = document.createElement('a');
       wa.href   = 'https://wa.me/' + WA_NUMBER + '?text=' + msg;

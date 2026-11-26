@@ -219,10 +219,10 @@
   <p class="footer-copy">Copyright todos los derechos reservados.</p>
 </footer>
 
+<script src="/lead.js"></script>
 <script>
-/* GHL webhook — mismo endpoint que el resto de landings */
-var GHL_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/KqrAuJu3oUHDyJOtRnta/webhook-trigger/1579e273-affb-4d26-a4ff-5f7fa65f1074';
-var WA_NUMBER   = '5491139535981';                 /* +54 9 11 3953-5981 */
+/* Los leads salen por /api/lead (webhook de GHL en env var del servidor) */
+var WA_NUMBER  = '5491139535981';                 /* +54 9 11 3953-5981 */
 var ORIGEN_TAG  = 'guerrilla-pratto-nordelta';     /* TODO: ajustar al dominio real cuando se registre */
 var ORIGEN_DOM  = 'pratto (guerrilla clone)';
 
@@ -237,24 +237,21 @@ var ORIGEN_DOM  = 'pratto (guerrilla clone)';
     var telefono  = val('[name="telefono"]');
     var localidad = val('[name="localidad"]');
     var consulta  = val('[name="consulta"]');
-    if (!nombre) return;
+    if (!nombre || nombre.length > 120) return;
+    if (!Lead.telefonoValido(telefono)) return;
 
     var btn = form.querySelector('button[type="submit"]');
     btn.disabled = true;
 
-    fetch(GHL_WEBHOOK, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        firstName: nombre,
-        phone:     telefono,
-        email:     email,
-        tags:      [ORIGEN_TAG, 'tipo-propietario'],
-        source:    ORIGEN_TAG,
-        customField: { origen_landing: ORIGEN_DOM, localidad: localidad, consulta: consulta },
-      }),
-    }).catch(function () {}).finally(function () {
-      if (typeof gtag === 'function') {
+    Lead.enviar({
+      firstName: nombre,
+      phone:     Lead.normalizarCelular(telefono),
+      email:     email,
+      tags:      [ORIGEN_TAG, 'tipo-propietario'],
+      source:    ORIGEN_TAG,
+      customField: { origen_landing: ORIGEN_DOM, localidad: localidad, consulta: consulta.slice(0, 500) },
+    }).then(function (ok) {
+      if (ok && typeof gtag === 'function') {
         gtag('event', 'conversion', { 'send_to': 'AW-18273599408/I4GHCKyU5cUcELD_w4lE' });
       }
       var msg = encodeURIComponent('Hola! Quiero tasar mi propiedad en Nordelta. Completé el formulario, ¿podés contactarme?');

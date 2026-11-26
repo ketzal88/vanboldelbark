@@ -1310,6 +1310,7 @@
       <!-- TODO: Reemplazar número de WhatsApp con variable de entorno por landing -->
     </footer>
 
+    <script src="/lead.js"></script>
     <script>
       // ── Keyword insertion: ?zona= personaliza headline y pre-selecciona form ──
       (function () {
@@ -1570,7 +1571,9 @@
         }
 
         const m2 = parseFloat($("m2").value);
-        if (!m2 || m2 <= 0 || isNaN(m2)) {
+        // Tope por tipo: evita rangos absurdos y ruido de bots
+        const maxM2 = $("tipo").value === "lote" ? 20000 : 2000;
+        if (!m2 || m2 <= 0 || isNaN(m2) || m2 > maxM2) {
           mostrarError("error-m2", true);
           ok = false;
         }
@@ -1590,13 +1593,13 @@
         limpiarErrores();
 
         const nombre = $("nombre").value.trim();
-        if (!nombre) {
+        if (!nombre || nombre.length > 120) {
           mostrarError("error-nombre", true);
           ok = false;
         }
 
         const telefono = $("telefono").value.trim();
-        if (!telefono) {
+        if (!Lead.telefonoValido(telefono)) {
           mostrarError("error-telefono", true);
           ok = false;
         }
@@ -1706,10 +1709,7 @@
       const WA_NUMBER = "5491139535981"; // +54 9 11 3953-5981
       const GADS_CONV = "AW-18273599408/I4GHCKyU5cUcELD_w4lE";
 
-      /* TODO: reemplazar con var de entorno en Vercel — mismo webhook que
-         contacto.html y guerrilla/index.html, la cuenta GHL enruta por tags */
-      const GHL_WEBHOOK =
-        "https://services.leadconnectorhq.com/hooks/KqrAuJu3oUHDyJOtRnta/webhook-trigger/1579e273-affb-4d26-a4ff-5f7fa65f1074";
+      // Los leads salen por /api/lead (webhook de GHL en env var del servidor)
 
       const TAGS_INTENCION = {
         caliente: "propietario-caliente",
@@ -1845,57 +1845,50 @@
             `Ambientes: ${AMBIENTES_LABEL[ambientes] || "—"} | Baños: ${BANOS_LABEL[banos] || "—"}\n` +
             `Extras: ${extras.length ? extras.join(", ") : "ninguno"} | Amenities: ${amenStr}\n` +
             `Resultado: ${fmtUSD(res.low)} – ${fmtUSD(res.high)}\n` +
-            `Intención: ${intencion}\n` +
-            `Nombre: ${nombre} | Tel: ${tel}`,
+            `Intención: ${intencion}`,
         );
         $t("btn-whatsapp").href = `https://wa.me/${WA_NUMBER}?text=${msg}`;
 
         // ── Lead a GHL ──
         // Fire-and-forget: el resultado ya se calculó (es la promesa central
         // del producto, "inmediato"), así que no lo hacemos esperar a la red.
-        // Si el POST falla o el visitante nunca toca el botón de WhatsApp, el
-        // lead igual queda en el CRM con su tag de intención correcto.
-        fetch(GHL_WEBHOOK, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            firstName: nombre,
-            phone: normalizarCelular(tel),
-            email: $("email").value.trim(),
-            tags: [
-              "pretasacion",
-              "tipo-propietario",
-              TAGS_INTENCION[intencion] || "propietario-frio",
-            ],
-            source: "pretasacion",
-            customField: Object.assign(
-              {
-                zona: zonaLabel,
-                barrio: barrio || "—",
-                tipo_propiedad: TIPO_LABEL[tipo] || tipo,
-                m2: m2,
-                ambientes: AMBIENTES_LABEL[ambientes] || "—",
-                banos: BANOS_LABEL[banos] || "—",
-                estado: ESTADO_LABEL[estado] || estado,
-                al_agua: agua ? "si" : "no",
-                pileta: pileta ? "si" : "no",
-                cochera: cochera ? "si" : "no",
-                amenities: amenStr,
-                resultado_low: res.low,
-                resultado_high: res.high,
-                resultado_ppm2: Math.round(res.valor / m2),
-                intencion: intencion,
-                origen_landing: window.location.hostname || "pretasacion",
-                celular_ingresado: tel,
-              },
-              recuperarAtribucion(),
-            ),
-          }),
-        }).catch(function () {});
-
-        gtag("event", "conversion", {
-          send_to: GADS_CONV,
+        // Si el envío falla queda en cola local (lead.js) y no se cuenta conversión.
+        Lead.enviar({
+          firstName: nombre,
+          phone: normalizarCelular(tel),
+          email: $("email").value.trim(),
+          tags: [
+            "pretasacion",
+            "tipo-propietario",
+            TAGS_INTENCION[intencion] || "propietario-frio",
+          ],
+          source: "pretasacion",
+          customField: Object.assign(
+            {
+              zona: zonaLabel,
+              barrio: barrio || "—",
+              tipo_propiedad: TIPO_LABEL[tipo] || tipo,
+              m2: m2,
+              ambientes: AMBIENTES_LABEL[ambientes] || "—",
+              banos: BANOS_LABEL[banos] || "—",
+              estado: ESTADO_LABEL[estado] || estado,
+              al_agua: agua ? "si" : "no",
+              pileta: pileta ? "si" : "no",
+              cochera: cochera ? "si" : "no",
+              amenities: amenStr.slice(0, 500),
+              resultado_low: res.low,
+              resultado_high: res.high,
+              resultado_ppm2: Math.round(res.valor / m2),
+              intencion: intencion,
+              origen_landing: window.location.hostname || "pretasacion",
+              celular_ingresado: tel,
+            },
+            recuperarAtribucion(),
+          ),
+        }).then(function (ok) {
+          if (ok) gtag("event", "conversion", { send_to: GADS_CONV });
         });
+
         setStep(3);
       }
 

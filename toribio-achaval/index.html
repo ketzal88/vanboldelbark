@@ -219,10 +219,10 @@
   </div>
 </footer>
 
+<script src="/lead.js"></script>
 <script>
-/* TODO: reemplazar con webhook real de GHL */
-var GHL_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/KqrAuJu3oUHDyJOtRnta/webhook-trigger/1579e273-affb-4d26-a4ff-5f7fa65f1074';
-var WA_NUMBER   = '5491139535981'; /* +54 9 11 3953-5981 */
+/* Los leads salen por /api/lead (webhook de GHL en env var del servidor) */
+var WA_NUMBER  = '5491139535981'; /* +54 9 11 3953-5981 */
 
 document.querySelector('form.form-col').addEventListener('submit', function(e) {
   e.preventDefault();
@@ -230,25 +230,21 @@ document.querySelector('form.form-col').addEventListener('submit', function(e) {
   var telefono = e.target.telefono.value.trim();
   var email    = e.target.email.value.trim();
   var comment  = e.target.comentario.value.trim();
-  if (!nombre || !telefono) return;
+  if (!nombre || nombre.length > 120 || !Lead.telefonoValido(telefono)) return;
 
   var btn = e.target.querySelector('button[type="submit"]');
   btn.disabled = true;
   btn.textContent = '...';
 
-  fetch(GHL_WEBHOOK, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      firstName: nombre,
-      phone:     telefono,
-      email:     email,
-      tags:      ['guerrilla-toribio-tigre', 'tipo-propietario'],
-      source:    'guerrilla-toribio-tigre',
-      customField: { comentario: comment, origen_landing: 'toribiotigreventas.com.ar' },
-    }),
-  }).catch(function(){}).finally(function() {
-    gtag('event', 'conversion', {'send_to': 'AW-18273599408/I4GHCKyU5cUcELD_w4lE'});
+  Lead.enviar({
+    firstName: nombre,
+    phone:     Lead.normalizarCelular(telefono),
+    email:     email,
+    tags:      ['guerrilla-toribio-tigre', 'tipo-propietario'],
+    source:    'guerrilla-toribio-tigre',
+    customField: { comentario: comment.slice(0, 500), origen_landing: 'toribiotigreventas.com.ar' },
+  }).then(function(ok) {
+    if (ok) gtag('event', 'conversion', {'send_to': 'AW-18273599408/I4GHCKyU5cUcELD_w4lE'});
     var msg = encodeURIComponent('Hola! Quiero tasar mi propiedad en Tigre/Nordelta. Completé el formulario, ¿podés contactarme?');
     var wa  = document.createElement('a');
     wa.href   = 'https://wa.me/' + WA_NUMBER + '?text=' + msg;

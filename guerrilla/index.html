@@ -218,17 +218,15 @@
   ╔══════════════════════════════════════════════════════╗
   ║  CONFIGURACIÓN — Instrucciones para el operador      ║
   ╠══════════════════════════════════════════════════════╣
-  ║  1. Reemplazá GHL_WEBHOOK_URL con la URL real de     ║
-  ║     tu webhook en GHL (Automation → Webhooks).       ║
+  ║  1. El webhook de GHL vive en la env var             ║
+  ║     GHL_WEBHOOK_URL de Vercel (api/lead.js).         ║
   ║  2. Reemplazá WA_NUMBER con tu número WhatsApp       ║
   ║     sin + (ej: 5491155001234).                       ║
   ║  3. Test en localhost: ?brand=remaxnordelta.com.ar   ║
   ╚══════════════════════════════════════════════════════╝
 */
 
-/* TODO: reemplazar con var de entorno → VITE_GHL_WEBHOOK / build script */
-var GHL_WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/KqrAuJu3oUHDyJOtRnta/webhook-trigger/1579e273-affb-4d26-a4ff-5f7fa65f1074';
-var WA_NUMBER       = '5491139535981'; /* +54 9 11 3953-5981 */
+var WA_NUMBER      = '5491139535981'; /* +54 9 11 3953-5981 */
 
 var BRANDS = {
   'remaxnordelta.com.ar': {
@@ -422,6 +420,7 @@ document.documentElement.style.setProperty('--c-accent',  brand.accent);
   <p>© 2026 <!-- TODO: agregar razón social real --></p>
 </footer>
 
+<script src="/lead.js"></script>
 <script>
 /* Poblar DOM con config de brand */
 (function() {
@@ -445,8 +444,8 @@ document.getElementById('lead-form').addEventListener('submit', function(e) {
   var telefono = document.getElementById('f-tel').value.trim();
   var checked  = document.querySelector('input[name="necesidad"]:checked');
 
-  if (!nombre)   { document.getElementById('f-nombre').focus(); return; }
-  if (!telefono) { document.getElementById('f-tel').focus(); return; }
+  if (!nombre || nombre.length > 120) { document.getElementById('f-nombre').focus(); return; }
+  if (!Lead.telefonoValido(telefono)) { document.getElementById('f-tel').focus(); return; }
   if (!checked)  { return; }
 
   var btn = document.getElementById('btn-submit');
@@ -455,7 +454,7 @@ document.getElementById('lead-form').addEventListener('submit', function(e) {
 
   var payload = {
     firstName: nombre,
-    phone:     telefono,
+    phone:     Lead.normalizarCelular(telefono),
     tags:      [brand.tag, 'tipo-propietario'],
     source:    brand.origin,
     customField: {
@@ -465,14 +464,9 @@ document.getElementById('lead-form').addEventListener('submit', function(e) {
     },
   };
 
-  fetch(GHL_WEBHOOK_URL, {
-    method:  'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body:    JSON.stringify(payload),
-  }).catch(function() {
-    /* silencioso — mostramos éxito igual para no bloquear el lead */
-  }).finally(function() {
-    gtag('event', 'conversion', {'send_to': 'AW-18273599408/I4GHCKyU5cUcELD_w4lE'});
+  Lead.enviar(payload).then(function(ok) {
+    /* La conversión solo cuenta si el lead se entregó; si no, queda en cola local */
+    if (ok) gtag('event', 'conversion', {'send_to': 'AW-18273599408/I4GHCKyU5cUcELD_w4lE'});
     showSuccess(checked.value);
   });
 });

@@ -521,10 +521,10 @@
 
 </div><!-- .rmx-page -->
 
+<script src="/lead.js"></script>
 <script>
-/* TODO: reemplazar con webhook real de GHL */
-var GHL_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/KqrAuJu3oUHDyJOtRnta/webhook-trigger/1579e273-affb-4d26-a4ff-5f7fa65f1074';
-var WA_NUMBER   = '5491139535981'; /* +54 9 11 3953-5981 */
+/* Los leads salen por /api/lead (webhook de GHL en env var del servidor) */
+var WA_NUMBER  = '5491139535981'; /* +54 9 11 3953-5981 */
 
 document.getElementById('rmx-form').addEventListener('submit', function(e) {
   e.preventDefault();
@@ -532,24 +532,20 @@ document.getElementById('rmx-form').addEventListener('submit', function(e) {
   var telefono  = e.target.telefono.value.trim();
   var email     = e.target.email.value.trim();
   var necesidad = e.target.necesidad.value;
-  if (!nombre || !telefono || !necesidad) return;
+  if (!nombre || nombre.length > 120 || !Lead.telefonoValido(telefono) || !necesidad) return;
 
   var btn = document.getElementById('rmx-btn');
   btn.disabled = true;
   btn.classList.add('loading');
 
-  fetch(GHL_WEBHOOK, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      firstName: nombre,
-      phone:     telefono,
-      email:     email,
-      tags:      ['guerrilla-remax-nordelta', 'tipo-propietario'],
-      source:    'guerrilla-remax-nordelta',
-      customField: { necesidad: necesidad, origen_landing: 'remaxnordelta.com.ar' },
-    }),
-  }).catch(function(){}).finally(function() {
+  Lead.enviar({
+    firstName: nombre,
+    phone:     Lead.normalizarCelular(telefono),
+    email:     email,
+    tags:      ['guerrilla-remax-nordelta', 'tipo-propietario'],
+    source:    'guerrilla-remax-nordelta',
+    customField: { necesidad: necesidad, origen_landing: 'remaxnordelta.com.ar' },
+  }).then(function(ok) {
     var accion = { vender:'vender mi propiedad', alquilar:'alquilar mi propiedad', saber_precio:'consultar el precio' }[necesidad] || 'consultar';
     var msg = encodeURIComponent('Hola! Quiero ' + accion + ' en Nordelta. Completé el formulario, ¿podés contactarme?');
     document.getElementById('rmx-wa').setAttribute('href', 'https://wa.me/' + WA_NUMBER + '?text=' + msg);
